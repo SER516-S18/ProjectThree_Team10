@@ -1,2 +1,4 @@
 # ProjectThree_Team10
-3rd Project Team 10 
+Arizona State University | SER516 - Software Enterprise: Project and Process Management | Spring 2018
+
+# Team Member 
