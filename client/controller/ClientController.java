@@ -2,10 +2,15 @@ package client.controller;
 
 import java.io.IOException;
 import java.util.logging.Logger;
-
+import client.model.Parameters;
 import javax.websocket.*;
 
-@ClientEndpoint
+@ClientEndpoint (
+    configurator=client.service.CilentConfigurator.class,
+    decoders={client.service.JsonDecoder.class},
+    encoders={client.service.JsonEncoder.class},
+    subprotocols={"subprotocol1"}
+)
 public class ClientController {
     private Logger logger = Logger.getLogger(ClientController.class.getName());
     private Session session;
@@ -17,9 +22,8 @@ public class ClientController {
     }
 
     @OnMessage
-    public void onMessage(String message) {
-        logger.info("Server send message");
-
+    public void onMessage(Parameters message) {
+        logger.info("Server send message - " + message.getTime());
     }
 
     @OnClose
@@ -32,7 +36,7 @@ public class ClientController {
         t.printStackTrace();
     }
 
-    public void send(String message) {
+    public void send(Parameters message) {
         if (session == null) {
             // No connection found error.
         }

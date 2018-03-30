@@ -1,5 +1,6 @@
 package client.service;
 
+import javax.websocket.DecodeException;
 import javax.websocket.Decoder;
 import javax.websocket.EndpointConfig;
 import org.codehaus.jettison.json.*;
@@ -15,7 +16,7 @@ public class JsonDecoder implements Decoder.Text<Parameters> {
         // destory when unload from webSocket
     }
 
-    public Parameters decode(String jsonString) throws DecodeException {
+    public Parameters decode(String jsonString) throws DecodeException
         Parameters params = null;
         try {
             JSONObject jo = new JSONObject(jsonString);
