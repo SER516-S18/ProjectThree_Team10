@@ -3,21 +3,24 @@ package client;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Scanner;
 
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
+import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
+import client.controller.*;
+import client.model.Parameters;
+import org.glassfish.tyrus.client.ClientManager;
+
 public class ClientMain {
-    public static void main(String[] args) 
-        throws DeploymentException, IOException, URISyntaxException, InterruptedException {
-        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-        ClientController client = ClientController();
-        container.connectToServer(client, new URI("localhost:8080"));
-        for (int i = 0; i < 10; i++) {
-            Thread.sleep(1000);
-        }
-        
-        client.close();
+    public static void main(String[] args) throws Exception {
+        ClientManager client = ClientManager.createClient();
+
+        // connect to server
+        Session session = client.connectToServer(ClientController.class, new URI("ws://localhost:8080/ws/chat"));
+        // repeatedly read a message and send it to the server (until quit)
+        session.getBasicRemote().sendObject(new Parameters(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, false, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5));
     }
 }

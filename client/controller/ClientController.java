@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import client.model.Parameters;
 import javax.websocket.*;
+import client.service.*;
 
 @ClientEndpoint (
-    configurator=client.service.CilentConfigurator.class,
-    decoders={client.service.JsonDecoder.class},
-    encoders={client.service.JsonEncoder.class},
+    configurator=ClientConfigurator.class,
+    decoders=JsonDecoder.class,
+    encoders=JsonEncoder.class,
     subprotocols={"subprotocol1"}
 )
 public class ClientController {

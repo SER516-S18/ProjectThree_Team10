@@ -16,7 +16,7 @@ public class JsonDecoder implements Decoder.Text<Parameters> {
         // destory when unload from webSocket
     }
 
-    public Parameters decode(String jsonString) throws DecodeException
+    public Parameters decode(String jsonString) throws DecodeException {
         Parameters params = null;
         try {
             JSONObject jo = new JSONObject(jsonString);
@@ -42,6 +42,7 @@ public class JsonDecoder implements Decoder.Text<Parameters> {
     
     public boolean willDecode(String jsonString) {
         // Called before decode
+        return true;
     }
     
 }
