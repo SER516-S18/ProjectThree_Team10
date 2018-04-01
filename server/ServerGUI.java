@@ -249,7 +249,7 @@ public class ServerGUI {
 		labelConsole.setForeground(Color.WHITE);
 		labelConsole.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		labelConsole.setBackground(Color.GRAY);
-		labelConsole.setBounds(22, 489, 165, 26);
+		labelConsole.setBounds(22, 489, 199, 26);
 		composer.getContentPane().add(labelConsole);
 		
 		JEditorPane console = new JEditorPane();
