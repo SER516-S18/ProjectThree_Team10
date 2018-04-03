@@ -8,9 +8,7 @@ import client.service.*;
 
 @ClientEndpoint (
     configurator=ClientConfigurator.class,
-    decoders=JsonDecoder.class,
-    encoders=JsonEncoder.class,
-    subprotocols={"subprotocol1"}
+    decoders=JsonDecoder.class
 )
 public class ClientController {
     private Logger logger = Logger.getLogger(ClientController.class.getName());
@@ -18,8 +16,7 @@ public class ClientController {
     public static Parameters param;
 
     static {
-        param = new Parameters(0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                false, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        param = new Parameters();
     }
 
     @OnOpen
@@ -30,19 +27,12 @@ public class ClientController {
 
     @OnMessage
     public void onMessage(Parameters message) {
+        param.setEye(message.getEye());
+        param.setLowerFace(message.getLowerFace());
+        param.setUpperFace(message.getUpperFace());
+        param.setMentalCmd(message.getMentalCmd());
+        param.setPerformance(message.getPerformance());
         param.setTime(message.getTime());
-        param.setNeutral(message.getNeutral());
-        param.setPushSkill(message.getPushSkill());
-        param.setOverallSkill(message.getOverallSkill());
-        param.setRaiseBrow(message.getRaiseBrow());
-        param.setSmile(message.getSmile());
-        param.setBlink(message.getBlink());
-        param.setInterest(message.getInterest());
-        param.setEngagement(message.getEngagement());
-        param.setStress(message.getStress());
-        param.setRelaxation(message.getRelaxation());
-        param.setExcitement(message.getExcitement());
-        param.setFocus(message.getFocus());
     }
 
     @OnClose

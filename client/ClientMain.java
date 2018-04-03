@@ -21,6 +21,6 @@ public class ClientMain {
         // connect to server
         Session session = client.connectToServer(ClientController.class, new URI("ws://localhost:8080/ws/chat"));
         // repeatedly read a message and send it to the server (until quit)
-        session.getBasicRemote().sendObject(new Parameters(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, false, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5));
+        // session.getBasicRemote().sendObject(new Parameters(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, false, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5));
     }
 }

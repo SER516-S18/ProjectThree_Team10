@@ -1,21 +1,17 @@
 package client.model;
 
-import client.mode.Eye;
-import client.mode.LowerFace;
-import client.mode.MentalCmd;
-import client.mode.Performance;
-import client.mode.UpperFace;
-
 public class Parameters {
     private Eye eye;
     private LowerFace lowerFace;
     private UpperFace upperFace;
     private MentalCmd mentalCmd;
-    private Performance performance;
+    private PerformanceMet performance;
     private double time;
 
+    public Parameters() { }
+
     public Parameters(Eye eye, LowerFace lowerFace, UpperFace upperFace,
-                        MentalCmd mentalCmd, Performance performance, double time) {
+                        MentalCmd mentalCmd, PerformanceMet performance, double time) {
         this.eye = eye;
         this.lowerFace = lowerFace;
         this.upperFace = upperFace;
@@ -83,14 +79,14 @@ public class Parameters {
     /**
      * @param performance the performance to set
      */
-    public void setPerformance(Performance performance) {
+    public void setPerformance(PerformanceMet performance) {
         this.performance = performance;
     }
 
     /**
      * @return the performance
      */
-    public Performance getPerformance() {
+    public PerformanceMet getPerformance() {
         return performance;
     }
 
@@ -107,5 +103,5 @@ public class Parameters {
     public UpperFace getUpperFace() {
         return upperFace;
     }
-    
+
 }
