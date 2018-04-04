@@ -8,6 +8,11 @@ import java.util.TimerTask;
 
 import javax.swing.JPanel;
 
+/*
+* Author : Divya Yadamreddi
+* Description : Indicator for server
+*/
+
 public class Indicator extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
