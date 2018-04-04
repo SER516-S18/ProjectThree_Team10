@@ -10,17 +10,23 @@ import client.service.*;
     configurator=ClientConfigurator.class,
     decoders=JsonDecoder.class
 )
-public class ClientController {
-    private Logger logger = Logger.getLogger(ClientController.class.getName());
+public class ClientSocket {
+    private Logger logger = Logger.getLogger(ClientSocket.class.getName());
     private Session session;
+    private ClientWindowController ctrl;
     public static Parameters param;
 
     static {
         param = new Parameters();
     }
+    
+    public ClientSocket(ClientWindowController ctrl) {
+    	this.ctrl = ctrl;
+    }
 
     @OnOpen
     public void open(Session session) {
+    	System.out.println("testing open");
         logger.info("Client webSocket is opening ...");
         this.session = session;
     }
@@ -33,6 +39,7 @@ public class ClientController {
         param.setMentalCmd(message.getMentalCmd());
         param.setPerformance(message.getPerformance());
         param.setTime(message.getTime());
+        ctrl.update(param);
     }
 
     @OnClose
@@ -42,6 +49,7 @@ public class ClientController {
 
     @OnError
     public void onError(Session session, Throwable t) {
+    	System.out.println("Error!");
         t.printStackTrace();
     }
 
