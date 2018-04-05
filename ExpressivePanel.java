@@ -1,8 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,6 @@ public class ExpressivePanel extends JPanel {
     private Mouth mouth = new Mouth();
     private Smile smile = new Smile();
     private Clench clench = new Clench();
-    BufferedImage img = null;
     Expressive face = null;
 
     public ExpressivePanel(){
