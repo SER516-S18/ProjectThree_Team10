@@ -36,13 +36,7 @@ public class ExpressivePanel extends JPanel {
         shapes.add(mouth);
         shapes.add(smile);
         shapes.add(clench);
-        File f = new File("C:\\Users\\Ejaz\\Desktop\\face1.png");
-
-        try {
-            img = ImageIO.read(f);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        
     }
 
     public void paintComponent(Graphics g)
