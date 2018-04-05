@@ -1,5 +1,6 @@
 package client.controller;
 
+import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
 import javax.websocket.DeploymentException;
@@ -40,7 +41,7 @@ public class ClientWindowController {
             client.connectToServer(clientSocket, new URI(uri));
             latch.await();
  
-        } catch (DeploymentException | URISyntaxException | InterruptedException e) {
+        } catch (DeploymentException | URISyntaxException | InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
 	}

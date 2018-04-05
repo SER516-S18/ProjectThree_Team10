@@ -122,7 +122,7 @@ public class ClientWindowView extends JFrame {
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                 facialPanel, plotPanel);
-		splitPane.setResizeWeight(.5d);;
+		splitPane.setResizeWeight(.5d);
 		facialExpressionPanel.setLayout(new BorderLayout());
 		facialExpressionPanel.add(splitPane);
 		
