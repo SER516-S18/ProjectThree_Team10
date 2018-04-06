@@ -6,10 +6,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -17,28 +13,35 @@ import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JEditorPane;
-import javax.swing.JToggleButton;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
 import javax.swing.SpinnerNumberModel;
-
+import javax.swing.event.ChangeListener;
+import java.util.Timer;
+import java.util.TimerTask;
 /**
  * SER516 Project3_Team10
  * Description: Sever GUI (View for Server)
+ * Has action and event listeners
  * @author Kanchan Wakchaure
+ * @author prasanth Venugopal
+ * @author Divya Yadamreddi
  * @version 1.0
  */
+
 
 public class ServerGUI {
 
 	private JFrame composer;
-	private JTextField time;
-	public JLabel timeLabel = new JLabel("0.00");
-
+	private JPanel time;
+	private boolean flag = true;;
 	/**
 	 * Launch the application.
 	 */
@@ -67,6 +70,7 @@ public class ServerGUI {
 	 */
 	private void initialize() {
 		double value, min, max, step;
+		Variables var = new Variables();
 		
 		composer = new JFrame();
 		composer.setTitle("Emotive Composer");
@@ -120,12 +124,22 @@ public class ServerGUI {
 		labelSec.setBounds(504, 38, 56, 16);
 		composer.getContentPane().add(labelSec);
 		
-		time = new JTextField();
-		time.setHorizontalAlignment(SwingConstants.LEFT);
+		JSpinner timeInterval = new JSpinner();
+		value = 1.00;
+		min = 0.01;
+		max = 99.99;
+		step = 0.50;
+		timeInterval.setModel(new SpinnerNumberModel(value, min, max, step));
+		timeInterval.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		timeInterval.setBounds(425, 36, 73, 22);
+		composer.getContentPane().add(timeInterval);
+		
+		Double frequency = (double) timeInterval.getValue();
+		
+		time = new JPanel();
 		time.setBounds(113, 194, 121, 26);
-		time.setEditable(false);
 		composer.getContentPane().add(time);
-		time.setColumns(10);
+		TimerClass.timer(frequency, time);
 		
 		JLabel labelSeconds = new JLabel("Seconds");
 		labelSeconds.setForeground(Color.WHITE);
@@ -150,36 +164,12 @@ public class ServerGUI {
 		labelEye.setBounds(56, 245, 62, 26);
 		composer.getContentPane().add(labelEye);
 		
-		JComboBox eyeOption = new JComboBox();
+		JComboBox<String> eyeOption = new JComboBox<String>();
 		eyeOption.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		eyeOption.setBackground(new Color(255, 255, 255));
 		eyeOption.setToolTipText("");
 		eyeOption.setBounds(56, 272, 140, 28);
 		composer.getContentPane().add(eyeOption);
-		
-		JSpinner timeInterval = new JSpinner();
-		value = 0.50;
-		min = 0.01;
-		max = 99.99;
-		step = 0.50;
-		timeInterval.setModel(new SpinnerNumberModel(value, min, max, step));
-		timeInterval.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		timeInterval.setBounds(425, 36, 73, 22);
-		composer.getContentPane().add(timeInterval);
-		
-		Double dInterval = (double) timeInterval.getValue();
-		long interval = dInterval.longValue();
-		//JLabel timeLabel = new JLabel("0.00");
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			
-			@Override
-			public void run() {
-				timeLabel = Time.timeFunc(interval);
-				
-			}
-		}, interval,interval);
-		time.add(timeLabel);
 		
 		JSpinner eyeValue = new JSpinner();
 		eyeValue.setModel(new SpinnerNumberModel(0, 0, 1, 1));
@@ -218,7 +208,7 @@ public class ServerGUI {
 		labelLowerFace.setBounds(300, 328, 140, 26);
 		composer.getContentPane().add(labelLowerFace);
 		
-		JComboBox upperFaceOption = new JComboBox();
+		JComboBox<String> upperFaceOption = new JComboBox<String>();
 		upperFaceOption.setToolTipText("");
 		upperFaceOption.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		upperFaceOption.setBackground(Color.WHITE);
@@ -235,12 +225,15 @@ public class ServerGUI {
 		upperFaceValue.setBounds(198, 356, 62, 27);
 		composer.getContentPane().add(upperFaceValue);
 		
-		JComboBox lowerFaceOption = new JComboBox();
+		JComboBox<String> lowerFaceOption = new JComboBox<String>();
 		lowerFaceOption.setToolTipText("");
 		lowerFaceOption.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		lowerFaceOption.setBackground(Color.WHITE);
 		lowerFaceOption.setBounds(300, 356, 140, 28);
 		composer.getContentPane().add(lowerFaceOption);
+		
+	
+		
 		
 		JSpinner lowerFaceValue = new JSpinner();
 		lowerFaceValue.setModel(new SpinnerNumberModel(value, min, max, step));
@@ -256,12 +249,14 @@ public class ServerGUI {
 		labelPerformance.setBounds(56, 408, 165, 26);
 		composer.getContentPane().add(labelPerformance);
 		
-		JComboBox performance = new JComboBox();
+		JComboBox<String> performance = new JComboBox<String>();
 		performance.setToolTipText("");
 		performance.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		performance.setBackground(Color.WHITE);
 		performance.setBounds(56, 436, 151, 28);
 		composer.getContentPane().add(performance);
+		
+	
 		
 		JLabel labelConsole = new JLabel("EMOENGINE LOG");
 		labelConsole.setHorizontalAlignment(SwingConstants.LEFT);
@@ -281,13 +276,10 @@ public class ServerGUI {
 		borderPanel2.setBounds(12, 116, 589, 356);
 		borderPanel2.setBorder(BorderFactory.createLineBorder(Color.black));
 		composer.getContentPane().add(borderPanel2);
-		
+
 		Indicator indicatorPanel = new Indicator(0);
-		//indicatorPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		indicatorPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		//indicatorPanel.setBackground(new Color(50, 205, 50));
 		indicatorPanel.setBounds(62, 32, 73, 66);
-		//indicatorPanel.setOpaque(true);
 		composer.getContentPane().add(indicatorPanel);
 		indicatorPanel.update(1);
 		
@@ -317,5 +309,99 @@ public class ServerGUI {
 		borderPanel3.setBounds(12, 477, 589, 146);
 		borderPanel3.setBorder(BorderFactory.createLineBorder(Color.black));
 		composer.getContentPane().add(borderPanel3);
-	}
+		
+		lowerFaceOption.addItem("Smile");
+		lowerFaceOption.addItem("Clench");
+		lowerFaceOption.addItem("Smirk Left");
+		lowerFaceOption.addItem("Smirk Right");
+		lowerFaceOption.addItem("Laugh");
+		
+		
+		upperFaceOption.addItem("Raise Brow");
+		upperFaceOption.addItem("Furrow Brow");
+
+		
+		eyeOption.addItem("Blink");
+		eyeOption.addItem("wink left");
+		eyeOption.addItem("wink right");
+		eyeOption.addItem("look right");
+		eyeOption.addItem("look left");
+		
+		performance.addItem("abc");
+		performance.addItem("2");
+		performance.addItem("3");
+		performance.addItem("4");
+		
+		hashvalues.initialize();
+		
+        lowerFaceOption.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                var.getLowerFace(lowerFaceOption, lowerFaceValue);
+               
+            }
+        });
+        
+        lowerFaceValue.addChangeListener(new ChangeListener(){
+            public void stateChanged(ChangeEvent e) {
+              var.setLowerFace(lowerFaceOption, lowerFaceValue);
+              
+            }
+          });
+        
+        upperFaceOption.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                var.getUpperFace(upperFaceOption, upperFaceValue);
+                
+            }
+        });
+        
+        upperFaceValue.addChangeListener(new ChangeListener(){
+            public void stateChanged(ChangeEvent e) {
+              var.setUpperFace(upperFaceOption, upperFaceValue);
+              
+            }
+          });
+        
+        eyeOption.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                var.getEye(eyeOption, eyeValue);
+               
+            }
+        });
+        
+       eyeValue.addChangeListener(new ChangeListener(){
+            public void stateChanged(ChangeEvent e) {
+              var.setEye(eyeOption, eyeValue);
+              
+            }
+          });
+       
+      start.addActionListener(new ActionListener() {
+    	   public void actionPerformed(ActionEvent e) {
+    		   Timer timer = new Timer(); 
+    		   if(flag == true)
+    			   flag = false;
+    		   while(flag == true)
+    		   {
+        	   timer.schedule(new TimerTask() {
+        	   long timeSpan = System.currentTimeMillis();
+        	   
+        	   public void run() {
+        		   long timeSpana = System.currentTimeMillis() - timeSpan ;
+        		   //time.setText(String.valueOf(timeSpana /1000 ));
+        		   start.setText("Stop");
+        	   	}
+        	   }, 1*60);
+    		   }
+        	   timer.cancel();
+    		   }
+    });
+      
+      
+    	   
+       }
 }
+
