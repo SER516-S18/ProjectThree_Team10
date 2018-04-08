@@ -59,7 +59,12 @@ public class ClientWindowView extends JFrame {
 		
 		menuItem = new JMenuItem("Open Server", KeyEvent.VK_O);
 		menuItem.addMouseListener(new MouseAdapter() {
-			// TODO: Open the server
+			@Override
+            		public void mousePressed(MouseEvent event) {
+                		ServerGUI serverGUI = new ServerGUI(ctrl);
+				// TODO: Open the server
+            		}
+			
 		});
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(
 				KeyEvent.VK_O, ActionEvent.ALT_MASK));
