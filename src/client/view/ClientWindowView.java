@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
@@ -39,7 +40,8 @@ import client.view.FacialPanel;
 public class ClientWindowView extends JFrame {
 	private ClientWindowController ctrl;
 	private FacialPanel facialPanel;
-	private PlotDiagramView plotPanel;
+	private PlotPanel plotPanel;
+	private PerformancePanel performPanel;
 	
 	// create and initialize the menu bar of the window
 	public void initMenu() {
@@ -118,12 +120,12 @@ public class ClientWindowView extends JFrame {
 	public void initTabs() {
 		JTabbedPane myTabPane = new JTabbedPane();
 		JPanel facialExpressionPanel = new JPanel();
-		JPanel performPanel = new PerformancePanel();
+		performPanel = new PerformancePanel("Performance");
 		myTabPane.addTab("Facial Expressions", facialExpressionPanel);
 		myTabPane.addTab("Performance Metrics", performPanel);
 
 		facialPanel = new FacialPanel();
-		plotPanel = new PlotDiagramView();
+		plotPanel = new PlotPanel();
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                 facialPanel, plotPanel);
@@ -150,11 +152,7 @@ public class ClientWindowView extends JFrame {
 	
 	public void update(Parameters param) {
 		facialPanel.setData(param);
-	}
-
-	public class PerformancePanel extends JPanel{
-		public PerformancePanel() {
-			
-		}
+		plotPanel.add(param);
+		performPanel.add(param);
 	}
 }
