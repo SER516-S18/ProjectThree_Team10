@@ -42,9 +42,11 @@ public class FacialPanel extends JPanel{
 	private static final int MOUTH_WIDTH = 10;
 	private static final int MOUTH_HEIGHT = 6;
 	
+	private static final double MINDOUBLE = 0.000000001;
+	
 	public FacialPanel() {
 		Eye eye = new Eye(false, true, true, false, true);
-		LowerFace lowerFace = new LowerFace(1.0, 0.0, 1.0, 1.0, 1.0);
+		LowerFace lowerFace = new LowerFace(1.0, 0.0, 0.0, 0.5, 0.5);
 		UpperFace upperFace = new UpperFace(0.0, 1.0);
 		MentalCmd mentalCmd = new MentalCmd(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
 		PerformanceMet performanceMet = new PerformanceMet(1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
@@ -54,7 +56,7 @@ public class FacialPanel extends JPanel{
 	
 	public void setData(Parameters param) {
 		this.param = param;
-		//this.repaint();
+		this.repaint();
 	}
 	
 	public void calc_scaleFactors(int x, int y, int height, int width){
@@ -74,6 +76,7 @@ public class FacialPanel extends JPanel{
 	
 	@Override
 	protected void paintComponent(Graphics graph) {
+		super.paintComponent(graph);
 		calc_scaleFactors(0,0,this.getHeight(),this.getWidth());
 		
 		drawFace(graph);
@@ -148,19 +151,22 @@ public class FacialPanel extends JPanel{
 	}
 	
 	public void drawMouth(Graphics g, LowerFace lowerFace) {
-		if (lowerFace.getSmile()>0.5) {
-			int bias = Math.min(MOUTH_HEIGHT, (int)(1+MOUTH_HEIGHT*lowerFace.getSmile()));
-			drawCurvedLine(g2, MOUTH_POSX-MOUTH_WIDTH, MOUTH_POSY, MOUTH_POSX, MOUTH_POSY+bias, MOUTH_POSX+MOUTH_WIDTH, MOUTH_POSY);
-		} else {
-			if (lowerFace.getClench()>0.5) {
-				int bias = Math.min(MOUTH_HEIGHT, (int)(1+MOUTH_HEIGHT*lowerFace.getClench()));
-				drawCurvedLine(g2, MOUTH_POSX-MOUTH_WIDTH, MOUTH_POSY, MOUTH_POSX, MOUTH_POSY-bias, MOUTH_POSX+MOUTH_WIDTH, MOUTH_POSY);
-			} else {
-				if (lowerFace.getLaugh()>0.5) {
-					int bias = Math.min(MOUTH_HEIGHT*2, (int)(1+2*MOUTH_HEIGHT*lowerFace.getLaugh()));
-					drawCurvedLine(g2, MOUTH_POSX-MOUTH_WIDTH, MOUTH_POSY, MOUTH_POSX, MOUTH_POSY+bias, MOUTH_POSX+MOUTH_WIDTH, MOUTH_POSY);
-				}
-			}
+		int bias = 0, smirk = 0;
+		if (lowerFace.getSmile()>MINDOUBLE) {
+			bias = Math.min(MOUTH_HEIGHT, (int)(1+MOUTH_HEIGHT*lowerFace.getSmile()));
+		} else if (lowerFace.getClench()>MINDOUBLE) {
+			bias = -Math.min(MOUTH_HEIGHT, (int)(1+MOUTH_HEIGHT*lowerFace.getClench()));
+		}
+		
+		if (lowerFace.getSmirkLeft()>MINDOUBLE) {
+			smirk = -Math.min(MOUTH_HEIGHT, (int)(MOUTH_HEIGHT*lowerFace.getSmirkLeft()));
+		} else if (lowerFace.getSmirkRight()>MINDOUBLE) {
+			smirk = Math.min(MOUTH_HEIGHT, (int)(MOUTH_HEIGHT*lowerFace.getSmirkRight()));
+		}
+		
+		drawCurvedLine(g2, MOUTH_POSX-MOUTH_WIDTH, MOUTH_POSY+smirk, MOUTH_POSX, MOUTH_POSY+bias,MOUTH_POSX+MOUTH_WIDTH, MOUTH_POSY-smirk);
+		if (lowerFace.getLaugh()>MINDOUBLE) {
+			drawCurvedLine(g2, MOUTH_POSX-MOUTH_WIDTH, MOUTH_POSY+smirk, MOUTH_POSX, MOUTH_POSY+2*bias,MOUTH_POSX+MOUTH_WIDTH, MOUTH_POSY-smirk);
 		}
 	}
 	
@@ -177,7 +183,6 @@ public class FacialPanel extends JPanel{
 	public void drawCurvedLine(Graphics2D g2, int x1, int y1, int x2, int y2, int x3, int y3) {
 		
 		QuadCurve2D q = new QuadCurve2D.Float();
-		// draw QuadCurve2D.Float with set coordinates
 		q.setCurve(scale_x(x1), scale_y(y1), scale_x(x2), scale_y(y2), scale_x(x3), scale_y(y3));
 		g2.draw(q);
 	}
