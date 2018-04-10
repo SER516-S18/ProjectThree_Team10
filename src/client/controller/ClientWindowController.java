@@ -1,20 +1,24 @@
 package client.controller;
 
 import java.io.IOException;
-import java.lang.reflect.Parameter;
+import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 
+import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
+import javax.websocket.Session;
+import javax.websocket.WebSocketContainer;
 
 import org.glassfish.tyrus.client.ClientManager;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import client.model.ClientWindowModel;
+
 import client.model.Eye;
 import client.model.LowerFace;
 import client.model.MentalCmd;
+
 import client.model.Parameters;
 import client.model.PerformanceMet;
 import client.model.UpperFace;
@@ -22,50 +26,46 @@ import client.view.ClientWindowView;
 
 public class ClientWindowController {
 	private ClientWindowView view;
-	private ClientWindowModel model;
 	private ClientSocket socketCtrl;
 	private ClientSocket clientSocket = null;
 	
 	public ClientWindowController() {
-		model = new ClientWindowModel();
 		view = new ClientWindowView();
 	}
 	
-	public ClientWindowController(ClientWindowView view, ClientWindowModel model) {
+	public ClientWindowController(ClientWindowView view) {
 		this.view = view;
-		this.model = model;
 	}
 	
-	public void createSocket(String address, int port) {
+	public void createSocket(String address, int port, String context, String page) {
 		CountDownLatch latch = new CountDownLatch(1);
-		 
-        ClientManager client = ClientManager.createClient();
-        
-        clientSocket = new ClientSocket(this);
-        
-        String uri = "ws://"+address+":"+port;
+
+        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+        ClientSocket clientSocket = new ClientSocket(this);
+
+        String uri = "ws://" + address + ":" + port + "/" + context + "/" + page;
+
         try {
-            client.connectToServer(clientSocket, new URI(uri));
+            container.connectToServer(clientSocket, new URI(uri));
             latch.await();
- 
         } catch (DeploymentException | URISyntaxException | InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
+
 	}
 	
 	public void update(Parameters param) {
 		// TODO: need to change to MVC
-		view.update(param);;
+		view.update(param);
 	}
 
 	public ClientSocket getSocket() {
 		return clientSocket;
 	}
 	
-	public static void main(String args[]) {
+	public static void main(String args[]) throws URISyntaxException, IOException, DeploymentException {
 		ClientWindowView view = new ClientWindowView();
-		ClientWindowModel model = new ClientWindowModel();
-		ClientWindowController ctrl = new ClientWindowController(view, model);
+		ClientWindowController ctrl = new ClientWindowController(view);
 		view.bindController(ctrl);
 		Eye eye = new Eye(false, true, true, false, true);
 		LowerFace lowerFace = new LowerFace(1.0, 0.0, 0.0, 0.5, 0.5);

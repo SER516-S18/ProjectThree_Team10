@@ -35,12 +35,13 @@ public class ClientSocketDialog {
 				JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE);
 		if (output == JOptionPane.OK_OPTION) {
+
 			if (ctrl.getSocket()!=null) {
-				ctrl.createSocket(xField.getText(), Integer.parseInt(yField.getText()));		
+				ctrl.createSocket(xField.getText(), Integer.parseInt(yField.getText()), "ws", "team10");		
 			} else {
 				MessageBox msgBox = new MessageBox();
 				msgBox.windowPop("Socket has already been started!");
 			}
-		}			
+		}		
 	}
 }

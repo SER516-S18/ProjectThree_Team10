@@ -19,7 +19,8 @@ public class ClientSocket {
     static {
         param = new Parameters();
     }
-    
+
+
     public ClientSocket(ClientWindowController ctrl) {
     	this.ctrl = ctrl;
     }
@@ -51,14 +52,6 @@ public class ClientSocket {
     public void onError(Session session, Throwable t) {
     	System.out.println("Error!");
         t.printStackTrace();
-    }
-
-    public void send(Parameters message) {
-        if (session == null) {
-            // No connection found error.
-        }
-
-        this.session.getAsyncRemote().sendObject(message);
     }
 
     public void close() throws IOException {

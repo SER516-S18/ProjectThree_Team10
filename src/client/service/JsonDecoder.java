@@ -18,7 +18,7 @@ public class JsonDecoder implements Decoder.Text<Parameters> {
     }
 
     public void destroy() {
-        // destory when unload from webSocket
+        // destroy when unload from webSocket
     }
 
     public Parameters decode(String jsonString) throws DecodeException {
