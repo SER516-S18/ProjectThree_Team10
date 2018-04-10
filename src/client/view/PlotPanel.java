@@ -6,6 +6,11 @@ import javax.swing.JPanel;
 
 import client.model.Parameters;
 
+/**
+ * @author Group10
+ * @version 1.0
+ * Inherited from JPanel to draw charts of facial variables 
+ */
 public class PlotPanel extends JPanel{
 	private StepLineChartPanel blickChart;
 	private StepLineChartPanel winkLeftChart;
@@ -19,6 +24,7 @@ public class PlotPanel extends JPanel{
 	private LineChartPanel smirkRightChart;
 	private LineChartPanel laughChart;
 
+	//initialize the 11 charts
 	public PlotPanel() {
 		setLayout(new GridLayout(11,1));
 		blickChart = new StepLineChartPanel("blink");
@@ -45,6 +51,7 @@ public class PlotPanel extends JPanel{
 		add(laughChart);
 	}
 	
+	//add new parameters to the charts and update
 	public void add(Parameters param) {
 		blickChart.addData(param.getEye().getBlink(),param.getTime());
 		winkLeftChart.addData(param.getEye().getWinkLeft(), param.getTime());

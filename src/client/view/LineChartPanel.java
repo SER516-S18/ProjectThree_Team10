@@ -1,6 +1,7 @@
 package client.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -24,6 +25,7 @@ public class LineChartPanel extends JPanel{
 				data,
 				PlotOrientation.VERTICAL,
 		        true,true,false);
+		chart.setBackgroundPaint(Color.white);
 		chartPanel = new ChartPanel(chart);
 		setLayout(new BorderLayout(1, 1));
 		this.add(chartPanel);

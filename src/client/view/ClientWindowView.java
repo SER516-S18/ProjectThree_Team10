@@ -25,6 +25,7 @@ public class ClientWindowView extends JFrame {
 	private FacialPanel facialPanel;
 	private PlotPanel plotPanel;
 	private PerformancePanel performPanel;
+	private StatusPanel statusPanel;
 	
 	// create and initialize the menu bar of the window
 	public void initMenu() {
@@ -97,7 +98,7 @@ public class ClientWindowView extends JFrame {
 		menu.add(menuItem);
 		menuBar.add(menu);
 		
-		StatusPanel statusPanel = new StatusPanel();
+		statusPanel = new StatusPanel();
 		menuBar.add(statusPanel);
 		
 		this.setJMenuBar(menuBar);
@@ -156,5 +157,6 @@ public class ClientWindowView extends JFrame {
 		facialPanel.setData(param);
 		plotPanel.add(param);
 		performPanel.add(param);
+		statusPanel.setStatus(2, param.getTime());
 	}
 }

@@ -2,6 +2,7 @@ package client.view;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -27,12 +28,12 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class StepLineChartPanel extends JPanel{
 	private ChartPanel chartPanel;
 	private JFreeChart chart;
-	private XYDataset data;
-	private XYSeries ydata;
+	//private XYDataset data;
+	//private XYSeries ydata;
 	private DefaultCategoryDataset dataset;
 	
 	public StepLineChartPanel(String chartTitle) {
-		ydata = new XYSeries(chartTitle, false, true);
+		//ydata = new XYSeries(chartTitle, false, true);
 
 		/*XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(ydata);
@@ -53,10 +54,15 @@ public class StepLineChartPanel extends JPanel{
 
 		CategoryItemRenderer renderer = new CategoryStepRenderer(true);
 		CategoryPlot plot = new CategoryPlot(dataset, domainAxis, rangeAxis, renderer);
+		plot.setDomainGridlinesVisible(true);
+        plot.setDomainGridlinePaint(Color.white);
+        plot.setRangeGridlinesVisible(true);
+        plot.setRangeGridlinePaint(Color.white);
+		plot.setBackgroundPaint(Color.lightGray);
 		chart = new JFreeChart(chartTitle,
 				plot
 				);
-        
+        chart.setBackgroundPaint(Color.white);
 		chartPanel = new ChartPanel(chart);
 
 		//XYPlot plot = chart.getXYPlot();
@@ -75,10 +81,10 @@ public class StepLineChartPanel extends JPanel{
 	
 	public void addData(boolean value, double time) {
 		if (value) {
-			ydata.add(time, 1.0f);
+			//ydata.add(time, 1.0f);
 			dataset.addValue(1, Double.toString(time),"time");
 		} else {
-			ydata.add(time, 0.0f);
+			//ydata.add(time, 0.0f);
 			dataset.addValue(0, Double.toString(time),"time");
 		}
 	}
