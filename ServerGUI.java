@@ -40,10 +40,11 @@ import java.util.TimerTask;
 
 public class ServerGUI {
 
-	private JFrame composer;
 	private JPanel time;
-	private boolean flag = true;;
+	private boolean flag = true;
+	private boolean autoReset = true;
 	static JTextPane console = new JTextPane();
+	private static JLabel labelTimeDuration;
 	/**
 	 * Launch the application.
 	 */
@@ -134,9 +135,7 @@ public class ServerGUI {
 		timeInterval.setModel(new SpinnerNumberModel(value, min, max, step));
 		timeInterval.setFont(TextConstants.PLAIN);
 		timeInterval.setBounds(425, 36, 73, 22);
-		composer.getContentPane().add(timeInterval);
-		
-		Double frequency = (double) timeInterval.getValue();
+		composer.getContentPane().add(timeInterval)
 		
 		time = new JPanel();
 		time.setBounds(113, 194, 121, 26);
@@ -406,10 +405,59 @@ public class ServerGUI {
     		   }
         	   timer.cancel();
     		   }
-    	   });     	   
+    	   });
+		
+		start.addActionListener(new ActionListener() {
+     	   public void actionPerformed(ActionEvent e) {
+     		   if(autoReset) {
+     			   start.setText("Send");
+     			   TimerClass.getInstance().startTimer((double)timeInterval.getValue());
+     			  ServerConsole.setMessage("Data sent to client");
+     			   
+     		   }
+     		   else {
+				   if(flag)
+				   {
+					 start.setText("Stop");
+					 flag = false;
+					 TimerClass.getInstance().startTimer((double)timeInterval.getValue());  
+					 indicatorPanel.update(0);
+					 ServerConsole.setMessage("Data sent to client");
+				   }
+				   else
+				   {
+					  TimerClass.getInstance().stopTimer();
+					  start.setText("Start");
+					  indicatorPanel.update(1);
+					  flag = true;
+					  ServerConsole.setMessage("Stopped sending data");
+				   }
+			   }
+     	 }
+       });
+       
+       autoResetServer.addActionListener(new ActionListener() {
+     	   public void actionPerformed(ActionEvent e) {
+     		  
+     		  if(autoReset) {
+     			 TimerClass.getInstance().setAutoReset(true);
+     			 autoReset = false;
+     			start.setText("Start");
+     		  }
+     		  else {
+     			TimerClass.getInstance().setAutoReset(false);
+     			autoReset = true;
+     			start.setText("Send");
+     		  }
+     	   }
+       	});
 	}
 	public static JTextPane getConsole(){
 		return console;
+	}
+	
+	public static JLabel getTime() {
+		return labelTimeDuration;
 	}
 }
 
