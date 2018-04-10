@@ -25,6 +25,8 @@ import javax.swing.event.ChangeListener;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.awt.Font;
+import javax.swing.border.LineBorder;
 /**
  * SER516 Project3_Team10
  * Description: Sever GUI (View for Server)
@@ -109,7 +111,7 @@ public class ServerGUI extends TimerClass {
 		labelTime.setBackground(ColorConstants.GRAY);
 		labelTime.setFont(TextConstants.PLAIN);
 		labelTime.setHorizontalAlignment(SwingConstants.CENTER);
-		labelTime.setBounds(38, 192, 80, 28);
+		labelTime.setBounds(38, 177, 80, 28);
 		labelTime.setOpaque(true);
 		composer.getContentPane().add(labelTime);
 		
@@ -131,7 +133,7 @@ public class ServerGUI extends TimerClass {
 		composer.getContentPane().add(timeInterval);
 		
 		time = new JPanel();
-		time.setBounds(113, 194, 121, 26);
+		time.setBounds(126, 179, 121, 26);
 		composer.getContentPane().add(time);
 		
 		labelTimeDuration = new JLabel();
@@ -146,7 +148,7 @@ public class ServerGUI extends TimerClass {
 		labelSeconds.setForeground(ColorConstants.WHITE);
 		labelSeconds.setFont(TextConstants.PLAIN);
 		labelSeconds.setHorizontalAlignment(SwingConstants.LEFT);
-		labelSeconds.setBounds(242, 194, 73, 25);
+		labelSeconds.setBounds(253, 179, 73, 25);
 		composer.getContentPane().add(labelSeconds);
 		
 		JLabel labelEmostate = new JLabel("EMOSTATE");
@@ -162,32 +164,32 @@ public class ServerGUI extends TimerClass {
 		labelEye.setBackground(ColorConstants.GRAY);
 		labelEye.setHorizontalAlignment(SwingConstants.LEFT);
 		labelEye.setFont(TextConstants.PLAIN);
-		labelEye.setBounds(56, 245, 62, 26);
+		labelEye.setBounds(38, 233, 62, 26);
 		composer.getContentPane().add(labelEye);
 		
 		JComboBox<String> eyeOption = new JComboBox<String>();
 		eyeOption.setFont(TextConstants.PLAIN);
 		eyeOption.setBackground(ColorConstants.WHITE);
 		eyeOption.setToolTipText("");
-		eyeOption.setBounds(56, 272, 140, 28);
+		eyeOption.setBounds(38, 261, 140, 28);
 		composer.getContentPane().add(eyeOption);
 		
 		JSpinner eyeValue = new JSpinner();
 		eyeValue.setModel(new SpinnerNumberModel(0, 0, 1, 1));
 		eyeValue.setFont(TextConstants.PLAIN);
-		eyeValue.setBounds(198, 272, 62, 27);
+		eyeValue.setBounds(178, 261, 62, 27);
 		composer.getContentPane().add(eyeValue);
 		
 		JButton activateEye = new JButton("Activate");
 		activateEye.setFont(TextConstants.PLAIN);
-		activateEye.setBounds(272, 272, 113, 28);
+		activateEye.setBounds(245, 261, 113, 28);
 		composer.getContentPane().add(activateEye);
 		
 		JCheckBox autoResetEye = new JCheckBox("Auto-reset");
 		autoResetEye.setForeground(ColorConstants.WHITE);
 		autoResetEye.setFont(TextConstants.PLAIN);
 		autoResetEye.setBackground(ColorConstants.GRAY);
-		autoResetEye.setBounds(397, 274, 113, 25);
+		autoResetEye.setBounds(366, 263, 113, 25);
 		composer.getContentPane().add(autoResetEye);
 		
 		JLabel labelUpperFace = new JLabel("Upperface:");
@@ -195,7 +197,7 @@ public class ServerGUI extends TimerClass {
 		labelUpperFace.setForeground(ColorConstants.WHITE);
 		labelUpperFace.setFont(TextConstants.PLAIN);
 		labelUpperFace.setBackground(ColorConstants.GRAY);
-		labelUpperFace.setBounds(56, 328, 140, 26);
+		labelUpperFace.setBounds(38, 317, 140, 26);
 		composer.getContentPane().add(labelUpperFace);
 		
 		JLabel labelLowerFace = new JLabel("Lowerface:");
@@ -203,14 +205,14 @@ public class ServerGUI extends TimerClass {
 		labelLowerFace.setForeground(ColorConstants.WHITE);
 		labelLowerFace.setFont(TextConstants.PLAIN);
 		labelLowerFace.setBackground(ColorConstants.GRAY);
-		labelLowerFace.setBounds(300, 328, 140, 26);
+		labelLowerFace.setBounds(282, 317, 140, 26);
 		composer.getContentPane().add(labelLowerFace);
 		
 		JComboBox<String> upperFaceOption = new JComboBox<String>();
 		upperFaceOption.setToolTipText("");
 		upperFaceOption.setFont(TextConstants.PLAIN);
 		upperFaceOption.setBackground(ColorConstants.WHITE);
-		upperFaceOption.setBounds(56, 356, 140, 28);
+		upperFaceOption.setBounds(38, 344, 140, 28);
 		composer.getContentPane().add(upperFaceOption);
 		
 		JSpinner upperFaceValue = new JSpinner();
@@ -220,20 +222,20 @@ public class ServerGUI extends TimerClass {
 		step = 0.10;
 		upperFaceValue.setModel(new SpinnerNumberModel(value, min, max, step));
 		upperFaceValue.setFont(TextConstants.PLAIN);
-		upperFaceValue.setBounds(198, 356, 62, 27);
+		upperFaceValue.setBounds(178, 344, 62, 27);
 		composer.getContentPane().add(upperFaceValue);
 		
 		JComboBox<String> lowerFaceOption = new JComboBox<String>();
 		lowerFaceOption.setToolTipText("");
 		lowerFaceOption.setFont(TextConstants.PLAIN);
 		lowerFaceOption.setBackground(ColorConstants.WHITE);
-		lowerFaceOption.setBounds(300, 356, 140, 28);
+		lowerFaceOption.setBounds(282, 344, 140, 28);
 		composer.getContentPane().add(lowerFaceOption);
 		
 		JSpinner lowerFaceValue = new JSpinner();
 		lowerFaceValue.setModel(new SpinnerNumberModel(value, min, max, step));
 		lowerFaceValue.setFont(TextConstants.PLAIN);
-		lowerFaceValue.setBounds(442, 357, 62, 25);
+		lowerFaceValue.setBounds(425, 344, 62, 26);
 		composer.getContentPane().add(lowerFaceValue);
 		
 		JLabel labelPerformance = new JLabel("Performance Metrics:");
@@ -241,14 +243,14 @@ public class ServerGUI extends TimerClass {
 		labelPerformance.setForeground(ColorConstants.WHITE);
 		labelPerformance.setFont(TextConstants.PLAIN);
 		labelPerformance.setBackground(ColorConstants.GRAY);
-		labelPerformance.setBounds(56, 408, 165, 26);
+		labelPerformance.setBounds(38, 397, 165, 26);
 		composer.getContentPane().add(labelPerformance);
 		
 		JComboBox<String> performance = new JComboBox<String>();
 		performance.setToolTipText("");
 		performance.setFont(TextConstants.PLAIN);
 		performance.setBackground(ColorConstants.WHITE);
-		performance.setBounds(56, 436, 151, 28);
+		performance.setBounds(38, 423, 151, 28);
 		composer.getContentPane().add(performance);
 		
 		JLabel labelConsole = new JLabel("EMOENGINE LOG");
@@ -263,14 +265,6 @@ public class ServerGUI extends TimerClass {
 		console.setBounds(56, 522, 384, 89);
 		composer.getContentPane().add(console);
 		console.setEditable(false);
-		//ServerConsole.setMessage("Message");
-		//ServerConsole.setErrorMessage("Error");
-		
-		JPanel borderPanel2 = new JPanel();
-		borderPanel2.setBackground(ColorConstants.GRAY);
-		borderPanel2.setBounds(12, 116, 589, 356);
-		borderPanel2.setBorder(BorderFactory.createLineBorder(Color.black));
-		composer.getContentPane().add(borderPanel2);
 		
 		Indicator indicatorPanel = new Indicator(0);
 		indicatorPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -302,6 +296,17 @@ public class ServerGUI extends TimerClass {
 		borderPanel3.setBounds(12, 477, 589, 146);
 		borderPanel3.setBorder(BorderFactory.createLineBorder(Color.black));
 		composer.getContentPane().add(borderPanel3);
+		
+		JSpinner spinner = new JSpinner();
+		spinner.setFont(TextConstants.PLAIN);
+		spinner.setBounds(190, 424, 67, 26);
+		composer.getContentPane().add(spinner);
+		
+		JPanel borderPanel2 = new JPanel();
+		borderPanel2.setBorder(BorderFactory.createLineBorder(Color.black));
+		borderPanel2.setBackground(Color.GRAY);
+		borderPanel2.setBounds(12, 116, 589, 354);
+		composer.getContentPane().add(borderPanel2);
 		
 		composer.setVisible(true);
 		
