@@ -1,11 +1,6 @@
-package server;
-
-import java.awt.EventQueue;
-
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -16,15 +11,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.JEditorPane;
-import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
+
+//import server.model.hashvalues;
+
 import java.util.Timer;
 import java.util.TimerTask;
 /**
@@ -38,7 +33,7 @@ import java.util.TimerTask;
  */
 
 
-public class ServerGUI {
+public class ServerGUI extends TimerClass {
 
 	private JPanel time;
 	private boolean flag = true;
@@ -70,13 +65,15 @@ public class ServerGUI {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @param composer 
 	 */
 	private void initialize() {
+
+		
 		double value, min, max, step;
 		Variables var = new Variables();
-		
-		composer = new JFrame();
-		composer.setTitle("Emotive Composer");
+
+		composer.setTitle("Emotiv Composer");
 		composer.getContentPane().setBackground(ColorConstants.LIGHT_GRAY);
 		composer.getContentPane().setFont(TextConstants.PLAIN);
 		composer.setBounds(100, 100, 631, 683);
@@ -99,16 +96,9 @@ public class ServerGUI {
 		autoResetServer.setBounds(300, 73, 113, 25);
 		composer.getContentPane().add(autoResetServer);
 		
-		JButton start = new JButton("Start");
-		//start.setForeground(Color.WHITE);
-		start.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		//start.setBackground(Color.BLACK);
+		JButton start = new JButton("Send");
 		start.setFont(TextConstants.PLAIN);
 		start.setBounds(425, 73, 97, 25);
-		//start.setOpaque(true);
 		composer.getContentPane().add(start);
 		
 		JLabel labelTime = new JLabel("Time:");
@@ -135,12 +125,18 @@ public class ServerGUI {
 		timeInterval.setModel(new SpinnerNumberModel(value, min, max, step));
 		timeInterval.setFont(TextConstants.PLAIN);
 		timeInterval.setBounds(425, 36, 73, 22);
-		composer.getContentPane().add(timeInterval)
+		composer.getContentPane().add(timeInterval);
 		
 		time = new JPanel();
 		time.setBounds(113, 194, 121, 26);
 		composer.getContentPane().add(time);
-		TimerClass.timer(frequency, time);
+		
+		labelTimeDuration = new JLabel();
+		time.add(labelTimeDuration);
+		composer.getContentPane().add(time);
+		
+		//start(labelTimeDuration);
+		//pause();
 		
 		JLabel labelSeconds = new JLabel("Seconds");
 		labelSeconds.setForeground(ColorConstants.WHITE);
@@ -179,11 +175,8 @@ public class ServerGUI {
 		composer.getContentPane().add(eyeValue);
 		
 		JButton activateEye = new JButton("Activate");
-		//activateEye.setForeground(Color.WHITE);
-		//activateEye.setBackground(Color.BLACK);
 		activateEye.setFont(TextConstants.PLAIN);
 		activateEye.setBounds(272, 272, 113, 28);
-		//activateEye.setOpaque(true);
 		composer.getContentPane().add(activateEye);
 		
 		JCheckBox autoResetEye = new JCheckBox("Auto-reset");
@@ -262,7 +255,6 @@ public class ServerGUI {
 		labelConsole.setBounds(22, 489, 165, 26);
 		composer.getContentPane().add(labelConsole);
 		
-		
 		console.setFont(TextConstants.PLAIN);
 		console.setBounds(56, 522, 384, 89);
 		composer.getContentPane().add(console);
@@ -276,13 +268,13 @@ public class ServerGUI {
 		borderPanel2.setBorder(BorderFactory.createLineBorder(Color.black));
 		composer.getContentPane().add(borderPanel2);
 		
-
 		Indicator indicatorPanel = new Indicator(0);
 		indicatorPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		indicatorPanel.setBounds(62, 32, 73, 66);
 		composer.getContentPane().add(indicatorPanel);
 		indicatorPanel.update(1);
 		
+		System.out.println();
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -297,10 +289,7 @@ public class ServerGUI {
 		composer.getContentPane().add(borderPanel1);
 		
 		JButton clearLog = new JButton("Clear Log");
-		//clearLog.setOpaque(true);
-		//clearLog.setForeground(Color.WHITE);
 		clearLog.setFont(TextConstants.PLAIN);
-		//clearLog.setBackground(Color.BLACK);
 		clearLog.setBounds(451, 580, 121, 31);
 		composer.getContentPane().add(clearLog);
 		
@@ -309,6 +298,8 @@ public class ServerGUI {
 		borderPanel3.setBounds(12, 477, 589, 146);
 		borderPanel3.setBorder(BorderFactory.createLineBorder(Color.black));
 		composer.getContentPane().add(borderPanel3);
+		
+		composer.setVisible(true);
 		
 		lowerFaceOption.addItem("Smile");
 		lowerFaceOption.addItem("Clench");
@@ -325,10 +316,12 @@ public class ServerGUI {
 		eyeOption.addItem("look right");
 		eyeOption.addItem("look left");
 		
-		performance.addItem("abc");
-		performance.addItem("2");
-		performance.addItem("3");
-		performance.addItem("4");
+		performance.addItem("Interest");
+		performance.addItem("Excitement");
+		performance.addItem("Engagement");
+		performance.addItem("Stress");
+		performance.addItem("Relaxation");
+		performance.addItem("Focus");
 		
 		hashvalues.initialize();
 		
@@ -386,28 +379,7 @@ public class ServerGUI {
             }
           });
        
-      start.addActionListener(new ActionListener() {
-    	   public void actionPerformed(ActionEvent e) {
-    		   Timer timer = new Timer(); 
-    		   if(flag == true)
-    			   flag = false;
-    		   while(flag == true)
-    		   {
-        	   timer.schedule(new TimerTask() {
-        	   long timeSpan = System.currentTimeMillis();
-        	   
-        	   public void run() {
-        		   long timeSpana = System.currentTimeMillis() - timeSpan ;
-        		   //time.setText(String.valueOf(timeSpana /1000 ));
-        		   start.setText("Stop");
-        	   	}
-        	   }, 1*60);
-    		   }
-        	   timer.cancel();
-    		   }
-    	   });
-		
-		start.addActionListener(new ActionListener() {
+       start.addActionListener(new ActionListener() {
      	   public void actionPerformed(ActionEvent e) {
      		   if(autoReset) {
      			   start.setText("Send");
@@ -450,8 +422,10 @@ public class ServerGUI {
      			start.setText("Send");
      		  }
      	   }
-       	});
+       });
+      
 	}
+	
 	public static JTextPane getConsole(){
 		return console;
 	}
@@ -460,5 +434,4 @@ public class ServerGUI {
 		return labelTimeDuration;
 	}
 }
-
-
+	
