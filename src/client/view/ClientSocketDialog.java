@@ -25,7 +25,7 @@ public class ClientSocketDialog {
 				JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE);
 		if (output == JOptionPane.OK_OPTION) {
-			ctrl.createSocket(xField.getText(), Integer.parseInt(yField.getText()));
+			ctrl.createSocket(xField.getText(), Integer.parseInt(yField.getText()), "ws", "team10");
 		}
 	}
 }

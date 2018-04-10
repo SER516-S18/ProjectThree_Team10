@@ -45,6 +45,7 @@ public class JsonEncoder implements Encoder.Text<Parameters> {
             mentalCmdJSON.put("right", object.getMentalCmd().getRight());
             mentalCmdJSON.put("rotate_left", object.getMentalCmd().getRotateLeft());
             mentalCmdJSON.put("rotate_right", object.getMentalCmd().getRotateLeft());
+            mentalCmdJSON.put("rotate_clockwise", object.getMentalCmd().getRotateClockWise());
             mentalCmdJSON.put("rotate_counter_clockwise", object.getMentalCmd().getRotateCounterClockWise());
             mentalCmdJSON.put("rotate_forward", object.getMentalCmd().getRotateForward());
             mentalCmdJSON.put("rotate_reverse", object.getMentalCmd().getRotateReverse());
