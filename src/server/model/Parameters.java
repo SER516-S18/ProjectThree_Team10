@@ -4,18 +4,15 @@ public class Parameters {
     private Eye eye;
     private LowerFace lowerFace;
     private UpperFace upperFace;
-    private MentalCmd mentalCmd;
     private PerformanceMet performance;
     private double time;
 
     public Parameters() { }
 
-    public Parameters(Eye eye, LowerFace lowerFace, UpperFace upperFace,
-                        MentalCmd mentalCmd, PerformanceMet performance, double time) {
+    public Parameters(Eye eye, LowerFace lowerFace, UpperFace upperFace, PerformanceMet performance, double time) {
         this.eye = eye;
         this.lowerFace = lowerFace;
         this.upperFace = upperFace;
-        this.mentalCmd = mentalCmd;
         this.performance = performance;
         this.time = time;
     }
@@ -60,20 +57,6 @@ public class Parameters {
      */
     public LowerFace getLowerFace() {
         return lowerFace;
-    }
-
-    /**
-     * @param mentalCmd the mentalCmd to set
-     */
-    public void setMentalCmd(MentalCmd mentalCmd) {
-        this.mentalCmd = mentalCmd;
-    }
-
-    /**
-     * @return the mentalCmd
-     */
-    public MentalCmd getMentalCmd() {
-        return mentalCmd;
     }
 
     /**

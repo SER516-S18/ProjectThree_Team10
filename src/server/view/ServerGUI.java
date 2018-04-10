@@ -1,27 +1,23 @@
 package server.view;
 
 import server.service.TimerClass;
-import server.view.ColorConstants;
-import server.view.Indicator;
-import server.view.TextConstants;
-
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import java.awt.*;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import java.awt.event.*;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.SystemColor;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.event.ChangeEvent;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeListener;
-import java.util.Timer;
-import java.util.TimerTask;
 /**
  * SER516 Project3_Team10
  * Description: Sever GUI (View for Server)
@@ -32,42 +28,27 @@ import java.util.TimerTask;
  * @version 1.0
  */
 
-
-public class ServerGUI extends TimerClass{
+public class ServerGUI extends TimerClass {
 
     private JPanel time;
-    private boolean flag = true;;
+    private boolean flag = true;
+    private boolean autoReset = true;
+    private static JFrame composer;
     static JTextPane console = new JTextPane();
-    /**
-     * Launch the application.
-     */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ServerGUI window = new ServerGUI();
-					window.composer.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
+    private static JLabel labelTimeDuration;
 
     /**
      * Create the application.
      */
-    public ServerGUI(JFrame composer) {
-        initialize(composer);
+    public ServerGUI() {
+        initialize();
     }
 
     /**
      * Initialize the contents of the frame.
-     * @param composer
      */
-    private void initialize(JFrame composer) {
-
-
+    private void initialize() {
+        composer = new JFrame();
         double value, min, max, step;
 
         composer.setTitle("Emotiv Composer");
@@ -82,6 +63,7 @@ public class ServerGUI extends TimerClass{
         labelTimeInterval.setBackground(ColorConstants.GRAY);
         labelTimeInterval.setHorizontalAlignment(SwingConstants.CENTER);
         labelTimeInterval.setFont(TextConstants.PLAIN);
+        labelTimeInterval.setBounds(300, 32, 113, 28);
         labelTimeInterval.setOpaque(true);
         composer.getContentPane().add(labelTimeInterval);
 
@@ -89,14 +71,12 @@ public class ServerGUI extends TimerClass{
         autoResetServer.setForeground(ColorConstants.WHITE);
         autoResetServer.setBackground(ColorConstants.GRAY);
         autoResetServer.setFont(TextConstants.PLAIN);
+        autoResetServer.setBounds(300, 73, 113, 25);
         composer.getContentPane().add(autoResetServer);
 
-        JButton start = new JButton("Start");
-        start.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-            }
-        });
+        JButton start = new JButton("Send");
         start.setFont(TextConstants.PLAIN);
+        start.setBounds(425, 73, 97, 25);
         composer.getContentPane().add(start);
 
         JLabel labelTime = new JLabel("Time:");
@@ -112,27 +92,21 @@ public class ServerGUI extends TimerClass{
         labelSec.setHorizontalAlignment(SwingConstants.LEFT);
         labelSec.setFont(TextConstants.PLAIN);
         composer.getContentPane().add(labelSec);
+        value = 1.00;
 
         JSpinner timeInterval = new JSpinner();
-        value = 1.00;
+        value = 0.25;
         min = 0.01;
         max = 99.99;
         step = 0.50;
         timeInterval.setModel(new SpinnerNumberModel(value, min, max, step));
         timeInterval.setFont(TextConstants.PLAIN);
         composer.getContentPane().add(timeInterval);
-
-        Double frequency = (double) timeInterval.getValue();
-
         time = new JPanel();
-        composer.getContentPane().add(time);
-        time = new JPanel();
-        JLabel labelTimeDuration = new JLabel();
+        labelTimeDuration = new JLabel();
+        labelTimeDuration.setFont(TextConstants.PLAIN);
         time.add(labelTimeDuration);
         composer.getContentPane().add(time);
-
-        //start(labelTimeDuration);
-        //pause();
 
         JLabel labelSeconds = new JLabel("Seconds");
         labelSeconds.setForeground(ColorConstants.WHITE);
@@ -168,13 +142,15 @@ public class ServerGUI extends TimerClass{
         eyeOption.setToolTipText("");
         composer.getContentPane().add(eyeOption);
 
-        JSpinner eyeValue = new JSpinner();
-        eyeValue.setModel(new SpinnerNumberModel(0, 0, 1, 1));
-        eyeValue.setFont(TextConstants.PLAIN);
-        composer.getContentPane().add(eyeValue);
+//        JSpinner eyeValue = new JSpinner();
+//        eyeValue.setModel(new SpinnerNumberModel(0, 0, 1, 1));
+//        eyeValue.setFont(TextConstants.PLAIN);
+//        composer.getContentPane().add(eyeValue);
 
-        JButton activateEye = new JButton("Activate");
+        JCheckBox activateEye = new JCheckBox("Activate");
+        activateEye.setForeground(ColorConstants.WHITE);
         activateEye.setFont(TextConstants.PLAIN);
+        activateEye.setBackground(ColorConstants.GRAY);
         composer.getContentPane().add(activateEye);
 
         JCheckBox autoResetEye = new JCheckBox("Auto-reset");
@@ -241,6 +217,7 @@ public class ServerGUI extends TimerClass{
         labelConsole.setForeground(ColorConstants.WHITE);
         labelConsole.setFont(TextConstants.PLAIN);
         labelConsole.setBackground(ColorConstants.GRAY);
+
         composer.getContentPane().add(labelConsole);
 
         console.setFont(TextConstants.PLAIN);
@@ -256,6 +233,7 @@ public class ServerGUI extends TimerClass{
 
         Indicator indicatorPanel = new Indicator(0);
         indicatorPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
         composer.getContentPane().add(indicatorPanel);
         indicatorPanel.update(1);
 
@@ -299,9 +277,9 @@ public class ServerGUI extends TimerClass{
                 time.setBounds((int)(composer.getWidth()*0.18), (int)(composer.getHeight()*0.28), (int)(composer.getWidth()*0.18), (int)(composer.getHeight()*0.04));
                 labelEye.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.36), (int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.04));
                 eyeOption.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.2), (int)(composer.getHeight()*0.04));
-                eyeValue.setBounds((int)(composer.getWidth()*0.31), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.04));
-                activateEye.setBounds((int)(composer.getWidth()*0.43), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.17), (int)(composer.getHeight()*0.04));
-                autoResetEye.setBounds((int)(composer.getWidth()*0.63), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.17), (int)(composer.getHeight()*0.04));
+                //eyeValue.setBounds((int)(composer.getWidth()*0.31), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.04));
+                activateEye.setBounds((int)(composer.getWidth()*0.31), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.17), (int)(composer.getHeight()*0.04));
+                autoResetEye.setBounds((int)(composer.getWidth()*0.48), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.17), (int)(composer.getHeight()*0.04));
                 labelUpperFace.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.48), (int)(composer.getWidth()*0.2), (int)(composer.getHeight()*0.04));
                 labelLowerFace.setBounds((int)(composer.getWidth()*0.48), (int)(composer.getHeight()*0.48), (int)(composer.getWidth()*0.2), (int)(composer.getHeight()*0.04));
                 upperFaceOption.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.52), (int)(composer.getWidth()*0.2), (int)(composer.getHeight()*0.04));
@@ -318,6 +296,7 @@ public class ServerGUI extends TimerClass{
 
             }
         });
+
         composer.setVisible(true);
 
         lowerFaceOption.addItem("Smile");
@@ -335,10 +314,12 @@ public class ServerGUI extends TimerClass{
         eyeOption.addItem("look right");
         eyeOption.addItem("look left");
 
-        performance.addItem("abc");
-        performance.addItem("2");
-        performance.addItem("3");
-        performance.addItem("4");
+        performance.addItem("Interest");
+        performance.addItem("Excitement");
+        performance.addItem("Engagement");
+        performance.addItem("Stress");
+        performance.addItem("Relaxation");
+        performance.addItem("Focus");
 
         clearLog.addActionListener( new ActionListener()
         {
@@ -420,7 +401,22 @@ public class ServerGUI extends TimerClass{
     public static JTextPane getConsole(){
         return console;
     }
-    public static void main(String[] args){
-        ServerGUI gui = new ServerGUI(new JFrame());
+
+    public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ServerGUI window = new ServerGUI();
+					window.composer.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+    public static JLabel getTime() {
+        return labelTimeDuration;
     }
 }
+

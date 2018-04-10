@@ -21,5 +21,7 @@
     <orderEntry type="library" name="Maven: org.glassfish.tyrus:tyrus-core:1.12" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.tyrus:tyrus-spi:1.12" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.tyrus:tyrus-container-grizzly-client:1.12" level="project" />
+    <orderEntry type="library" name="Maven: org.jfree:jfreechart:1.0.19" level="project" />
+    <orderEntry type="library" name="Maven: org.jfree:jcommon:1.0.23" level="project" />
   </component>
 </module>

@@ -1,6 +1,6 @@
 package server.controller;
 
-import client.model.Parameters;
+import server.model.Parameters;
 import server.service.JsonEncoder;
 
 import javax.websocket.*;
@@ -36,6 +36,7 @@ public class ServerSocket {
     public void onClose(Session session) {
         System.out.println("Server close");
         logger.info("Server web socket is closing");
+        sessions.remove(session);
     }
 
     @OnError

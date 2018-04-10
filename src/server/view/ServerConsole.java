@@ -20,22 +20,22 @@ public class ServerConsole extends JTextPane{
 			console.setContentType( "text/html" );
 			HTMLDocument doc=(HTMLDocument) console.getDocument();
             doc.insertAfterEnd(doc.getCharacterElement(doc.getLength()),
-               "[ " + new Date() +  " ] " + "<span style=\"color:red\">"  
+               "[ " + new Date() +  " ] " + "<span style=\"color:red\">"
                 + error + "</span> <br>");
-		} 
+		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void setMessage(String message) {
 		try {
 			console.setContentType( "text/html" );
 			HTMLDocument doc=(HTMLDocument) console.getDocument();
-			doc.insertAfterEnd(doc.getCharacterElement(doc.getLength()), 
-			  "[ " +  new Date() + " ] " + "<span style=\"color:black\">" 
+			doc.insertAfterEnd(doc.getCharacterElement(doc.getLength()),
+			  "[ " +  new Date() + " ] " + "<span style=\"color:black\">"
 			   + message + "</span> <br>");
-		} 
+		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
