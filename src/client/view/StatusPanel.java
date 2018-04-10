@@ -3,6 +3,15 @@ package client.view;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+  * This class is used to create a panel in Client to show the connection status and time information
+  *
+  * @SER516  Project Three
+  * @author  Group 10  
+  * @version 1.0
+  * @since   04/03/2018
+  */
+
 public class StatusPanel extends JPanel{
     Font f = new Font("Serif", Font.BOLD, 18);
 	JLabel light;
