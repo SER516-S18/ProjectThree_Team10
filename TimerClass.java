@@ -1,45 +1,62 @@
-package server;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-/*
- * Author: Shubham Vyas
- * Description: Display time dynamically for server based on frequency selected.
- */
-
-public class TimerClass {
-	private static int counter;
-	private static double z;
-	public static JLabel timeLabel = new JLabel();
-	public static String labelText;
+public class TimerClass{
+	private boolean isAutoReset = false;
+	private Timer timer;
+	private double timeCounter = (double) 0.0;
+	private static TimerClass timerObject = null;
 	
-	public static void timer(double frequency, JPanel time) {
-		
-		int y = (int) (frequency * 1000);
-		z = frequency;
-		Timer timer = new Timer();
-		try {
-			timer.scheduleAtFixedRate(new TimerTask(){ 
-				public void run() {
-					if(true) {
-						//System.out.println(z+"\t"+counter++);
-						labelText = String.valueOf(z);
-						timeLabel.setText(labelText);
-						time.add(timeLabel);
-						z += frequency;
-						
-					}
-				} 
-			}, new Date(), y);
+	protected TimerClass() {}
+
+	public static TimerClass getInstance() {
+		if (timerObject == null) {
+			timerObject = new TimerClass();
 		}
-		catch(Exception e) {
-			System.out.println("Exception!");
-		}
+		return timerObject;
 	}
 
+	/**
+	 * Timer Start
+	 * 
+	 * @param delay - delay between two messages
+	 */
+	public void startTimer(double delay) {
+		timer = new Timer((int) Math.round(delay * 1000), new ActionListener() {
+			public void actionPerformed( ActionEvent event )  {
+				//TO-DO - send message to client
+				updateTimer(delay);
+				ServerGUI.getTime().setText(getTimer() + "");
+			}
+		});
+		timer.setRepeats(this.isAutoReset);
+		timer.start();
+	}
+	
+	/**
+	 * Timer Stop
+	 */
+	public void stopTimer() {
+		timer.stop();
+	}
+
+	/**
+	 * Check for Auto-Reset
+	 */
+	public void setAutoReset(boolean autoRepeated) {
+		this.isAutoReset = autoRepeated;
+	}
+	
+	void updateTimer(double delay) {
+		timeCounter += delay; 
+	}
+	
+	double getTimer() {
+		return timeCounter;
+	}
+	
+	public void setTimer(double time) {
+		timeCounter = time;
+	}
 }
