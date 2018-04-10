@@ -302,10 +302,15 @@ public class ServerGUI extends TimerClass {
 		borderPanel3.setBorder(BorderFactory.createLineBorder(Color.black));
 		composer.getContentPane().add(borderPanel3);
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setFont(TextConstants.PLAIN);
-		spinner.setBounds(190, 424, 67, 26);
-		composer.getContentPane().add(spinner);
+		JSpinner performMetricVal = new JSpinner();
+		value = 0.00;
+		min = 0.00;
+		max = 1.00;
+		step = 0.10;
+		performMetricVal.setModel(new SpinnerNumberModel(value, min, max, step));
+		performMetricVal.setFont(TextConstants.PLAIN);
+		performMetricVal.setBounds(190, 424, 67, 26);
+		composer.getContentPane().add(performMetricVal);
 		
 		JPanel borderPanel2 = new JPanel();
 		borderPanel2.setBorder(BorderFactory.createLineBorder(Color.black));
