@@ -4,26 +4,31 @@
 
 ## How to Run Project
 
+Run Server
 
+    
+ 
+Run Client
 
-
-
+    
 
 ## How to Compile Project
 
-For Mac/Linux:
+### Mac/Linux
 
-
-
-
+Make build.sh executable
 
     
-For Windows
 
+Compile
 
+    
+    
+### Windows
 
+Compile
 
-
+    
 
 
 ### Team Members
