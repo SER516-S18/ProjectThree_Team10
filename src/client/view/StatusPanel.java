@@ -19,12 +19,12 @@ public class StatusPanel extends JPanel{
         statusInfo(0);
         timeInfo(0.0);
 
-		light.setFont(f);
+	light.setFont(f);
         status.setFont(f);
-		timeLabel.setFont(f);
-	    this.add(light);
+	timeLabel.setFont(f);
+	this.add(light);
         this.add(status);
-		this.add(timeLabel);
+        this.add(timeLabel);
 	}
 	
 	public void statusLight(int input) {
