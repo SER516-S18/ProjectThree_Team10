@@ -48,7 +48,7 @@ public class ClientWindowController {
 	
 	public void update(Parameters param) {
 		// TODO: need to change to MVC
-		view.update(param);;
+		view.update(param);
 	}
 	
 	public static void main(String args[]) {
