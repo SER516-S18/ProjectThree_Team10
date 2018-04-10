@@ -1,33 +1,17 @@
 package client.view;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
@@ -39,7 +23,9 @@ import client.view.FacialPanel;
 public class ClientWindowView extends JFrame {
 	private ClientWindowController ctrl;
 	private FacialPanel facialPanel;
-	private PlotDiagramView plotPanel;
+	private PlotPanel plotPanel;
+	private PerformancePanel performPanel;
+	private StatusPanel statusPanel;
 	
 	// create and initialize the menu bar of the window
 	public void initMenu() {
@@ -59,7 +45,11 @@ public class ClientWindowView extends JFrame {
 		
 		menuItem = new JMenuItem("Open Server", KeyEvent.VK_O);
 		menuItem.addMouseListener(new MouseAdapter() {
-			// TODO: Open the server
+			@Override
+            public void mousePressed(MouseEvent event) {
+             	ServerGUI serverGUI = new ServerGUI(ctrl);
+				// TODO: Open the server
+            }
 		});
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(
 				KeyEvent.VK_O, ActionEvent.ALT_MASK));
@@ -106,6 +96,10 @@ public class ClientWindowView extends JFrame {
 			}
 		});
 		menu.add(menuItem);
+		menuBar.add(menu);
+		
+		statusPanel = new StatusPanel();
+		menuBar.add(statusPanel);
 		
 		this.setJMenuBar(menuBar);
 	}
@@ -113,20 +107,36 @@ public class ClientWindowView extends JFrame {
 	public void initTabs() {
 		JTabbedPane myTabPane = new JTabbedPane();
 		JPanel facialExpressionPanel = new JPanel();
-		JPanel performPanel = new PerformancePanel();
+		performPanel = new PerformancePanel("Performance");
 		myTabPane.addTab("Facial Expressions", facialExpressionPanel);
 		myTabPane.addTab("Performance Metrics", performPanel);
 
+		this.add(myTabPane, BorderLayout.CENTER);
 		facialPanel = new FacialPanel();
-		plotPanel = new PlotDiagramView();
+		plotPanel = new PlotPanel();
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                 facialPanel, plotPanel);
-		splitPane.setResizeWeight(.5d);
+		splitPane.setDividerLocation(400);
+		splitPane.setResizeWeight(.7d);
 		facialExpressionPanel.setLayout(new BorderLayout());
 		facialExpressionPanel.add(splitPane);
 		
+	}
+	
+	public void initTabs(JPanel facialExpressionPanel, JPanel perfomPanel) {
+		JTabbedPane myTabPane = new JTabbedPane();
+		myTabPane.addTab("Facial Expressions", facialExpressionPanel);
+		myTabPane.addTab("Performance Metrics", performPanel);
+
 		this.add(myTabPane, BorderLayout.CENTER);
+	}
+	
+	public void initSplitPanel(JPanel facialPanel, JPanel plotPanel) {
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+                facialPanel, plotPanel);
+		splitPane.setDividerLocation(400);
+		splitPane.setResizeWeight(.7d);
 	}
 	
 	public ClientWindowView() {
@@ -145,11 +155,8 @@ public class ClientWindowView extends JFrame {
 	
 	public void update(Parameters param) {
 		facialPanel.setData(param);
-	}
-
-	public class PerformancePanel extends JPanel{
-		public PerformancePanel() {
-			
-		}
+		plotPanel.add(param);
+		performPanel.add(param);
+		statusPanel.setStatus(2, param.getTime());
 	}
 }
