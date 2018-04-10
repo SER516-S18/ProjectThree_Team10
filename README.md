@@ -1,5 +1,7 @@
 # ProjectThree_Team10
 
+## Open Source Initiative of the EMOTIV Control Panel Project
+
 ## How to Run Project
 
 
