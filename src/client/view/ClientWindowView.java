@@ -1,34 +1,17 @@
 package client.view;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
@@ -112,6 +95,10 @@ public class ClientWindowView extends JFrame {
 			}
 		});
 		menu.add(menuItem);
+		menuBar.add(menu);
+		
+		StatusPanel statusPanel = new StatusPanel();
+		menuBar.add(statusPanel);
 		
 		this.setJMenuBar(menuBar);
 	}
@@ -133,6 +120,22 @@ public class ClientWindowView extends JFrame {
 		splitPane.setResizeWeight(.7d);
 		facialExpressionPanel.setLayout(new BorderLayout());
 		facialExpressionPanel.add(splitPane);
+		
+	}
+	
+	public void initTabs(JPanel facialExpressionPanel, JPanel perfomPanel) {
+		JTabbedPane myTabPane = new JTabbedPane();
+		myTabPane.addTab("Facial Expressions", facialExpressionPanel);
+		myTabPane.addTab("Performance Metrics", performPanel);
+
+		this.add(myTabPane, BorderLayout.CENTER);
+	}
+	
+	public void initSplitPanel(JPanel facialPanel, JPanel plotPanel) {
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+                facialPanel, plotPanel);
+		splitPane.setDividerLocation(400);
+		splitPane.setResizeWeight(.7d);
 	}
 	
 	public ClientWindowView() {

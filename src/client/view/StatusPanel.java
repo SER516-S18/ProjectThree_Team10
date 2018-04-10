@@ -25,7 +25,7 @@ public class StatusPanel extends JPanel{
 	}
 	
 	public void statusLight(int input) {
-	    //light.setOpaque(true);
+	    light.setOpaque(true);
 	    if(input==0) {
 	    	light.setForeground(Color.RED);
 	    	light.setBackground(Color.RED);

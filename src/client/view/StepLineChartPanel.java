@@ -69,7 +69,6 @@ public class StepLineChartPanel extends JPanel{
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		System.out.println(data);
 		//chartPanel.repaint();
 		super.paintComponent(g);
 	}

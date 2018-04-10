@@ -43,7 +43,7 @@ public class FacialPanel extends JPanel{
 	private static final int MOUTH_HEIGHT = 6;
 	
 	private static final double MINDOUBLE = 0.000000001;
-	
+
 	public FacialPanel() {
 		Eye eye = new Eye(false, true, true, false, true);
 		LowerFace lowerFace = new LowerFace(1.0, 0.0, 0.0, 0.5, 0.5);

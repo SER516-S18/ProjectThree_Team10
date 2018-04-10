@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import client.model.Parameters;
 
 public class PlotPanel extends JPanel{
-	private StatusPanel statusPanel;
 	private StepLineChartPanel blickChart;
 	private StepLineChartPanel winkLeftChart;
 	private StepLineChartPanel winkRightChart;
@@ -21,8 +20,7 @@ public class PlotPanel extends JPanel{
 	private LineChartPanel laughChart;
 
 	public PlotPanel() {
-		setLayout(new GridLayout(12,1));
-		statusPanel = new StatusPanel();
+		setLayout(new GridLayout(11,1));
 		blickChart = new StepLineChartPanel("blink");
 		winkLeftChart = new StepLineChartPanel("wink left");
 		winkRightChart = new StepLineChartPanel("wink right");
@@ -34,7 +32,6 @@ public class PlotPanel extends JPanel{
 		smirkLeftChart = new LineChartPanel("smirk left");
 		smirkRightChart = new LineChartPanel("smirk right");
 		laughChart = new LineChartPanel("laugh");
-		add(statusPanel);
 		add(blickChart);
 		add(winkLeftChart);
 		add(winkRightChart);

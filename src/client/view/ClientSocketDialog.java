@@ -21,7 +21,7 @@ public class ClientSocketDialog {
 		myPanel.add(yField);
 		
 		int output = JOptionPane.showConfirmDialog(null, myPanel, 
-				"Please Enter Server Address or Port",
+				"Please Enter Server Address and Port",
 				JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE);
 		if (output == JOptionPane.OK_OPTION) {
