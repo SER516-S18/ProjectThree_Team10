@@ -32,7 +32,6 @@ public class LineChartPanel extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 		System.out.println(this.getWidth());
-		//chartPanel.repaint();
 		super.paintComponent(g);
 	}
 	

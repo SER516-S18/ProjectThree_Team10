@@ -10,25 +10,22 @@ public class StatusPanel extends JPanel{
 	JLabel timeLabel;
 
 	public StatusPanel(){
-        setLayout( new FlowLayout(FlowLayout.LEFT, 20, 40));
+        setLayout(new FlowLayout());
         setBackground(Color.WHITE); 
-        light = new JLabel();
+        light = new JLabel("O");
         status = new JLabel();
         timeLabel = new JLabel();
-        statusLight(0);
-        statusInfo(0);
-        timeInfo(0.0);
-
-	light.setFont(f);
+        
         status.setFont(f);
-	timeLabel.setFont(f);
-	this.add(light);
+        timeLabel.setFont(f);
+        setStatus(0, 0);
+        this.add(light);
         this.add(status);
         this.add(timeLabel);
 	}
 	
 	public void statusLight(int input) {
-	    light.setOpaque(true);
+	    //light.setOpaque(true);
 	    if(input==0) {
 	    	light.setForeground(Color.RED);
 	    	light.setBackground(Color.RED);

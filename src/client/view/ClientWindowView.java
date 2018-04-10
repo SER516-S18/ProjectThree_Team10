@@ -123,16 +123,16 @@ public class ClientWindowView extends JFrame {
 		myTabPane.addTab("Facial Expressions", facialExpressionPanel);
 		myTabPane.addTab("Performance Metrics", performPanel);
 
+		this.add(myTabPane, BorderLayout.CENTER);
 		facialPanel = new FacialPanel();
 		plotPanel = new PlotPanel();
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                 facialPanel, plotPanel);
-		splitPane.setResizeWeight(.5d);
+		splitPane.setDividerLocation(400);
+		splitPane.setResizeWeight(.7d);
 		facialExpressionPanel.setLayout(new BorderLayout());
 		facialExpressionPanel.add(splitPane);
-		
-		this.add(myTabPane, BorderLayout.CENTER);
 	}
 	
 	public ClientWindowView() {
