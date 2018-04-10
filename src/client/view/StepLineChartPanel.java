@@ -9,8 +9,17 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.CategoryStepRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -20,11 +29,12 @@ public class StepLineChartPanel extends JPanel{
 	private JFreeChart chart;
 	private XYDataset data;
 	private XYSeries ydata;
+	private DefaultCategoryDataset dataset;
 	
 	public StepLineChartPanel(String chartTitle) {
 		ydata = new XYSeries(chartTitle, false, true);
 
-		XYSeriesCollection dataset = new XYSeriesCollection();
+		/*XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(ydata);
 		data = dataset;
 		chart = ChartFactory.createXYStepChart(
@@ -33,18 +43,28 @@ public class StepLineChartPanel extends JPanel{
 				null,
 				data,
 				PlotOrientation.VERTICAL,
-                true,   // legend
-                true,   // tooltips
+                false,   // legend
+                false,   // tooltips
                 false   // urls
-                );
+                );*/
+		CategoryAxis domainAxis = new CategoryAxis();
+        ValueAxis rangeAxis = new NumberAxis();
+		dataset = new DefaultCategoryDataset();
+
+		CategoryItemRenderer renderer = new CategoryStepRenderer(true);
+		CategoryPlot plot = new CategoryPlot(dataset, domainAxis, rangeAxis, renderer);
+		chart = new JFreeChart(chartTitle,
+				plot
+				);
         
 		chartPanel = new ChartPanel(chart);
 
 		//XYPlot plot = chart.getXYPlot();
+		//plot.setDomainCrosshairVisible(true);
 		//plot.getRenderer().setSeriesStroke(0, new BasicStroke(2.0f));
         //plot.getRenderer().setSeriesStroke(1, new BasicStroke(2.0f));
 		setLayout(new BorderLayout(1, 1));
-		this.add(chartPanel);	    
+		this.add(chartPanel);
 	}
 	
 	@Override
@@ -56,9 +76,11 @@ public class StepLineChartPanel extends JPanel{
 	
 	public void addData(boolean value, double time) {
 		if (value) {
-			ydata.add(time, 1);
+			ydata.add(time, 1.0f);
+			dataset.addValue(1, Double.toString(time),"time");
 		} else {
-			ydata.add(time, 0);
+			ydata.add(time, 0.0f);
+			dataset.addValue(0, Double.toString(time),"time");
 		}
 	}
 }
