@@ -37,7 +37,6 @@ public class ClientSocket {
         param.setEye(message.getEye());
         param.setLowerFace(message.getLowerFace());
         param.setUpperFace(message.getUpperFace());
-        param.setMentalCmd(message.getMentalCmd());
         param.setPerformance(message.getPerformance());
         param.setTime(message.getTime());
         ctrl.update(param);

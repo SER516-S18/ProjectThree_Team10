@@ -7,7 +7,6 @@ import org.codehaus.jettison.json.*;
 
 import client.model.Eye;
 import client.model.LowerFace;
-import client.model.MentalCmd;
 import client.model.PerformanceMet;
 import client.model.UpperFace;
 import client.model.Parameters;
@@ -37,20 +36,12 @@ public class JsonDecoder implements Decoder.Text<Parameters> {
             LowerFace lowerFace = new LowerFace(jLowerFace.getDouble("smile"), jLowerFace.getDouble("clench"),
                                                 jLowerFace.getDouble("smirk_left"), jLowerFace.getDouble("smirk_right"),
                                                 jLowerFace.getDouble("laugh"));
-            MentalCmd mentalCmd = new MentalCmd(jMentalCmd.getDouble("neutral"), jMentalCmd.getDouble("push"),
-                                                jMentalCmd.getDouble("pull"), jMentalCmd.getDouble("lift"),
-                                                jMentalCmd.getDouble("drop"), jMentalCmd.getDouble("left"),
-                                                jMentalCmd.getDouble("right"), jMentalCmd.getDouble("rotate_left"),
-                                                jMentalCmd.getDouble("rotate_right"), jMentalCmd.getDouble("rotate_clockwise"),
-                                                jMentalCmd.getDouble("rotate_counter_clockwise"),
-                                                jMentalCmd.getDouble("rotate_forward"), jMentalCmd.getDouble("rotate_reverse"),
-                                                jMentalCmd.getDouble("rotate_disappear"), jMentalCmd.getDouble("push_skill"),
-                                                jMentalCmd.getDouble("overall_skill"));
+
             PerformanceMet performanceMet = new PerformanceMet(jPerformanceMet.getDouble("interest"), jPerformanceMet.getDouble("engagement"),
                                                                 jPerformanceMet.getDouble("stress"), jPerformanceMet.getDouble("relaxation"),
                                                                 jPerformanceMet.getDouble("excitement"), jPerformanceMet.getDouble("focus"));
             UpperFace upperFace = new UpperFace(jUpperFace.getDouble("raise_brow"), jUpperFace.getDouble("furrow_brow"));
-            params = new Parameters(eye, lowerFace, upperFace, mentalCmd, performanceMet, jo.getDouble("time"));
+            params = new Parameters(eye, lowerFace, upperFace, performanceMet, jo.getDouble("time"));
         } catch (Exception e) {
             e.printStackTrace();
         }

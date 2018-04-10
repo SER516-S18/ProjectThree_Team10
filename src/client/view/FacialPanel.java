@@ -12,7 +12,6 @@ import javax.swing.JSplitPane;
 
 import client.model.Eye;
 import client.model.LowerFace;
-import client.model.MentalCmd;
 import client.model.Parameters;
 import client.model.PerformanceMet;
 import client.model.UpperFace;
@@ -46,10 +45,9 @@ public class FacialPanel extends JPanel{
 		Eye eye = new Eye(false, true, true, false, true);
 		LowerFace lowerFace = new LowerFace(1.0, 0.0, 1.0, 1.0, 1.0);
 		UpperFace upperFace = new UpperFace(0.0, 1.0);
-		MentalCmd mentalCmd = new MentalCmd(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
 		PerformanceMet performanceMet = new PerformanceMet(1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
 		double time = 1.0;
-		param = new Parameters(eye, lowerFace, upperFace, mentalCmd, performanceMet, time);
+		param = new Parameters(eye, lowerFace, upperFace, performanceMet, time);
 	}
 	
 	public void setData(Parameters param) {

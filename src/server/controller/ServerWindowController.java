@@ -25,7 +25,6 @@ public class ServerWindowController  {
         Parameters p = new Parameters();
         p.setEye(new Eye(false, true, false, false, false));
         p.setLowerFace(new LowerFace(0.8, 0.0, 0.0, 0.0, 0.0));
-        p.setMentalCmd(new MentalCmd(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
         p.setPerformance(new PerformanceMet(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
         p.setTime(0.0);
         p.setUpperFace(new UpperFace(0.0, 0.0));
