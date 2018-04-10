@@ -2,6 +2,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
+/**
+ * SER516 Project3_Team10
+ * Description: Class to run the timer on Server
+ * @author Shubham Vyas
+ * @author Hari Siddarth V Kesavan
+ * @version 1.0
+ */
+
 public class TimerClass{
 	private boolean isAutoReset = false;
 	private Timer timer;
