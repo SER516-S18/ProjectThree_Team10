@@ -1,8 +1,11 @@
+package server;
+
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.SystemColor;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
@@ -38,6 +41,7 @@ public class ServerGUI extends TimerClass {
 	private JPanel time;
 	private boolean flag = true;
 	private boolean autoReset = true;
+	private static JFrame composer;
 	static JTextPane console = new JTextPane();
 	private static JLabel labelTimeDuration;
 	/**
@@ -68,8 +72,7 @@ public class ServerGUI extends TimerClass {
 	 * @param composer 
 	 */
 	private void initialize() {
-
-		
+		composer = new JFrame();
 		double value, min, max, step;
 		Variables var = new Variables();
 
@@ -118,7 +121,7 @@ public class ServerGUI extends TimerClass {
 		composer.getContentPane().add(labelSec);
 		
 		JSpinner timeInterval = new JSpinner();
-		value = 1.00;
+		value = 0.25;
 		min = 0.01;
 		max = 99.99;
 		step = 0.50;
@@ -132,6 +135,7 @@ public class ServerGUI extends TimerClass {
 		composer.getContentPane().add(time);
 		
 		labelTimeDuration = new JLabel();
+		labelTimeDuration.setFont(TextConstants.PLAIN);
 		time.add(labelTimeDuration);
 		composer.getContentPane().add(time);
 		
