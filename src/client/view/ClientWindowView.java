@@ -34,7 +34,9 @@ public class ClientWindowView extends JFrame {
 	private PerformancePanel performPanel;
 	private StatusPanel statusPanel;
 	
-	// create and initialize the menu bar of the window
+	/**
+      * create and initialize the menu bar of the window
+      */
 	public void initMenu() {
 		JMenuBar menuBar;
 		JMenu menu;
@@ -108,7 +110,9 @@ public class ClientWindowView extends JFrame {
 		this.setJMenuBar(menuBar);
 	}
 	
-	//Init tabs
+    /**
+      * Init tabs method
+      */
 	public void initTabs() {
 		JTabbedPane myTabPane = new JTabbedPane();
 		JPanel facialExpressionPanel = new JPanel();

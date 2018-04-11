@@ -30,7 +30,10 @@ public class PerformancePanel extends JPanel{
 	private JFreeChart chart;
 	private DefaultCategoryDataset data = new DefaultCategoryDataset();
 	
-	//Constructor to build the performance panel
+	/**
+      * Constructor to build the performance panel
+	  * @param chartTitle
+      */
 	public PerformancePanel(String chartTitle) {
 		chart = ChartFactory.createLineChart(
 				chartTitle,
@@ -71,7 +74,10 @@ public class PerformancePanel extends JPanel{
 		});
 	}
 	
-	//Override the paintComponent function to redraw the chart panel
+	/**
+      * paintComponent override method
+	  * @param g
+      */
 	@Override
 	public void paintComponent(Graphics g) {
 		chartPanel.repaint();

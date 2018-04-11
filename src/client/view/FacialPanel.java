@@ -18,7 +18,8 @@ import client.model.UpperFace;
  * This is the panel to display the facial expression
  */
 public class FacialPanel extends JPanel{
-	//x_factor, y_factor is the scale of the real time size/default size
+	
+    //x_factor, y_factor is the scale of the real time size/default size
 	private double x_factor, y_factor;
 	//x_origin and y_origin are the default of xy coordinate
 	private int x_origin, y_origin;
@@ -47,7 +48,9 @@ public class FacialPanel extends JPanel{
 	
 	private static final double MINDOUBLE = 0.000000001;
 
-	//constructor to display an initial face
+    /**
+	 * constructor to display an initial face
+	 */
 	public FacialPanel() {
 		Eye eye = new Eye(false, false, true, true, false);
 		LowerFace lowerFace = new LowerFace(1.0, 0.0, 0.0, 0.5, 0.5);
@@ -56,14 +59,23 @@ public class FacialPanel extends JPanel{
 		double time = 1.0;
 		param = new Parameters(eye, lowerFace, upperFace, performanceMet, time);
 	}
-	
-	//update the parameter of the current face
+    
+	/**
+	 * update the parameter of the current face
+	 * @param param
+	 */
 	public void setData(Parameters param) {
 		this.param = param;
 		this.repaint();
 	}
 	
-	//use real time size / default size to calculate the scale
+	/**
+	 * use real time size / default size to calculate the scale
+	 * @param x
+     * @param y
+     * @param height
+     * @param width
+	 */
 	public void calc_scaleFactors(int x, int y, int height, int width){
 		x_factor = width / DEFAULT_SCALE;
 		y_factor = height / DEFAULT_SCALE;
@@ -71,12 +83,18 @@ public class FacialPanel extends JPanel{
 		y_origin = y;
 	}
 	
-	//use x in default * xscale to calculate real time x
+	/**
+	 * use x in default * xscale to calculate real time x
+	 * @param x
+	 */
 	public int scale_x(int x) {
 		return (int)(x * x_factor);
 	}
 	
-	//use y in default * yscale to calculate real time y
+	/**
+	 * use y in default * yscale to calculate real time y
+	 * @param y
+	 */
 	public int scale_y(int y) {
 		return (int)(y * y_factor);
 	}
