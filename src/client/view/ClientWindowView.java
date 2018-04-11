@@ -47,7 +47,7 @@ public class ClientWindowView extends JFrame {
 		menuItem.addMouseListener(new MouseAdapter() {
 			@Override
             public void mousePressed(MouseEvent event) {
-             	ServerGUI serverGUI = new ServerGUI(ctrl);
+             	ServerTrigger serverTrigger = new ServerTrigger(ctrl);
 				// TODO: Open the server
             }
 		});

@@ -25,13 +25,8 @@ import client.view.ClientWindowView;
 
 public class ClientWindowController {
 	private ClientWindowView view;
-	private ClientSocket socketCtrl;
 	private ClientSocket clientSocket = null;
-	
-	public ClientWindowController() {
-		view = new ClientWindowView();
-	}
-	
+
 	public ClientWindowController(ClientWindowView view) {
 		this.view = view;
 	}
@@ -66,12 +61,5 @@ public class ClientWindowController {
 		ClientWindowView view = new ClientWindowView();
 		ClientWindowController ctrl = new ClientWindowController(view);
 		view.bindController(ctrl);
-		Eye eye = new Eye(false, true, true, false, true);
-		LowerFace lowerFace = new LowerFace(1.0, 0.0, 0.0, 0.5, 0.5);
-		UpperFace upperFace = new UpperFace(0.0, 1.0);
-		PerformanceMet performanceMet = new PerformanceMet(1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
-		double time = 1.0;
-		Parameters param = new Parameters(eye, lowerFace, upperFace, performanceMet, time);
-		ctrl.update(param);
 	}
 }

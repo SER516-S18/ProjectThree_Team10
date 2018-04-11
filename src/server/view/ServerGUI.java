@@ -31,11 +31,14 @@ import javax.swing.SpinnerNumberModel;
 public class ServerGUI extends TimerClass {
 
     private JPanel time;
-    private boolean flag = true;
     private boolean autoReset = true;
-    private static JFrame composer;
-    static JTextPane console = new JTextPane();
-    private static JLabel labelTimeDuration;
+    private JFrame composer;
+    public static JTextPane console = new JTextPane();
+    public static JLabel labelTimeDuration;
+
+    public JLabel labelSec;
+    public JComboBox<String> eyeOption;
+
     /**
      * Launch the application.
      */
@@ -57,6 +60,7 @@ public class ServerGUI extends TimerClass {
      */
     public ServerGUI() {
         initialize();
+        composer.setVisible(true);
     }
 
     /**
@@ -155,7 +159,7 @@ public class ServerGUI extends TimerClass {
         labelEye.setBounds(38, 233, 62, 26);
         composer.getContentPane().add(labelEye);
 
-        JComboBox<String> eyeOption = new JComboBox<String>();
+        eyeOption = new JComboBox<String>();
         eyeOption.setFont(TextConstants.PLAIN);
         eyeOption.setBackground(ColorConstants.WHITE);
         eyeOption.setToolTipText("");
