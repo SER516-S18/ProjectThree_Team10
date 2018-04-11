@@ -52,9 +52,9 @@ public class FacialPanel extends JPanel{
 	 * constructor to display an initial face
 	 */
 	public FacialPanel() {
-		Eye eye = new Eye(false, false, true, true, false);
-		LowerFace lowerFace = new LowerFace(1.0, 0.0, 0.0, 0.5, 0.5);
-		UpperFace upperFace = new UpperFace(0.0, 1.0);
+		Eye eye = new Eye(false, false, false, false, false);
+		LowerFace lowerFace = new LowerFace(0.0, 0.0, 0.0, 0.0, 0.0);
+		UpperFace upperFace = new UpperFace(0.0, 0.0);
 		PerformanceMet performanceMet = new PerformanceMet(1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
 		double time = 1.0;
 		param = new Parameters(eye, lowerFace, upperFace, performanceMet, time);
