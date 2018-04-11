@@ -1,5 +1,10 @@
 package client.model;
 
+/**
+ * @author Group10
+ * @version 1.0
+ * Parameters class 
+ */
 public class Parameters {
     private Eye eye;
     private LowerFace lowerFace;
@@ -7,8 +12,19 @@ public class Parameters {
     private PerformanceMet performance;
     private double time;
 
+    /**
+     * Constructor for Parameters class
+     */
     public Parameters() { }
 
+    /**
+     * Constructor for Parameters class
+     * @param eye
+     * @param lowerFace
+     * @param upperFace
+     * @param performance
+     * @param time
+     */
     public Parameters(Eye eye, LowerFace lowerFace, UpperFace upperFace, PerformanceMet performance, double time) {
         this.eye = eye;
         this.lowerFace = lowerFace;
