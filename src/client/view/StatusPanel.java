@@ -17,8 +17,8 @@ public class StatusPanel extends JPanel{
 	JLabel timeLabel;
 	
 	/**
-     * Constructor for StatusPanel class
-     */
+          * Constructor for StatusPanel class
+          */
 	public StatusPanel(){
             setLayout(new FlowLayout());
             setBackground(Color.WHITE); 
@@ -33,9 +33,9 @@ public class StatusPanel extends JPanel{
 	}
 	
 	/**
-     * Method to set the color of Light Label
-	 * @param input
-     */
+          * Method to set the color of Light Label
+	  * @param input
+          */
 	public void statusLight(int input) {
 	    light.setOpaque(true);
 	    if(input==0) {
@@ -53,9 +53,9 @@ public class StatusPanel extends JPanel{
 	}
 	
 	/**
-     * Method to set the content of Status Label
-	 * @param input
-     */
+          * Method to set the content of Status Label
+	  * @param input
+          */
 	public void statusInfo(int input) {
         if(input==0) {
         	status.setText("Status: DISCONNECTED");
@@ -69,18 +69,18 @@ public class StatusPanel extends JPanel{
 	}
 	
 	/**
-     * Method to set the information of Time Label
-	 * @param time
-     */
+          * Method to set the information of Time Label
+	  * @param time
+          */
 	public void timeInfo(double time) {
 		timeLabel.setText("Time: "+ time);
 	}
 	
 	
 	/**
-     * Method to update the Light Label, Status Label, and Time Label
-	 * @param status, time
-     */
+          * Method to update the Light Label, Status Label, and Time Label
+  	  * @param status, time
+          */
 	public void setStatus(int status, double time) {
 		statusLight(status);
 		statusInfo(status);
