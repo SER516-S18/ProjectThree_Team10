@@ -26,7 +26,7 @@ public class LineChartPanel extends JPanel{
 	
     /**
       * Constructor to build the LineChart panel
-	  * @param chartTitle
+      * @param chartTitle
       */
 	public LineChartPanel(String chartTitle) {
 		chart = ChartFactory.createLineChart(
@@ -47,7 +47,7 @@ public class LineChartPanel extends JPanel{
 	
     /**
       * paintComponent override method
-	  * @param g
+      * @param g
       */
 	@Override
 	public void paintComponent(Graphics g) {
@@ -56,7 +56,7 @@ public class LineChartPanel extends JPanel{
 	}
 	/**
       * addData method
-	  * @param value
+      * @param value
       * @param labelLegend
       * @param labelX
       */

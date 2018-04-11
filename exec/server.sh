@@ -1,0 +1,1 @@
+java -cp executable.jar server.controller.ServerWindowController
