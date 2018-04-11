@@ -95,10 +95,6 @@ public class FacialPanel extends JPanel{
 	
 	public void drawEye(Graphics g, Eye eye) {
 		if(eye.getBlink() == true){
-			drawCurvedLine(g2, LEFT_EYE_POSX-EYE_WIDTH, EYE_POSY, LEFT_EYE_POSX, EYE_POSY+EYE_HEIGHT, LEFT_EYE_POSX+EYE_WIDTH, EYE_POSY);
-			drawCurvedLine(g2, RIGHT_EYE_POSX-EYE_WIDTH, EYE_POSY, RIGHT_EYE_POSX, EYE_POSY+EYE_HEIGHT, RIGHT_EYE_POSX+EYE_WIDTH, EYE_POSY);
-		}
-		else {
 			if(eye.getWinkLeft() == true){
 				drawCircle(g, LEFT_EYE_POSX-EYE_WIDTH, EYE_POSY-EYE_HEIGHT, 2*EYE_WIDTH, 2*EYE_HEIGHT);			
 			} else {
@@ -110,6 +106,14 @@ public class FacialPanel extends JPanel{
 			} else {
 				drawCurvedLine(g2, RIGHT_EYE_POSX-EYE_WIDTH, EYE_POSY, RIGHT_EYE_POSX, EYE_POSY+EYE_HEIGHT, RIGHT_EYE_POSX+EYE_WIDTH, EYE_POSY);
 			}
+			if (!eye.getWinkLeft()&&!eye.getWinkRight()) {
+				drawCurvedLine(g2, LEFT_EYE_POSX-EYE_WIDTH, EYE_POSY, LEFT_EYE_POSX, EYE_POSY+EYE_HEIGHT, LEFT_EYE_POSX+EYE_WIDTH, EYE_POSY);
+				drawCurvedLine(g2, RIGHT_EYE_POSX-EYE_WIDTH, EYE_POSY, RIGHT_EYE_POSX, EYE_POSY+EYE_HEIGHT, RIGHT_EYE_POSX+EYE_WIDTH, EYE_POSY);
+			}
+		}
+		else {
+			drawCircle(g, LEFT_EYE_POSX-EYE_WIDTH, EYE_POSY-EYE_HEIGHT, 2*EYE_WIDTH, 2*EYE_HEIGHT);			
+			drawCircle(g, RIGHT_EYE_POSX-EYE_WIDTH, EYE_POSY-EYE_HEIGHT, 2*EYE_WIDTH, 2*EYE_HEIGHT);
 		}
 	}
 	
@@ -164,7 +168,7 @@ public class FacialPanel extends JPanel{
 		
 		drawCurvedLine(g2, MOUTH_POSX-MOUTH_WIDTH, MOUTH_POSY+smirk, MOUTH_POSX, MOUTH_POSY+bias,MOUTH_POSX+MOUTH_WIDTH, MOUTH_POSY-smirk);
 		if (lowerFace.getLaugh()>MINDOUBLE) {
-			drawCurvedLine(g2, MOUTH_POSX-MOUTH_WIDTH, MOUTH_POSY+smirk, MOUTH_POSX, MOUTH_POSY+2*bias,MOUTH_POSX+MOUTH_WIDTH, MOUTH_POSY-smirk);
+			drawCurvedLine(g2, MOUTH_POSX-MOUTH_WIDTH, MOUTH_POSY+smirk, MOUTH_POSX, 1+MOUTH_POSY+2*bias,MOUTH_POSX+MOUTH_WIDTH, MOUTH_POSY-smirk);
 		}
 	}
 	
