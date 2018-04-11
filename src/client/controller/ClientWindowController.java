@@ -50,6 +50,9 @@ public class ClientWindowController {
 	 * @param time
 	 */
 	public void setStatus(int status, double time) {
+		if (status==0) {
+			clientSocket = null;
+		}
 		view.setStatus(status, time);
 	}
 	

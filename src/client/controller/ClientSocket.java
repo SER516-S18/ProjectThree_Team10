@@ -85,6 +85,9 @@ public class ClientSocket extends Thread{
     @OnClose
     public void onClose() {
         logger.info("WebSocket closed");
+        ctrl.setStatus(0, 0.0);
+    	MessageBox msgBox = new MessageBox();
+    	msgBox.windowPop("Connection closed");
     }
 
     /**
@@ -94,7 +97,9 @@ public class ClientSocket extends Thread{
      */
     @OnError
     public void onError(Session session, Throwable t) {
-    	System.out.println("Error!");
+    	ctrl.setStatus(0, 0.0);
+    	MessageBox msgBox = new MessageBox();
+    	msgBox.windowPop("Connection error");
         t.printStackTrace();
     }
 
@@ -112,6 +117,7 @@ public class ClientSocket extends Thread{
             ctrl.container.connectToServer(this, new URI(uri));
             latch.await();
         } catch (DeploymentException | URISyntaxException | InterruptedException | IOException e) {
+        	ctrl.setStatus(0, 0.0);
             throw new RuntimeException(e);
         }
     }
