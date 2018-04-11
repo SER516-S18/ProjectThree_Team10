@@ -25,6 +25,7 @@ public class ServerWindowController {
         }
 
         server = new Server("localhost", port, "/ws", null, ServerSocket.class);
+        isStart = false;
     }
 
     /**
