@@ -462,7 +462,7 @@ public class ServerGUI extends TimerClass {
                 eye.setWinkRight(activateEye.isSelected());
                 break;
             case "look left":
-                eye.setWinkLeft(activateEye.isSelected());
+                eye.setLookLeft(activateEye.isSelected());
                 break;
             case "look right":
                 eye.setLookRight(activateEye.isSelected());
