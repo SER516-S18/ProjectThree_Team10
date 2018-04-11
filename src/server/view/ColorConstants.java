@@ -1,7 +1,6 @@
 package server.view;
 import java.awt.Color;
 /**
- * This class is ServerTrigger Class
  *
  * @SER516  Project Three
  * @author  Group 10  #118 - #131
