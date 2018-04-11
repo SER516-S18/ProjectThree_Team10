@@ -1,5 +1,10 @@
 package client.model;
 
+/**
+ * @author Group10
+ * @version 1.0
+ * PerformanceMet class 
+ */
 public class PerformanceMet {
     private double interest;
     private double engagement;
@@ -8,6 +13,15 @@ public class PerformanceMet {
     private double excitement;
     private double focus;
 
+    /**
+     * Constructor for PerformanceMet class
+     * @param interest
+     * @param engagement
+     * @param stress
+     * @param relaxation
+     * @param excitement
+     * @param focus
+     */
     public PerformanceMet(double interest, double engagement, double stress,
                             double relaxation, double excitement, double focus) {
         this.interest = interest;
