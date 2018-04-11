@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import client.controller.ClientWindowController;
 import client.model.Parameters;
@@ -140,13 +141,17 @@ public class ClientWindowView extends JFrame {
 	}
 	
 	public ClientWindowView() {
-		setTitle("Lab3 Team 10 Control Panel");
-		setSize(800, 600);
-		setLocationByPlatform(true);
-		setLayout(new BorderLayout());
-		initMenu();
-		initTabs();
-		setVisible(true);
+		SwingUtilities.invokeLater(new Runnable() {
+		    public void run() {
+		    	setTitle("Lab3 Team 10 Control Panel");
+				setSize(800, 600);
+				setLocationByPlatform(true);
+				setLayout(new BorderLayout());
+				initMenu();
+				initTabs();
+				setVisible(true);
+		    }
+		});
 	}
 	
 	public void bindController(ClientWindowController controller) {

@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -26,6 +28,9 @@ public class LineChartPanel extends JPanel{
 				PlotOrientation.VERTICAL,
 		        true,true,false);
 		chart.setBackgroundPaint(Color.white);
+		CategoryPlot plot = (CategoryPlot)chart.getPlot();
+		NumberAxis range = (NumberAxis) plot.getRangeAxis();
+        range.setRange(0.0, 1.0);
 		chartPanel = new ChartPanel(chart);
 		setLayout(new BorderLayout(1, 1));
 		this.add(chartPanel);
@@ -39,5 +44,6 @@ public class LineChartPanel extends JPanel{
 	
 	public void addData(double value, String labelLegend, String labelX) {
 		data.addValue(value, labelLegend, labelX);
+		//this.repaint();
 	}
 }

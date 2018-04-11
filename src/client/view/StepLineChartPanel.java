@@ -59,16 +59,16 @@ public class StepLineChartPanel extends JPanel{
         plot.setRangeGridlinesVisible(true);
         plot.setRangeGridlinePaint(Color.white);
 		plot.setBackgroundPaint(Color.lightGray);
+		
+		NumberAxis range = (NumberAxis) plot.getRangeAxis();
+        range.setRange(0.0, 1.0);
+		
 		chart = new JFreeChart(chartTitle,
 				plot
 				);
         chart.setBackgroundPaint(Color.white);
 		chartPanel = new ChartPanel(chart);
 
-		//XYPlot plot = chart.getXYPlot();
-		//plot.setDomainCrosshairVisible(true);
-		//plot.getRenderer().setSeriesStroke(0, new BasicStroke(2.0f));
-        //plot.getRenderer().setSeriesStroke(1, new BasicStroke(2.0f));
 		setLayout(new BorderLayout(1, 1));
 		this.add(chartPanel);
 	}
@@ -82,10 +82,10 @@ public class StepLineChartPanel extends JPanel{
 	public void addData(boolean value, double time) {
 		if (value) {
 			//ydata.add(time, 1.0f);
-			dataset.addValue(1, Double.toString(time),"time");
+			dataset.addValue(1, "time", Double.toString(time));
 		} else {
 			//ydata.add(time, 0.0f);
-			dataset.addValue(0, Double.toString(time),"time");
+			dataset.addValue(0, "time", Double.toString(time));
 		}
 	}
 }

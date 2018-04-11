@@ -11,6 +11,7 @@ import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.entity.LegendItemEntity;
 import org.jfree.chart.plot.CategoryPlot;
@@ -37,9 +38,15 @@ public class PerformancePanel extends JPanel{
 				null,
 				data,
 				PlotOrientation.VERTICAL,
-		        true,true,false);
+		        true,false,false);
+		CategoryPlot plot = (CategoryPlot)chart.getPlot();
+		
+		NumberAxis range = (NumberAxis) plot.getRangeAxis();
+        range.setRange(0.0, 1.0);
+		
 		chartPanel = new ChartPanel(chart);
 		setLayout(new BorderLayout(1, 1));
+		
 		this.add(chartPanel);
 		chartPanel.addChartMouseListener(new ChartMouseListener() {
 
