@@ -6,11 +6,14 @@ import javax.swing.text.html.HTMLDocument;
 import server.view.ServerGUI;
 
 /**
- * @SER516 ProjecThree_Team10
- * @author Hari Siddarth V Kesavan
+ * This class is ServerTrigger Class
+ *
+ * @SER516  Project Three
+ * @author  Group 10  #118 - #131
  * @version 1.0
- * To print messages and errors on log in server GUI
-*/
+ * @since   04/03/2018
+ * To Print and display messages in console
+ */
 
 @SuppressWarnings("serial")
 public class ServerConsole extends JTextPane{
