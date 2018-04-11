@@ -8,13 +8,8 @@ import server.model.LowerFace;
 import server.model.PerformanceMet;
 import server.model.UpperFace;
 import server.service.TimerClass;
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
+
+import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -22,10 +17,6 @@ import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import javax.swing.JTextPane;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 import javax.websocket.EncodeException;
 
 /**
@@ -57,6 +48,7 @@ public class ServerGUI extends TimerClass {
     private JSpinner lowerFaceValue;
     private JComboBox<String> performanceOption;
     private JSpinner performanceValue;
+    private int port;
 
     /**
      * Init ServerGUI
@@ -87,7 +79,6 @@ public class ServerGUI extends TimerClass {
         labelTimeInterval.setBackground(ColorConstants.GRAY);
         labelTimeInterval.setHorizontalAlignment(SwingConstants.CENTER);
         labelTimeInterval.setFont(TextConstants.PLAIN);
-        labelTimeInterval.setBounds(300, 32, 113, 28);
         labelTimeInterval.setOpaque(true);
         composer.getContentPane().add(labelTimeInterval);
 
@@ -102,6 +93,20 @@ public class ServerGUI extends TimerClass {
         start.setFont(TextConstants.PLAIN);
         start.setBounds(425, 73, 97, 25);
         composer.getContentPane().add(start);
+
+        JLabel port = new JLabel("Port: ");
+        port.setForeground(ColorConstants.WHITE);
+        port.setFont(TextConstants.PLAIN);
+        port.setBackground(SystemColor.activeCaption);
+        composer.getContentPane().add(port);
+
+        JTextField portInput =new JTextField(6);
+        composer.getContentPane().add(portInput);
+
+        JButton changePort = new JButton("Change");
+        changePort.setFont(TextConstants.PLAIN);
+        changePort.setBounds(425, 73, 97, 25);
+        composer.getContentPane().add(changePort);
 
         JLabel labelTime = new JLabel("Time:");
         labelTime.setForeground(ColorConstants.WHITE);
@@ -256,6 +261,7 @@ public class ServerGUI extends TimerClass {
 
         composer.getContentPane().add(indicatorPanel);
 
+
         listen.addActionListener(new ActionListener() {
             /**
              * start or stop listening
@@ -316,6 +322,9 @@ public class ServerGUI extends TimerClass {
                 lowerFaceValue.setBounds((int)(composer.getWidth()*0.7), (int)(composer.getHeight()*0.52), (int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.04));
                 labelPerformance.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.6), (int)(composer.getWidth()*0.24), (int)(composer.getHeight()*0.04));
                 performanceOption.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.64), (int)(composer.getWidth()*0.22), (int)(composer.getHeight()*0.04));
+                port.setBounds((int)(composer.getWidth()*0.47), (int)(composer.getHeight()*0.15), (int)(composer.getWidth()*0.18), (int)(composer.getHeight()*0.04));
+                portInput.setBounds((int)(composer.getWidth()*0.60), (int)(composer.getHeight()*0.15), (int)(composer.getWidth()*0.12), (int)(composer.getHeight()*0.04));
+                changePort.setBounds((int)(composer.getWidth()*0.77), (int)(composer.getHeight()*0.15), (int)(composer.getWidth()*0.16), (int)(composer.getHeight()*0.04));
                 performanceValue.setBounds((int)(composer.getWidth()*0.33), (int)(composer.getHeight()*0.64), (int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.04));
                 borderPanel3.setBounds((int)(composer.getWidth()*0.01), (int)(composer.getHeight()*0.7), (int)(composer.getWidth()*0.95), (int)(composer.getHeight()*0.22));
                 clearLog.setBounds((int)(composer.getWidth()*0.7), (int)(composer.getHeight()*0.84), (int)(composer.getWidth()*0.19), (int)(composer.getHeight()*0.05));
@@ -386,7 +395,7 @@ public class ServerGUI extends TimerClass {
                                Thread.sleep((long) (interval * 1000));
                                ServerSocket.sendMessage(param);
                            } catch (InterruptedException | IOException | EncodeException e1) {
-                               e1.printStackTrace();
+                               ServerConsole.setErrorMessage(e1.getMessage());
                            }
 
                            if (autoResetEye.isSelected()) {
@@ -412,10 +421,14 @@ public class ServerGUI extends TimerClass {
        });
 
     }
+    /**
+     * Encapsulate data on the client side in an object.
+=======
 
     /**
      * Collect data from components
      * @return
+>>>>>>> 4a4595dd3a5d2f3ae648fd1cda1feeb0f85ed881
      */
     public Parameters gatherData() {
         Eye eye = new Eye();
