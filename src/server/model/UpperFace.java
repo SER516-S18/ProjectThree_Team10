@@ -1,4 +1,13 @@
 package server.model;
+/**
+ * This class is ServerTrigger Class
+ *
+ * @SER516  Project Three
+ * @author  Group 10  #118 - #131
+ * @version 1.0
+ * @since   04/03/2018
+ * Model class for upperface 
+ */
 
 public class UpperFace {
     private double raiseBrow;
