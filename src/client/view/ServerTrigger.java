@@ -18,7 +18,7 @@ public class ServerTrigger {
     public ServerTrigger(ClientWindowController ctrl){
         Runtime runtime = Runtime.getRuntime();
         try {
-            Process server = runtime.exec("java -jar lib/server.jar");
+            Process server = runtime.exec("java -cp executable.jar server.controller.ServerWindowController");
         }catch (Exception e){
             e.printStackTrace();
         }
