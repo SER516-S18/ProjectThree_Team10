@@ -78,9 +78,9 @@ public class StatusPanel extends JPanel{
 	
 	
 	/**
-          * Method to update the Light Label, Status Label, and Time Label
+      * Method to update the Light Label, Status Label, and Time Label
   	  * @param status, time
-          */
+      */
 	public void setStatus(int status, double time) {
 		statusLight(status);
 		statusInfo(status);
