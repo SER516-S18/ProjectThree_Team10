@@ -39,5 +39,6 @@ public class LineChartPanel extends JPanel{
 	
 	public void addData(double value, String labelLegend, String labelX) {
 		data.addValue(value, labelLegend, labelX);
+		//this.repaint();
 	}
 }

@@ -82,7 +82,7 @@ public class PerformancePanel extends JPanel{
 	//Override the paintComponent function to redraw the chart panel
 	@Override
 	public void paintComponent(Graphics g) {
-		chartPanel.repaint();
+		//chartPanel.repaint();
 		super.paintComponent(g);
 	}
 	
