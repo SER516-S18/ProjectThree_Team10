@@ -51,7 +51,7 @@ public class ServerGUI extends TimerClass {
     private int port;
 
     /**
-     * Create the application.
+     * Init ServerGUI
      */
     public ServerGUI() {
         initialize();
@@ -151,11 +151,7 @@ public class ServerGUI extends TimerClass {
         composer.getContentPane().add(labelEmostate);
 
         JButton listen = new JButton("Listen");
-        listen.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                ServerWindowController.changeStatus();
-            }
-        });
+
 
         listen.setFont(TextConstants.PLAIN);
         composer.getContentPane().add(listen);
@@ -260,19 +256,26 @@ public class ServerGUI extends TimerClass {
         borderPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         composer.getContentPane().add(borderPanel);
 
-        Indicator indicatorPanel = new Indicator(0);
+        Indicator indicatorPanel = new Indicator(1);
         indicatorPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
         composer.getContentPane().add(indicatorPanel);
-        indicatorPanel.update(1);
 
-        System.out.println();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            ServerConsole.setErrorMessage(e.getMessage());
-        }
-        indicatorPanel.update(0);
+
+        listen.addActionListener(new ActionListener() {
+            /**
+             * start or stop listening
+             * @param arg0
+             */
+            public void actionPerformed(ActionEvent arg0) {
+                ServerWindowController.changeStatus();
+                if (ServerWindowController.isStart) {
+                    indicatorPanel.update(0);
+                } else {
+                    indicatorPanel.update(1);
+                }
+            }
+        });
 
         JPanel borderPanel1 = new JPanel();
         borderPanel1.setBackground(Color.GRAY);
@@ -289,6 +292,10 @@ public class ServerGUI extends TimerClass {
         composer.getContentPane().add(borderPanel3);
 
         composer.addComponentListener(new ComponentAdapter(){
+            /**
+             * Set flexible bounds
+             * @param e
+             */
             public void componentResized(ComponentEvent e){
                 borderPanel1.setBounds((int)(composer.getWidth()*0.01), (int)(composer.getHeight()*0.01), (int)(composer.getWidth()*0.95), (int)(composer.getHeight()*0.19));
                 indicatorPanel.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.05), (int)(composer.getWidth()*0.12), (int)(composer.getHeight()*0.09));
@@ -297,7 +304,6 @@ public class ServerGUI extends TimerClass {
                 start.setBounds((int)(composer.getWidth()*0.68), (int)(composer.getHeight()*0.1), (int)(composer.getWidth()*0.15), (int)(composer.getHeight()*0.04));
                 labelSec.setBounds((int)(composer.getWidth()*0.8), (int)(composer.getHeight()*0.06), (int)(composer.getWidth()*0.08), (int)(composer.getHeight()*0.02));
                 timeInterval.setBounds((int)(composer.getWidth()*0.67), (int)(composer.getHeight()*0.05), (int)(composer.getWidth()*0.11), (int)(composer.getHeight()*0.03));
-
                 borderPanel.setBounds((int)(composer.getWidth()*0.01), (int)(composer.getHeight()*0.21), (int)(composer.getWidth()*0.95), (int)(composer.getHeight()*0.48));
                 listen.setBounds((int)(composer.getWidth()*0.68), (int)(composer.getHeight()*0.28), (int)(composer.getWidth()*0.15), (int)(composer.getHeight()*0.04));
                 labelEmostate.setBounds((int)(composer.getWidth()*0.02), (int)(composer.getHeight()*0.22), (int)(composer.getWidth()*0.26), (int)(composer.getHeight()*0.03));
@@ -353,6 +359,10 @@ public class ServerGUI extends TimerClass {
         performanceOption.addItem("Focus");
 
         clearLog.addActionListener( new ActionListener() {
+            /**
+             * Clean log
+             * @param e
+             */
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -363,6 +373,10 @@ public class ServerGUI extends TimerClass {
         });
 
        start.addActionListener(new ActionListener() {
+           /**
+            * Send message listener
+            * @param e
+            */
      	   public void actionPerformed(ActionEvent e) {
      	       if (!isSending) {
      	           if (autoResetServer.isSelected()) {
@@ -370,7 +384,6 @@ public class ServerGUI extends TimerClass {
                        isSending = true;
                    }
 
-                   indicatorPanel.update(0);
                    ServerConsole.setMessage("Server Running");
                    Runnable r = () -> {
                        do {
@@ -398,7 +411,6 @@ public class ServerGUI extends TimerClass {
                    timeRec = 0.0;
                    isSending = false;
                    start.setText("Start");
-                   indicatorPanel.update(1);
                    ServerConsole.setMessage("Server Stopped");
                }
 
@@ -411,6 +423,12 @@ public class ServerGUI extends TimerClass {
     }
     /**
      * Encapsulate data on the client side in an object.
+=======
+
+    /**
+     * Collect data from components
+     * @return
+>>>>>>> 4a4595dd3a5d2f3ae648fd1cda1feeb0f85ed881
      */
     public Parameters gatherData() {
         Eye eye = new Eye();
@@ -496,13 +514,13 @@ public class ServerGUI extends TimerClass {
         return new Parameters(eye, lf, uf, pm, timeRec);
     }
 
-
+    /**
+     * get console log
+     * @return
+     */
     public static JTextPane getConsole(){
         return console;
     }
 
-    public static JLabel getTime() {
-        return labelTimeDuration;
-    }
 }
 

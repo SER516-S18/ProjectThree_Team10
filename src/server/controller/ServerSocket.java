@@ -19,6 +19,10 @@ public class ServerSocket {
     private Logger logger = Logger.getLogger(ServerSocket.class.getSimpleName());
     public static Set<Session> sessions = Collections.synchronizedSet(new HashSet<Session>());
 
+    /**
+     * Call when session opens
+     * @param session
+     */
     @OnOpen
     public void open(Session session) {
         System.out.println("server open");
@@ -26,12 +30,21 @@ public class ServerSocket {
         sessions.add(session);
     }
 
+    /**
+     * Call when receive msg
+     * @param message
+     * @param session
+     */
     @OnMessage
     public void onMessage(String message, Session session) {
         System.out.println("Receive message:");
         System.out.println(message);
     }
 
+    /**
+     * Call when session close
+     * @param session
+     */
     @OnClose
     public void onClose(Session session) {
         System.out.println("Server close");
@@ -39,12 +52,23 @@ public class ServerSocket {
         sessions.remove(session);
     }
 
+    /**
+     * Call when meet msg
+     * @param t
+     */
     @OnError
     public void onError(Throwable t) {
         System.out.println(t.getMessage());
         logger.info(t.getMessage());
     }
 
+    /**
+     * Send Message to client
+     * @param param
+     * @return
+     * @throws IOException
+     * @throws EncodeException
+     */
     public static boolean sendMessage(Parameters param) throws IOException, EncodeException {
         if (sessions.isEmpty()) {
             return false;

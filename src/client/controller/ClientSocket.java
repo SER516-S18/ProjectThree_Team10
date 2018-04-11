@@ -50,6 +50,7 @@ public class ClientSocket extends Thread{
     public void open(Session session) {
         logger.info("Client webSocket is opening ...");
         this.session = session;
+        this.ctrl.setStatus(2, 0.0);
     }
 
     @OnMessage

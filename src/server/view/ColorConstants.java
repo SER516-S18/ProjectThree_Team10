@@ -1,6 +1,9 @@
 package server.view;
 import java.awt.Color;
 
+/**
+ * Color options
+ */
 public class ColorConstants {
 	
 	public static final Color WHITE = Color.WHITE;

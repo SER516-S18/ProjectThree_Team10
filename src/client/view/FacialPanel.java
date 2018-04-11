@@ -1,14 +1,10 @@
 package client.view;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.QuadCurve2D;
-import java.util.Random;
 
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 
 import client.model.Eye;
 import client.model.LowerFace;
@@ -16,12 +12,20 @@ import client.model.Parameters;
 import client.model.PerformanceMet;
 import client.model.UpperFace;
 
+/**
+ * @author Group10
+ * @version 1.0
+ * This is the panel to display the facial expression
+ */
 public class FacialPanel extends JPanel{
+	//x_factor, y_factor is the scale of the real time size/default size
 	private double x_factor, y_factor;
+	//x_origin and y_origin are the default of xy coordinate
 	private int x_origin, y_origin;
 	private Parameters param;
 	private Graphics2D g2;
 	
+	// default position on a 100*100 graph
 	private static final double DEFAULT_SCALE = 100.0;
 	private static final int DEFAULT_FACE_COORD = 20;
 	private static final int DEFAULT_FACE_SIZE = 60;
@@ -43,6 +47,7 @@ public class FacialPanel extends JPanel{
 	
 	private static final double MINDOUBLE = 0.000000001;
 
+	//constructor to display an initial face
 	public FacialPanel() {
 		Eye eye = new Eye(false, true, true, false, true);
 		LowerFace lowerFace = new LowerFace(1.0, 0.0, 0.0, 0.5, 0.5);
@@ -52,11 +57,13 @@ public class FacialPanel extends JPanel{
 		param = new Parameters(eye, lowerFace, upperFace, performanceMet, time);
 	}
 	
+	//update the parameter of the current face
 	public void setData(Parameters param) {
 		this.param = param;
 		this.repaint();
 	}
 	
+	//use real time size / default size to calculate the scale
 	public void calc_scaleFactors(int x, int y, int height, int width){
 		x_factor = width / DEFAULT_SCALE;
 		y_factor = height / DEFAULT_SCALE;
@@ -64,14 +71,20 @@ public class FacialPanel extends JPanel{
 		y_origin = y;
 	}
 	
+	//use x in default * xscale to calculate real time x
 	public int scale_x(int x) {
 		return (int)(x * x_factor);
 	}
 	
+	//use y in default * yscale to calculate real time y
 	public int scale_y(int y) {
 		return (int)(y * y_factor);
 	}
 	
+	/**
+	 * Inherited function to paint the graph
+	 * @param graph
+	 */
 	@Override
 	protected void paintComponent(Graphics graph) {
 		super.paintComponent(graph);
@@ -84,15 +97,23 @@ public class FacialPanel extends JPanel{
 			drawPupil(graph, param.getEye());
 			drawEyebrow(graph, param.getUpperFace());
 			drawMouth(graph, param.getLowerFace());
-			//TODO: draw other components for logic test
 		}
 	}
 	
+	/**
+	 * Draw the figure of a face
+	 * @param g Graphics
+	 */
 	public void drawFace(Graphics g) {
 		drawCircle(g, DEFAULT_FACE_COORD, DEFAULT_FACE_COORD,
 				DEFAULT_FACE_SIZE, DEFAULT_FACE_SIZE);
 	}
 	
+	/**
+	 * Function to calculate and draw the eye
+	 * @param g Graphics
+	 * @param eye Eye
+	 */
 	public void drawEye(Graphics g, Eye eye) {
 		if(eye.getBlink() == true){
 			if(eye.getWinkLeft() == true){
@@ -117,6 +138,11 @@ public class FacialPanel extends JPanel{
 		}
 	}
 	
+	/**
+	 * Function to calculate and draw the pupil of the face
+	 * @param g Graphics
+	 * @param eye Eye
+	 */
 	public void drawPupil(Graphics g, Eye eye) {
 		if(eye.getBlink() != true){
 			if(eye.getWinkLeft() == true){
@@ -140,6 +166,11 @@ public class FacialPanel extends JPanel{
 		}
 	}
 	
+	/**
+	 * Function to calculate and draw eyebrow
+	 * @param g Graphics
+	 * @param upperFace UpperFace
+	 */
 	public void drawEyebrow(Graphics g, UpperFace upperFace) {
 		if (upperFace.getFurrowBrow() > upperFace.getRaiseBrow()) {
 			int bias = Math.min(EYEBROW_HEIGHT, (int)(1+EYEBROW_HEIGHT*upperFace.getFurrowBrow()));
@@ -152,6 +183,11 @@ public class FacialPanel extends JPanel{
 		}
 	}
 	
+	/**
+	 * Function to calculate and draw mouth
+	 * @param g Graphics
+	 * @param lowerFace LowerFace
+	 */
 	public void drawMouth(Graphics g, LowerFace lowerFace) {
 		int bias = 0, smirk = 0;
 		if (lowerFace.getSmile()>MINDOUBLE) {
@@ -172,18 +208,43 @@ public class FacialPanel extends JPanel{
 		}
 	}
 	
+	/**
+	 * Function to draw a sphere or circle
+	 * @param g Graphics
+	 * @param x 
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	public void drawCircle(Graphics g, int x, int y, int width, int height) {
 		g.drawOval(scale_x(x) + x_origin, scale_y(y) + y_origin,
 		           scale_x(width), scale_y(height));
 	}
-
+	
+	/**
+	 * Function to draw a line
+	 * @param g Graphics
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 */
 	public void drawLine(Graphics g, int x1, int y1, int x2, int y2) {
 		g.drawLine(scale_x(x1) + x_origin, scale_y(y1) + x_origin,
 				scale_x(x2) + x_origin, scale_y(y2) + x_origin);
 	}
 	
+	/**
+	 * Function to draw a curved line
+	 * @param g2 Graphics2D
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @param x3
+	 * @param y3
+	 */
 	public void drawCurvedLine(Graphics2D g2, int x1, int y1, int x2, int y2, int x3, int y3) {
-		
 		QuadCurve2D q = new QuadCurve2D.Float();
 		q.setCurve(scale_x(x1), scale_y(y1), scale_x(x2), scale_y(y2), scale_x(x3), scale_y(y3));
 		g2.draw(q);

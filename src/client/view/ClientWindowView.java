@@ -77,7 +77,6 @@ public class ClientWindowView extends JFrame {
 		});
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(
 				KeyEvent.VK_S, ActionEvent.ALT_MASK));
-		// TODO: Add hot key listener
 		menuItem.getAccessibleContext().setAccessibleDescription(
 				"Open dialog of connection settins");
 		menu.add(menuItem);
@@ -163,5 +162,9 @@ public class ClientWindowView extends JFrame {
 		plotPanel.add(param);
 		performPanel.add(param);
 		statusPanel.setStatus(2, param.getTime());
+	}
+	
+	public void setStatus(int status, double time) {
+		statusPanel.setStatus(status, time);
 	}
 }

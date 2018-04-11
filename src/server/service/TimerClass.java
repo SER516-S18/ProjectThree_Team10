@@ -60,6 +60,10 @@ public class TimerClass{
 		this.isAutoReset = autoRepeated;
 	}
 
+	/**
+	 * Update local timer
+	 * @param delay
+	 */
 	void updateTimer(double delay) {
 		timeCounter += delay;
 	}
