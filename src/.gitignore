@@ -23,10 +23,8 @@ hs_err_pid*
 
 # IDE configuration files
 .classpath
-*.iml
 .project
 .settings
 .vscode
 .idea
 target
-
