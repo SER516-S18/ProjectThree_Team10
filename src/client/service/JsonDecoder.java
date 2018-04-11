@@ -26,7 +26,6 @@ public class JsonDecoder implements Decoder.Text<Parameters> {
             JSONObject jo = new JSONObject(jsonString);
             JSONObject jEye = jo.getJSONObject("eye");
             JSONObject jLowerFace = jo.getJSONObject("lower_face");
-            JSONObject jMentalCmd = jo.getJSONObject("mental_cmd");
             JSONObject jPerformanceMet = jo.getJSONObject("performance_met");
             JSONObject jUpperFace = jo.getJSONObject("upper_face");
 

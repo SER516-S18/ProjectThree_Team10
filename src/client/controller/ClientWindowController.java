@@ -1,26 +1,13 @@
 package client.controller;
 
 import java.io.IOException;
-import java.util.Scanner;
-import java.util.concurrent.CountDownLatch;
 
-import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
-import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
-import org.glassfish.tyrus.client.ClientManager;
-
-import java.net.URI;
 import java.net.URISyntaxException;
 
-
-import client.model.Eye;
-import client.model.LowerFace;
-
 import client.model.Parameters;
-import client.model.PerformanceMet;
-import client.model.UpperFace;
 import client.view.ClientWindowView;
 
 public class ClientWindowController {
