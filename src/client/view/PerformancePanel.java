@@ -43,8 +43,10 @@ public class PerformancePanel extends JPanel{
 		
 		NumberAxis range = (NumberAxis) plot.getRangeAxis();
         range.setRange(0.0, 1.0);
-		
+        
 		chartPanel = new ChartPanel(chart);
+		chartPanel.setRangeZoomable(false);
+		chartPanel.setDomainZoomable(true);
 		setLayout(new BorderLayout(1, 1));
 		
 		this.add(chartPanel);
@@ -52,10 +54,8 @@ public class PerformancePanel extends JPanel{
 
 			@Override
 			public void chartMouseClicked(ChartMouseEvent event) {
-				System.out.println("wtf");
 				final ChartEntity e = event.getEntity();
 		        if (e != null) {
-		        	System.out.println("fuck");
 		            if (e instanceof LegendItemEntity) {
 		            	
 		                final LegendItemEntity entity = (LegendItemEntity) e;

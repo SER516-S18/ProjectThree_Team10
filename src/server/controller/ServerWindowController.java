@@ -22,16 +22,23 @@ public class ServerWindowController  {
         } catch (DeploymentException e) {
             e.printStackTrace();
         }
+        double test = 0.0;
+        double smile = 1.0;
+        LowerFace lf = new LowerFace(smile, 0.0, 0.0, 0.0, 0.0);
         Parameters p = new Parameters();
         p.setEye(new Eye(false, true, false, false, false));
-        p.setLowerFace(new LowerFace(0.8, 0.0, 0.0, 0.0, 0.0));
+        p.setLowerFace(lf);
         p.setPerformance(new PerformanceMet(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
-        p.setTime(0.0);
+        p.setTime(test);
         p.setUpperFace(new UpperFace(0.0, 0.0));
         String ss;
         do {
             ss = new Scanner(System.in).nextLine();
             ServerSocket.sendMessage(p);
+            test+=0.25;
+            smile-=0.1;
+            p.setTime(test);
+            lf.setSmile(smile);
         } while(!ss.equals("q"));
 
         server.stop();
