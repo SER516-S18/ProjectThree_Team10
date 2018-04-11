@@ -24,8 +24,8 @@ public class PlotPanel extends JPanel{
 
 	
 	/**
-          * PlotPanel method to initialize the 11 charts
-          */
+      * PlotPanel method to initialize the 11 charts
+      */
 	public PlotPanel() {
 		setLayout(new GridLayout(11,1));
 		blickChart = new StepLineChartPanel("blink");
@@ -53,8 +53,8 @@ public class PlotPanel extends JPanel{
 	}
 	
 	/**
-          * add method to add new parameters to the charts and update
-          */
+      * add method to add new parameters to the charts and update
+      */
 	public void add(Parameters param) {
 		blickChart.addData(param.getEye().getBlink(),param.getTime());
 		winkLeftChart.addData(param.getEye().getWinkLeft(), param.getTime());

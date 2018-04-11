@@ -14,11 +14,20 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+/**
+ * @author Group10
+ * @version 1.0
+ * Draw line chart Panel 
+ */
 public class LineChartPanel extends JPanel{
 	private ChartPanel chartPanel;
 	private JFreeChart chart;
 	private DefaultCategoryDataset data = new DefaultCategoryDataset();
 	
+    /**
+      * Constructor to build the LineChart panel
+	  * @param chartTitle
+      */
 	public LineChartPanel(String chartTitle) {
 		chart = ChartFactory.createLineChart(
 				chartTitle,
@@ -36,14 +45,22 @@ public class LineChartPanel extends JPanel{
 		this.add(chartPanel);
 	}
 	
+    /**
+      * paintComponent override method
+	  * @param g
+      */
 	@Override
 	public void paintComponent(Graphics g) {
 		System.out.println(this.getWidth());
 		super.paintComponent(g);
 	}
-	
+	/**
+      * addData method
+	  * @param value
+      * @param labelLegend
+      * @param labelX
+      */
 	public void addData(double value, String labelLegend, String labelX) {
 		data.addValue(value, labelLegend, labelX);
-		//this.repaint();
 	}
 }
