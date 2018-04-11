@@ -2,7 +2,6 @@ package server.view;
 import java.awt.Font;
 
 /**
- * This class is ServerTrigger Class
  *
  * @SER516  Project Three
  * @author  Group 10  #118 - #131
