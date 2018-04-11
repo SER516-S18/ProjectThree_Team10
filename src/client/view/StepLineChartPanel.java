@@ -28,26 +28,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class StepLineChartPanel extends JPanel{
 	private ChartPanel chartPanel;
 	private JFreeChart chart;
-	//private XYDataset data;
-	//private XYSeries ydata;
 	private DefaultCategoryDataset dataset;
 	
 	public StepLineChartPanel(String chartTitle) {
-		//ydata = new XYSeries(chartTitle, false, true);
-
-		/*XYSeriesCollection dataset = new XYSeriesCollection();
-		dataset.addSeries(ydata);
-		data = dataset;
-		chart = ChartFactory.createXYStepChart(
-				chartTitle,
-				null,
-				null,
-				data,
-				PlotOrientation.VERTICAL,
-                false,   // legend
-                false,   // tooltips
-                false   // urls
-                );*/
 		CategoryAxis domainAxis = new CategoryAxis();
         ValueAxis rangeAxis = new NumberAxis();
 		dataset = new DefaultCategoryDataset();
@@ -61,7 +44,7 @@ public class StepLineChartPanel extends JPanel{
 		plot.setBackgroundPaint(Color.lightGray);
 		
 		NumberAxis range = (NumberAxis) plot.getRangeAxis();
-        range.setRange(0.0, 1.0);
+        range.setRange(-0.5, 1.5);
 		
 		chart = new JFreeChart(chartTitle,
 				plot
@@ -75,16 +58,14 @@ public class StepLineChartPanel extends JPanel{
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		//chartPanel.repaint();
+		chartPanel.repaint();
 		super.paintComponent(g);
 	}
 	
 	public void addData(boolean value, double time) {
 		if (value) {
-			//ydata.add(time, 1.0f);
 			dataset.addValue(1, "time", Double.toString(time));
 		} else {
-			//ydata.add(time, 0.0f);
 			dataset.addValue(0, "time", Double.toString(time));
 		}
 	}

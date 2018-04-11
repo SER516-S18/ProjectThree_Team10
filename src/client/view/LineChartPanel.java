@@ -30,7 +30,7 @@ public class LineChartPanel extends JPanel{
 		chart.setBackgroundPaint(Color.white);
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
 		NumberAxis range = (NumberAxis) plot.getRangeAxis();
-        range.setRange(0.0, 1.0);
+        range.setRange(-0.5, 1.5);
 		chartPanel = new ChartPanel(chart);
 		setLayout(new BorderLayout(1, 1));
 		this.add(chartPanel);
