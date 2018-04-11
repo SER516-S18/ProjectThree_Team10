@@ -4,11 +4,13 @@
 
 ## How to Run Project
 
-Run Server
+
 
     
  
 Run Client
+java -cp executable.jar client.controller.ClientWindowController 
+
 
     
 
