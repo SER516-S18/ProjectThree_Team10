@@ -8,13 +8,20 @@ import javax.websocket.DeploymentException;
 public class ServerWindowController {
     private ServerSocket servSocket = null;
     private static Server server;
-    private static boolean isStart;
+    public static boolean isStart;
 
+    /**
+     * Init server
+     * @param view
+     */
     public ServerWindowController(ServerGUI view) {
         server = new Server("localhost", 8025, "/ws", null, ServerSocket.class);
         isStart = false;
     }
 
+    /**
+     * Change the listen status
+     */
     public static void changeStatus() {
         if (isStart) {
             server.stop();

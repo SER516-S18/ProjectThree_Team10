@@ -7,14 +7,24 @@ import org.codehaus.jettison.json.*;
 import server.model.Parameters;
 
 public class JsonEncoder implements Encoder.Text<Parameters> {
+    /**
+     * init when load to webSocket
+     * @param config
+     */
     public void init(EndpointConfig config) {
-        // init when load to webSocket
     }
 
+    /**
+     * destroy when unload from webSocket
+     */
     public void destroy() {
-        // destory when unload from webSocket
     }
 
+    /**
+     * Encode object to json string
+     * @param object
+     * @return
+     */
     @Override
     public String encode(Parameters object) {
         JSONObject paramJson = new JSONObject();

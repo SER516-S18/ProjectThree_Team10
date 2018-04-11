@@ -15,6 +15,11 @@ import server.view.ServerGUI;
 @SuppressWarnings("serial")
 public class ServerConsole extends JTextPane{
 	static JTextPane console = ServerGUI.getConsole();
+
+	/**
+	 * set Error message
+	 * @param error
+	 */
 	public static void setErrorMessage(String error) {
 		try {
 			console.setContentType( "text/html" );
@@ -28,6 +33,10 @@ public class ServerConsole extends JTextPane{
 		}
 	}
 
+	/**
+	 * set info message
+	 * @param message
+	 */
 	public static void setMessage(String message) {
 		try {
 			console.setContentType( "text/html" );
