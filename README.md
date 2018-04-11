@@ -9,7 +9,7 @@
     
  
 Run Client
-java -cp executable.jar client.controller.ClientWindowController 
+java -jar executable.jar
 
 
     
