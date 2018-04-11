@@ -1,5 +1,13 @@
 package server.model;
-
+/**
+ * This class is ServerTrigger Class
+ *
+ * @SER516  Project Three
+ * @author  Group 10  #118 - #131
+ * @version 1.0
+ * @since   04/03/2018
+ * Class for Eye Model
+ */
 public class Eye {
     private boolean blink;
     private boolean winkLeft;
