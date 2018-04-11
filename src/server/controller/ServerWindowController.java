@@ -1,5 +1,6 @@
 package server.controller;
 
+import server.view.ServerConsole;
 import server.view.ServerGUI;
 import org.glassfish.tyrus.server.Server;
 
@@ -18,13 +19,15 @@ public class ServerWindowController {
     public static void changeStatus() {
         if (isStart) {
             server.stop();
+            ServerConsole.setMessage("Stop Listening");
             isStart = false;
         } else {
             try {
                 server.start();
+                ServerConsole.setMessage("Start Listening");
                 isStart = true;
             } catch (DeploymentException e1) {
-                e1.printStackTrace();
+                ServerConsole.setErrorMessage(e1.getMessage());
             }
         }
     }
