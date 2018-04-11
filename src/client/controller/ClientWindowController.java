@@ -25,21 +25,19 @@ public class ClientWindowController {
 	}
 	
 	public void update(Parameters param) {
-		// TODO: need to change to MVC
 		view.update(param);
 	}
 
+	public void setStatus(int status, double time) {
+		view.setStatus(status, time);
+	}
+	
 	public ClientSocket getSocket() {
 		return clientSocket;
 	}
 	
 	public static void main(String args[]) throws URISyntaxException, IOException, DeploymentException {
 		ClientWindowView view = new ClientWindowView();
-		/*javax.swing.SwingUtilities.invokeLater(new Runnable() {
-	        public void run() {
-	        	view = new ClientWindowView();
-	        }
-	    });*/
 		ClientWindowController ctrl = new ClientWindowController(view);
 		view.bindController(ctrl);
 	}
