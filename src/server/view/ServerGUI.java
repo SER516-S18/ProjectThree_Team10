@@ -354,34 +354,34 @@ public class ServerGUI extends TimerClass {
 
        start.addActionListener(new ActionListener() {
      	   public void actionPerformed(ActionEvent e) {
-//     		   if( autoResetServer.isSelected()) {
-//     		       start.setText("Stop");
-//     		       isSending = true;
-//     		       indicatorPanel.update(0);
-//     		       ServerConsole.setMessage("Server Running");
-//                   Runnable r = () -> {
-//                       do {
-//                           Parameters param = gatherData();
-//                           labelTimeDuration.setText(Double.toString(timeRec));
-//
-//                           try {
-//                               ServerSocket.sendMessage(param);
-//                           } catch (IOException | EncodeException e1) {
-//                               e1.printStackTrace();
-//                           }
-//
-//                       } while (autoResetServer.isSelected() && isSending);
-//                   };
-//
-//                   Thread th = new Thread(r);
-//                   th.start();
-//     		   } else {
-//     		       timeRec = 0.0;
-//     		       isSending = false;
-//     		       start.setText("Start");
-//     		       indicatorPanel.update(1);
-//     		       ServerConsole.setMessage("Server Stopped");
-//     		   }
+     		   if( autoResetServer.isSelected()) {
+     		       start.setText("Stop");
+     		       isSending = true;
+     		       indicatorPanel.update(0);
+     		       ServerConsole.setMessage("Server Running");
+                   Runnable r = () -> {
+                       do {
+                           Parameters param = gatherData();
+                           labelTimeDuration.setText(Double.toString(timeRec));
+
+                           try {
+                               ServerSocket.sendMessage(param);
+                           } catch (IOException | EncodeException e1) {
+                               e1.printStackTrace();
+                           }
+
+                       } while (autoResetServer.isSelected() && isSending);
+                   };
+
+                   Thread th = new Thread(r);
+                   th.start();
+     		   } else {
+     		       timeRec = 0.0;
+     		       isSending = false;
+     		       start.setText("Start");
+     		       indicatorPanel.update(1);
+     		       ServerConsole.setMessage("Server Stopped");
+     		   }
 
                Parameters param = gatherData();
                System.out.println(param.getPerformance().getEngagement());
