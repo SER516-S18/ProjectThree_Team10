@@ -30,7 +30,7 @@ public class LineChartPanel extends JPanel{
       */
 	public LineChartPanel(String chartTitle) {
 		chart = ChartFactory.createLineChart(
-				chartTitle,
+				null,
 				null,
 				null,
 				data,

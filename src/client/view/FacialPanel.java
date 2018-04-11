@@ -133,7 +133,6 @@ public class FacialPanel extends JPanel{
 	 * @param eye Eye
 	 */
 	public void drawEye(Graphics g, Eye eye) {
-		System.out.println(eye.getLookLeft());
 		if(eye.getBlink() == true){
 			if(eye.getWinkLeft() == true){
 				drawCircle(g, LEFT_EYE_POSX-EYE_WIDTH, EYE_POSY-EYE_HEIGHT, 2*EYE_WIDTH, 2*EYE_HEIGHT);			
@@ -237,6 +236,17 @@ public class FacialPanel extends JPanel{
 	 */
 	public void drawMouth(Graphics g, LowerFace lowerFace) {
 		int bias = 0, smirk = 0;
+		if (lowerFace.getLaugh()>MINDOUBLE) {
+			bias = Math.min(MOUTH_HEIGHT, (int)(1+MOUTH_HEIGHT*lowerFace.getLaugh()));
+			if (lowerFace.getSmirkLeft()>MINDOUBLE) {
+				smirk = -Math.min(MOUTH_HEIGHT, (int)(MOUTH_HEIGHT*lowerFace.getSmirkLeft()));
+			} else if (lowerFace.getSmirkRight()>MINDOUBLE) {
+				smirk = Math.min(MOUTH_HEIGHT, (int)(MOUTH_HEIGHT*lowerFace.getSmirkRight()));
+			}
+			drawCurvedLine(g2, MOUTH_POSX-MOUTH_WIDTH, MOUTH_POSY+smirk, MOUTH_POSX, MOUTH_POSY+bias,MOUTH_POSX+MOUTH_WIDTH, MOUTH_POSY-smirk);
+			drawCurvedLine(g2, MOUTH_POSX-MOUTH_WIDTH, MOUTH_POSY+smirk, MOUTH_POSX, 1+MOUTH_POSY+2*bias,MOUTH_POSX+MOUTH_WIDTH, MOUTH_POSY-smirk);
+			return;
+		}
 		if (lowerFace.getSmile()>MINDOUBLE) {
 			bias = Math.min(MOUTH_HEIGHT, (int)(1+MOUTH_HEIGHT*lowerFace.getSmile()));
 		} else if (lowerFace.getClench()>MINDOUBLE) {
@@ -250,9 +260,6 @@ public class FacialPanel extends JPanel{
 		}
 		
 		drawCurvedLine(g2, MOUTH_POSX-MOUTH_WIDTH, MOUTH_POSY+smirk, MOUTH_POSX, MOUTH_POSY+bias,MOUTH_POSX+MOUTH_WIDTH, MOUTH_POSY-smirk);
-		if (lowerFace.getLaugh()>MINDOUBLE) {
-			drawCurvedLine(g2, MOUTH_POSX-MOUTH_WIDTH, MOUTH_POSY+smirk, MOUTH_POSX, 1+MOUTH_POSY+2*bias,MOUTH_POSX+MOUTH_WIDTH, MOUTH_POSY-smirk);
-		}
 	}
 	
 	/**

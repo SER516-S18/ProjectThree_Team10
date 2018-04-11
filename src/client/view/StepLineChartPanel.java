@@ -29,8 +29,10 @@ public class StepLineChartPanel extends JPanel{
 	private ChartPanel chartPanel;
 	private JFreeChart chart;
 	private DefaultCategoryDataset dataset;
+	private String title;
 	
 	public StepLineChartPanel(String chartTitle) {
+		title = chartTitle;
 		CategoryAxis domainAxis = new CategoryAxis();
         ValueAxis rangeAxis = new NumberAxis();
 		dataset = new DefaultCategoryDataset();
@@ -46,7 +48,7 @@ public class StepLineChartPanel extends JPanel{
 		NumberAxis range = (NumberAxis) plot.getRangeAxis();
         range.setRange(-0.5, 1.5);
 		
-		chart = new JFreeChart(chartTitle,
+		chart = new JFreeChart(null,
 				plot
 				);
         chart.setBackgroundPaint(Color.white);
@@ -64,9 +66,9 @@ public class StepLineChartPanel extends JPanel{
 	
 	public void addData(boolean value, double time) {
 		if (value) {
-			dataset.addValue(1, "time", Double.toString(time));
+			dataset.addValue(1, title, Double.toString(time));
 		} else {
-			dataset.addValue(0, "time", Double.toString(time));
+			dataset.addValue(0, title, Double.toString(time));
 		}
 	}
 }
