@@ -8,7 +8,6 @@ import java.util.TimerTask;
 import javax.swing.JPanel;
 
 /**
- * This class is ServerTrigger Class
  *
  * @SER516  Project Three
  * @author  Group 10  #118 - #131
