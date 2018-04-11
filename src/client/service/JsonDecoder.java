@@ -11,15 +11,32 @@ import client.model.PerformanceMet;
 import client.model.UpperFace;
 import client.model.Parameters;
 
+/**
+ * @author Group10
+ * @version 1.0
+ * JsonDecoder class 
+ */
 public class JsonDecoder implements Decoder.Text<Parameters> {
+    
+    /**
+      * init Method to init when load to webSocket
+      * @param config
+      */
     public void init(EndpointConfig config) {
-        // init when load to webSocket
+       
     }
-
+    
+    /**
+      * destroy Method to destroy when unload from webSocket
+      */
     public void destroy() {
-        // destroy when unload from webSocket
+        
     }
-
+    
+    /**
+      * Parameters decode Method
+      * @param jsonString
+      */
     public Parameters decode(String jsonString) throws DecodeException {
         Parameters params = null;
         try {
@@ -47,7 +64,10 @@ public class JsonDecoder implements Decoder.Text<Parameters> {
 
         return params;
     }
-    
+    /**
+      * willDecode Method
+      * @param jsonString
+      */
     public boolean willDecode(String jsonString) {
         // Called before decode
         return true;

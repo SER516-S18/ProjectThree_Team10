@@ -6,6 +6,11 @@ import javax.websocket.ClientEndpointConfig.Configurator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Group10
+ * @version 1.0
+ * ClientConfigurator class 
+ */
 public class ClientConfigurator extends Configurator {
    
     /**
