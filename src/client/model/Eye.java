@@ -1,5 +1,10 @@
 package client.model;
 
+/**
+ * @author Group10
+ * @version 1.0
+ * Eye class 
+ */
 public class Eye {
     private boolean blink;
     private boolean winkLeft;
@@ -7,6 +12,14 @@ public class Eye {
     private boolean lookLeft;
     private boolean lookRight;
     
+    /**
+     * Constructor for Eye class
+     * @param blink
+     * @param winkLeft
+     * @param winkRight
+     * @param lookLeft
+     * @param lookRight
+     */
     public Eye(boolean blink, boolean winkLeft, boolean winkRight, boolean lookLeft, boolean lookRight) {
         this.blink = blink;
         this.winkLeft = winkLeft;

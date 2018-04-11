@@ -57,7 +57,6 @@ public class ClientWindowView extends JFrame {
 			@Override
             public void mousePressed(MouseEvent event) {
              	ServerTrigger serverTrigger = new ServerTrigger(ctrl);
-				// TODO: Open the server
             }
 		});
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(

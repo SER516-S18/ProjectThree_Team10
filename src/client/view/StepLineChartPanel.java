@@ -1,53 +1,38 @@
 package client.view;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.CategoryStepRenderer;
-import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DatasetUtilities;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 
+/**
+ * The step line chart panel to display the step line chart
+ * @author Group10
+ * @version 1.0
+ */
 public class StepLineChartPanel extends JPanel{
 	private ChartPanel chartPanel;
 	private JFreeChart chart;
-	//private XYDataset data;
-	//private XYSeries ydata;
 	private DefaultCategoryDataset dataset;
+	private String title;
 	
+	/**
+	 * Constructor to initialize the step line chart
+	 * @param chartTitle
+	 */
 	public StepLineChartPanel(String chartTitle) {
-		//ydata = new XYSeries(chartTitle, false, true);
-
-		/*XYSeriesCollection dataset = new XYSeriesCollection();
-		dataset.addSeries(ydata);
-		data = dataset;
-		chart = ChartFactory.createXYStepChart(
-				chartTitle,
-				null,
-				null,
-				data,
-				PlotOrientation.VERTICAL,
-                false,   // legend
-                false,   // tooltips
-                false   // urls
-                );*/
+		title = chartTitle;
 		CategoryAxis domainAxis = new CategoryAxis();
         ValueAxis rangeAxis = new NumberAxis();
 		dataset = new DefaultCategoryDataset();
@@ -61,9 +46,9 @@ public class StepLineChartPanel extends JPanel{
 		plot.setBackgroundPaint(Color.lightGray);
 		
 		NumberAxis range = (NumberAxis) plot.getRangeAxis();
-        range.setRange(0.0, 1.0);
+        range.setRange(-0.5, 1.5);
 		
-		chart = new JFreeChart(chartTitle,
+		chart = new JFreeChart(null,
 				plot
 				);
         chart.setBackgroundPaint(Color.white);
@@ -73,19 +58,25 @@ public class StepLineChartPanel extends JPanel{
 		this.add(chartPanel);
 	}
 	
+	/**
+	 * Override paintComponent and repaint chart panel
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
-		//chartPanel.repaint();
+		chartPanel.repaint();
 		super.paintComponent(g);
 	}
 	
+	/**
+	 * Add data to the chart
+	 * @param value
+	 * @param time
+	 */
 	public void addData(boolean value, double time) {
 		if (value) {
-			//ydata.add(time, 1.0f);
-			dataset.addValue(1, "time", Double.toString(time));
+			dataset.addValue(1, title, Double.toString(time));
 		} else {
-			//ydata.add(time, 0.0f);
-			dataset.addValue(0, "time", Double.toString(time));
+			dataset.addValue(0, title, Double.toString(time));
 		}
 	}
 }

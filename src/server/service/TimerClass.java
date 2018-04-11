@@ -7,11 +7,12 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 /**
- * SER516 Project3_Team10
- * Description: Class to run the timer on Server
- * @author Shubham Vyas
- * @author Hari Siddarth V Kesavan
+ *
+ * @SER516  Project Three
+ * @author  Group 10  #118 - #131
  * @version 1.0
+ * @since   04/03/2018
+ * Timer class for server
  */
 
 public class TimerClass{

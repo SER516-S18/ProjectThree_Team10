@@ -1,6 +1,12 @@
 package server.view;
 import java.awt.Color;
-
+/**
+ *
+ * @SER516  Project Three
+ * @author  Group 10  #118 - #131
+ * @version 1.0
+ * @since   04/03/2018
+ */
 /**
  * Color options
  */

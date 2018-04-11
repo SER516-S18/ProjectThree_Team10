@@ -16,6 +16,12 @@ import client.service.*;
     configurator=ClientConfigurator.class,
     decoders=JsonDecoder.class
 )
+
+/**
+ * @author Group10
+ * @version 1.0
+ * ClientSocket class 
+ */
 public class ClientSocket extends Thread{
     private Logger logger = Logger.getLogger(ClientSocket.class.getName());
     private ClientWindowController ctrl;

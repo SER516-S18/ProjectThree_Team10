@@ -3,8 +3,15 @@ package server.controller;
 import server.view.ServerConsole;
 import server.view.ServerGUI;
 import org.glassfish.tyrus.server.Server;
-
 import javax.websocket.DeploymentException;
+/**
+ * This class is Server window controller class
+ *
+ * @SER516  Project Three
+ * @author  Group 10  #118 - #131
+ * @version 1.0
+ * @since   04/03/2018
+ */
 
 public class ServerWindowController {
     private ServerSocket servSocket = null;
