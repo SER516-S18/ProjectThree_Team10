@@ -39,7 +39,7 @@ public class TimerClass{
 			public void actionPerformed( ActionEvent event )  {
 				//TO-DO - send message to client
 				updateTimer(delay);
-				ServerGUI.getTime().setText(getTimer() + "");
+				//ServerGUI.getTime().setText(getTimer() + "");
 			}
 		});
 		timer.setRepeats(this.isAutoReset);

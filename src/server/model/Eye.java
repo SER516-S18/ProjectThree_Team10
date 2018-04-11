@@ -6,6 +6,14 @@ public class Eye {
     private boolean winkRight;
     private boolean lookLeft;
     private boolean lookRight;
+
+    public Eye() {
+        setBlink(false);
+        setWinkLeft(false);
+        setWinkRight(false);
+        setLookRight(false);
+        setLookRight(false);
+    }
     
     public Eye(boolean blink, boolean winkLeft, boolean winkRight, boolean lookLeft, boolean lookRight) {
         this.blink = blink;

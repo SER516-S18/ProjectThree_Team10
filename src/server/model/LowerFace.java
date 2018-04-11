@@ -7,6 +7,14 @@ public class LowerFace {
     private double smirkRight;
     private double laugh;
 
+    public LowerFace() {
+        setClench(0.0);
+        setLaugh(0.0);
+        setSmile(0.0);
+        setSmirkLeft(0.0);
+        setSmirkRight(0.0);
+    }
+
     public LowerFace(double smile, double clench, double smirkLeft, double smirkRight, double laugh) {
         this.smile = smile;
         this.clench = clench;

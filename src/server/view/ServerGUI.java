@@ -1,23 +1,33 @@
 package server.view;
 
+import server.controller.ServerSocket;
+import server.controller.ServerWindowController;
+import server.model.Parameters;
+import server.model.Eye;
+import server.model.LowerFace;
+import server.model.PerformanceMet;
+import server.model.UpperFace;
 import server.service.TimerClass;
-
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.SystemColor;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
+import java.awt.event.*;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import javax.swing.JTextPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.websocket.EncodeException;
+
 /**
  * SER516 Project3_Team10
  * Description: Sever GUI (View for Server)
@@ -29,31 +39,23 @@ import javax.swing.SpinnerNumberModel;
  */
 
 public class ServerGUI extends TimerClass {
-
     private JPanel time;
-    private boolean autoReset = true;
+
+    private boolean isSending;
+    private double timeRec;
     private JFrame composer;
-    public static JTextPane console = new JTextPane();
-    public static JLabel labelTimeDuration;
+    private static JTextPane console = new JTextPane();
+    private static JLabel labelTimeDuration;
 
-    public JLabel labelSec;
-    public JComboBox<String> eyeOption;
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ServerGUI window = new ServerGUI();
-                    window.composer.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+    private JComboBox<String> eyeOption;
+    private JCheckBox activateEye;
+    private JCheckBox autoResetEye;
+    private JComboBox<String> upperFaceOption;
+    private JSpinner upperFaceValue;
+    private JComboBox<String> lowerFaceOption;
+    private JSpinner lowerFaceValue;
+    private JComboBox<String> performanceOption;
+    private JSpinner performanceValue;
 
     /**
      * Create the application.
@@ -61,6 +63,8 @@ public class ServerGUI extends TimerClass {
     public ServerGUI() {
         initialize();
         composer.setVisible(true);
+        isSending = false;
+        timeRec = 0.0;
     }
 
     /**
@@ -103,7 +107,6 @@ public class ServerGUI extends TimerClass {
         labelTime.setBackground(ColorConstants.GRAY);
         labelTime.setFont(TextConstants.PLAIN);
         labelTime.setHorizontalAlignment(SwingConstants.CENTER);
-        labelTime.setBounds(38, 177, 80, 28);
         labelTime.setOpaque(true);
         composer.getContentPane().add(labelTime);
 
@@ -111,8 +114,8 @@ public class ServerGUI extends TimerClass {
         labelSec.setForeground(ColorConstants.WHITE);
         labelSec.setHorizontalAlignment(SwingConstants.LEFT);
         labelSec.setFont(TextConstants.PLAIN);
-        labelSec.setBounds(504, 38, 56, 16);
         composer.getContentPane().add(labelSec);
+        value = 1.00;
 
         JSpinner timeInterval = new JSpinner();
         value = 0.25;
@@ -121,26 +124,17 @@ public class ServerGUI extends TimerClass {
         step = 0.50;
         timeInterval.setModel(new SpinnerNumberModel(value, min, max, step));
         timeInterval.setFont(TextConstants.PLAIN);
-        timeInterval.setBounds(425, 36, 73, 22);
         composer.getContentPane().add(timeInterval);
-
         time = new JPanel();
-        time.setBounds(126, 179, 121, 26);
-        composer.getContentPane().add(time);
-
         labelTimeDuration = new JLabel();
         labelTimeDuration.setFont(TextConstants.PLAIN);
         time.add(labelTimeDuration);
         composer.getContentPane().add(time);
 
-        //start(labelTimeDuration);
-        //pause();
-
         JLabel labelSeconds = new JLabel("Seconds");
         labelSeconds.setForeground(ColorConstants.WHITE);
         labelSeconds.setFont(TextConstants.PLAIN);
         labelSeconds.setHorizontalAlignment(SwingConstants.LEFT);
-        labelSeconds.setBounds(253, 179, 73, 25);
         composer.getContentPane().add(labelSeconds);
 
         JLabel labelEmostate = new JLabel("EMOSTATE");
@@ -148,40 +142,41 @@ public class ServerGUI extends TimerClass {
         labelEmostate.setFont(TextConstants.PLAIN);
         labelEmostate.setHorizontalAlignment(SwingConstants.LEFT);
         labelEmostate.setBackground(SystemColor.activeCaption);
-        labelEmostate.setBounds(22, 136, 113, 28);
         composer.getContentPane().add(labelEmostate);
+
+        JButton listen = new JButton("Listen");
+        listen.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                ServerWindowController.changeStatus();
+            }
+        });
+
+        listen.setFont(TextConstants.PLAIN);
+        composer.getContentPane().add(listen);
 
         JLabel labelEye = new JLabel("Eye:");
         labelEye.setForeground(ColorConstants.WHITE);
         labelEye.setBackground(ColorConstants.GRAY);
         labelEye.setHorizontalAlignment(SwingConstants.LEFT);
         labelEye.setFont(TextConstants.PLAIN);
-        labelEye.setBounds(38, 233, 62, 26);
         composer.getContentPane().add(labelEye);
 
         eyeOption = new JComboBox<String>();
         eyeOption.setFont(TextConstants.PLAIN);
         eyeOption.setBackground(ColorConstants.WHITE);
         eyeOption.setToolTipText("");
-        eyeOption.setBounds(38, 261, 140, 28);
         composer.getContentPane().add(eyeOption);
 
-        JSpinner eyeValue = new JSpinner();
-        eyeValue.setModel(new SpinnerNumberModel(0, 0, 1, 1));
-        eyeValue.setFont(TextConstants.PLAIN);
-        eyeValue.setBounds(178, 261, 62, 27);
-        composer.getContentPane().add(eyeValue);
-
-        JButton activateEye = new JButton("Activate");
+        activateEye = new JCheckBox("Activate");
+        activateEye.setForeground(ColorConstants.WHITE);
         activateEye.setFont(TextConstants.PLAIN);
-        activateEye.setBounds(245, 261, 113, 28);
+        activateEye.setBackground(ColorConstants.GRAY);
         composer.getContentPane().add(activateEye);
 
-        JCheckBox autoResetEye = new JCheckBox("Auto-reset");
+        autoResetEye = new JCheckBox("Auto-reset");
         autoResetEye.setForeground(ColorConstants.WHITE);
         autoResetEye.setFont(TextConstants.PLAIN);
         autoResetEye.setBackground(ColorConstants.GRAY);
-        autoResetEye.setBounds(366, 263, 113, 25);
         composer.getContentPane().add(autoResetEye);
 
         JLabel labelUpperFace = new JLabel("Upperface:");
@@ -189,7 +184,6 @@ public class ServerGUI extends TimerClass {
         labelUpperFace.setForeground(ColorConstants.WHITE);
         labelUpperFace.setFont(TextConstants.PLAIN);
         labelUpperFace.setBackground(ColorConstants.GRAY);
-        labelUpperFace.setBounds(38, 317, 140, 26);
         composer.getContentPane().add(labelUpperFace);
 
         JLabel labelLowerFace = new JLabel("Lowerface:");
@@ -197,37 +191,32 @@ public class ServerGUI extends TimerClass {
         labelLowerFace.setForeground(ColorConstants.WHITE);
         labelLowerFace.setFont(TextConstants.PLAIN);
         labelLowerFace.setBackground(ColorConstants.GRAY);
-        labelLowerFace.setBounds(282, 317, 140, 26);
         composer.getContentPane().add(labelLowerFace);
 
-        JComboBox<String> upperFaceOption = new JComboBox<String>();
+        upperFaceOption = new JComboBox<String>();
         upperFaceOption.setToolTipText("");
         upperFaceOption.setFont(TextConstants.PLAIN);
         upperFaceOption.setBackground(ColorConstants.WHITE);
-        upperFaceOption.setBounds(38, 344, 140, 28);
         composer.getContentPane().add(upperFaceOption);
 
-        JSpinner upperFaceValue = new JSpinner();
+        upperFaceValue = new JSpinner();
         value = 0.00;
         min = 0.00;
         max = 1.00;
         step = 0.10;
         upperFaceValue.setModel(new SpinnerNumberModel(value, min, max, step));
         upperFaceValue.setFont(TextConstants.PLAIN);
-        upperFaceValue.setBounds(178, 344, 62, 27);
         composer.getContentPane().add(upperFaceValue);
 
-        JComboBox<String> lowerFaceOption = new JComboBox<String>();
+        lowerFaceOption = new JComboBox<String>();
         lowerFaceOption.setToolTipText("");
         lowerFaceOption.setFont(TextConstants.PLAIN);
         lowerFaceOption.setBackground(ColorConstants.WHITE);
-        lowerFaceOption.setBounds(282, 344, 140, 28);
         composer.getContentPane().add(lowerFaceOption);
 
-        JSpinner lowerFaceValue = new JSpinner();
+        lowerFaceValue = new JSpinner();
         lowerFaceValue.setModel(new SpinnerNumberModel(value, min, max, step));
         lowerFaceValue.setFont(TextConstants.PLAIN);
-        lowerFaceValue.setBounds(425, 344, 62, 26);
         composer.getContentPane().add(lowerFaceValue);
 
         JLabel labelPerformance = new JLabel("Performance Metrics:");
@@ -235,32 +224,39 @@ public class ServerGUI extends TimerClass {
         labelPerformance.setForeground(ColorConstants.WHITE);
         labelPerformance.setFont(TextConstants.PLAIN);
         labelPerformance.setBackground(ColorConstants.GRAY);
-        labelPerformance.setBounds(38, 397, 165, 26);
         composer.getContentPane().add(labelPerformance);
 
-        JComboBox<String> performance = new JComboBox<String>();
-        performance.setToolTipText("");
-        performance.setFont(TextConstants.PLAIN);
-        performance.setBackground(ColorConstants.WHITE);
-        performance.setBounds(38, 423, 151, 28);
-        composer.getContentPane().add(performance);
+        performanceOption = new JComboBox<String>();
+        performanceOption.setToolTipText("");
+        performanceOption.setFont(TextConstants.PLAIN);
+        performanceOption.setBackground(ColorConstants.WHITE);
+        composer.getContentPane().add(performanceOption);
+
+        performanceValue = new JSpinner();
+        performanceValue.setModel(new SpinnerNumberModel(value, min, max, step));
+        performanceValue.setFont(TextConstants.PLAIN);
+        composer.getContentPane().add(performanceValue);
 
         JLabel labelConsole = new JLabel("EMOENGINE LOG");
         labelConsole.setHorizontalAlignment(SwingConstants.LEFT);
         labelConsole.setForeground(ColorConstants.WHITE);
         labelConsole.setFont(TextConstants.PLAIN);
         labelConsole.setBackground(ColorConstants.GRAY);
-        labelConsole.setBounds(22, 489, 165, 26);
+
         composer.getContentPane().add(labelConsole);
 
         console.setFont(TextConstants.PLAIN);
-        console.setBounds(56, 522, 384, 89);
         composer.getContentPane().add(console);
         console.setEditable(false);
 
+        JPanel borderPanel = new JPanel();
+        borderPanel.setBackground(ColorConstants.GRAY);
+        borderPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        composer.getContentPane().add(borderPanel);
+
         Indicator indicatorPanel = new Indicator(0);
         indicatorPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        indicatorPanel.setBounds(62, 32, 73, 66);
+
         composer.getContentPane().add(indicatorPanel);
         indicatorPanel.update(1);
 
@@ -274,31 +270,54 @@ public class ServerGUI extends TimerClass {
 
         JPanel borderPanel1 = new JPanel();
         borderPanel1.setBackground(Color.GRAY);
-        borderPanel1.setBounds(12, 13, 589, 96);
         borderPanel1.setBorder(BorderFactory.createLineBorder(Color.black));
         composer.getContentPane().add(borderPanel1);
 
         JButton clearLog = new JButton("Clear Log");
         clearLog.setFont(TextConstants.PLAIN);
-        clearLog.setBounds(451, 580, 121, 31);
         composer.getContentPane().add(clearLog);
 
         JPanel borderPanel3 = new JPanel();
         borderPanel3.setBackground(ColorConstants.GRAY);
-        borderPanel3.setBounds(12, 477, 589, 146);
         borderPanel3.setBorder(BorderFactory.createLineBorder(Color.black));
         composer.getContentPane().add(borderPanel3);
 
-        JSpinner spinner = new JSpinner();
-        spinner.setFont(TextConstants.PLAIN);
-        spinner.setBounds(190, 424, 67, 26);
-        composer.getContentPane().add(spinner);
+        composer.addComponentListener(new ComponentAdapter(){
+            public void componentResized(ComponentEvent e){
+                borderPanel1.setBounds((int)(composer.getWidth()*0.01), (int)(composer.getHeight()*0.01), (int)(composer.getWidth()*0.95), (int)(composer.getHeight()*0.19));
+                indicatorPanel.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.05), (int)(composer.getWidth()*0.12), (int)(composer.getHeight()*0.09));
+                labelTimeInterval.setBounds((int)(composer.getWidth()*0.47), (int)(composer.getHeight()*0.05), (int)(composer.getWidth()*0.18), (int)(composer.getHeight()*0.04));
+                autoResetServer.setBounds((int)(composer.getWidth()*0.47), (int)(composer.getHeight()*0.1), (int)(composer.getWidth()*0.18), (int)(composer.getHeight()*0.04));
+                start.setBounds((int)(composer.getWidth()*0.68), (int)(composer.getHeight()*0.1), (int)(composer.getWidth()*0.15), (int)(composer.getHeight()*0.04));
+                labelSec.setBounds((int)(composer.getWidth()*0.8), (int)(composer.getHeight()*0.06), (int)(composer.getWidth()*0.08), (int)(composer.getHeight()*0.02));
+                timeInterval.setBounds((int)(composer.getWidth()*0.67), (int)(composer.getHeight()*0.05), (int)(composer.getWidth()*0.11), (int)(composer.getHeight()*0.03));
 
-        JPanel borderPanel2 = new JPanel();
-        borderPanel2.setBorder(BorderFactory.createLineBorder(Color.black));
-        borderPanel2.setBackground(Color.GRAY);
-        borderPanel2.setBounds(12, 116, 589, 354);
-        composer.getContentPane().add(borderPanel2);
+                borderPanel.setBounds((int)(composer.getWidth()*0.01), (int)(composer.getHeight()*0.21), (int)(composer.getWidth()*0.95), (int)(composer.getHeight()*0.48));
+                listen.setBounds((int)(composer.getWidth()*0.68), (int)(composer.getHeight()*0.28), (int)(composer.getWidth()*0.15), (int)(composer.getHeight()*0.04));
+                labelEmostate.setBounds((int)(composer.getWidth()*0.02), (int)(composer.getHeight()*0.22), (int)(composer.getWidth()*0.26), (int)(composer.getHeight()*0.03));
+                labelTime.setBounds((int)(composer.getWidth()*0.06), (int)(composer.getHeight()*0.28), (int)(composer.getWidth()*0.12), (int)(composer.getHeight()*0.04));
+                labelSeconds.setBounds((int)(composer.getWidth()*0.38), (int)(composer.getHeight()*0.28), (int)(composer.getWidth()*0.1), (int)(composer.getHeight()*0.04));
+                time.setBounds((int)(composer.getWidth()*0.18), (int)(composer.getHeight()*0.28), (int)(composer.getWidth()*0.18), (int)(composer.getHeight()*0.04));
+                labelEye.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.36), (int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.04));
+                eyeOption.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.2), (int)(composer.getHeight()*0.04));
+                activateEye.setBounds((int)(composer.getWidth()*0.31), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.17), (int)(composer.getHeight()*0.04));
+                autoResetEye.setBounds((int)(composer.getWidth()*0.48), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.17), (int)(composer.getHeight()*0.04));
+                labelUpperFace.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.48), (int)(composer.getWidth()*0.2), (int)(composer.getHeight()*0.04));
+                labelLowerFace.setBounds((int)(composer.getWidth()*0.48), (int)(composer.getHeight()*0.48), (int)(composer.getWidth()*0.2), (int)(composer.getHeight()*0.04));
+                upperFaceOption.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.52), (int)(composer.getWidth()*0.2), (int)(composer.getHeight()*0.04));
+                upperFaceValue.setBounds((int)(composer.getWidth()*0.31), (int)(composer.getHeight()*0.52), (int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.04));
+                lowerFaceOption.setBounds((int)(composer.getWidth()*0.48), (int)(composer.getHeight()*0.52), (int)(composer.getWidth()*0.2), (int)(composer.getHeight()*0.04));
+                lowerFaceValue.setBounds((int)(composer.getWidth()*0.7), (int)(composer.getHeight()*0.52), (int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.04));
+                labelPerformance.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.6), (int)(composer.getWidth()*0.24), (int)(composer.getHeight()*0.04));
+                performanceOption.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.64), (int)(composer.getWidth()*0.22), (int)(composer.getHeight()*0.04));
+                performanceValue.setBounds((int)(composer.getWidth()*0.33), (int)(composer.getHeight()*0.64), (int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.04));
+                borderPanel3.setBounds((int)(composer.getWidth()*0.01), (int)(composer.getHeight()*0.7), (int)(composer.getWidth()*0.95), (int)(composer.getHeight()*0.22));
+                clearLog.setBounds((int)(composer.getWidth()*0.7), (int)(composer.getHeight()*0.84), (int)(composer.getWidth()*0.19), (int)(composer.getHeight()*0.05));
+                labelConsole.setBounds((int)(composer.getWidth()*0.02), (int)(composer.getHeight()*0.71), (int)(composer.getWidth()*0.26), (int)(composer.getHeight()*0.03));
+                console.setBounds((int)(composer.getWidth()*0.08), (int)(composer.getHeight()*0.76), (int)(composer.getWidth()*0.6), (int)(composer.getHeight()*0.13));
+
+            }
+        });
 
         composer.setVisible(true);
 
@@ -317,30 +336,145 @@ public class ServerGUI extends TimerClass {
         eyeOption.addItem("look right");
         eyeOption.addItem("look left");
 
-        performance.addItem("Interest");
-        performance.addItem("Excitement");
-        performance.addItem("Engagement");
-        performance.addItem("Stress");
-        performance.addItem("Relaxation");
-        performance.addItem("Focus");
+        performanceOption.addItem("Interest");
+        performanceOption.addItem("Excitement");
+        performanceOption.addItem("Engagement");
+        performanceOption.addItem("Stress");
+        performanceOption.addItem("Relaxation");
+        performanceOption.addItem("Focus");
 
-        autoResetServer.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                if(autoReset) {
-                    TimerClass.getInstance().setAutoReset(true);
-                    autoReset = false;
-                    start.setText("Start");
-                }
-                else {
-                    TimerClass.getInstance().setAutoReset(false);
-                    autoReset = true;
-                    start.setText("Send");
-                }
+        clearLog.addActionListener( new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                console.setText("");
             }
         });
 
+       start.addActionListener(new ActionListener() {
+     	   public void actionPerformed(ActionEvent e) {
+//     		   if( autoResetServer.isSelected()) {
+//     		       start.setText("Stop");
+//     		       isSending = true;
+//     		       indicatorPanel.update(0);
+//     		       ServerConsole.setMessage("Server Running");
+//                   Runnable r = () -> {
+//                       do {
+//                           Parameters param = gatherData();
+//                           labelTimeDuration.setText(Double.toString(timeRec));
+//
+//                           try {
+//                               ServerSocket.sendMessage(param);
+//                           } catch (IOException | EncodeException e1) {
+//                               e1.printStackTrace();
+//                           }
+//
+//                       } while (autoResetServer.isSelected() && isSending);
+//                   };
+//
+//                   Thread th = new Thread(r);
+//                   th.start();
+//     		   } else {
+//     		       timeRec = 0.0;
+//     		       isSending = false;
+//     		       start.setText("Start");
+//     		       indicatorPanel.update(1);
+//     		       ServerConsole.setMessage("Server Stopped");
+//     		   }
+
+               Parameters param = gatherData();
+               System.out.println(param.getPerformance().getEngagement());
+           }
+
+       });
+
     }
+
+    public Parameters gatherData() {
+        Eye eye = new Eye();
+        LowerFace lf = new LowerFace();
+        PerformanceMet pm = new PerformanceMet();
+        UpperFace uf = new UpperFace();
+
+        String eo = (String) eyeOption.getSelectedItem();
+        String ufo = (String) upperFaceOption.getSelectedItem();
+        String lfo = (String) lowerFaceOption.getSelectedItem();
+        String pmo = (String) performanceOption.getSelectedItem();
+        switch (eo) {
+            default:
+            case "Blink":
+                eye.setBlink(activateEye.isSelected());
+                break;
+            case "wink left":
+                eye.setWinkLeft(activateEye.isSelected());
+                break;
+            case "wink right":
+                eye.setWinkRight(activateEye.isSelected());
+                break;
+            case "look left":
+                eye.setWinkLeft(activateEye.isSelected());
+                break;
+            case "look right":
+                eye.setLookRight(activateEye.isSelected());
+                break;
+        }
+
+        switch (ufo) {
+            default:
+            case "Raise Brow":
+                uf.setRaiseBrow((double) upperFaceValue.getValue());
+                break;
+            case "Furrow Brow":
+                uf.setFurrowBrow((double) upperFaceValue.getValue());
+                break;
+        }
+
+        switch (lfo) {
+            default:
+            case "Smile":
+                lf.setSmile((double) lowerFaceValue.getValue());
+                break;
+            case "Clench":
+                lf.setClench((double) lowerFaceValue.getValue());
+                break;
+            case "Smirk Left":
+                lf.setSmirkLeft((double) lowerFaceValue.getValue());
+                break;
+            case "Smirk Right":
+                lf.setSmirkRight((double) lowerFaceValue.getValue());
+                break;
+            case "Laugh":
+                lf.setLaugh((double) lowerFaceValue.getValue());
+                break;
+        }
+
+        switch (pmo) {
+            default:
+            case "Interest":
+                pm.setInterest((double) performanceValue.getValue());
+                break;
+            case "Excitement":
+                pm.setExcitement((double) performanceValue.getValue());
+                break;
+            case "Engagement":
+                pm.setEngagement((double) performanceValue.getValue());
+                break;
+            case "Stress":
+                pm.setStress((double) performanceValue.getValue());
+                break;
+            case "Relaxation":
+                pm.setRelaxation((double) performanceValue.getValue());
+                break;
+            case "Focus":
+                pm.setFocus((double) performanceValue.getValue());
+                break;
+
+        }
+
+        return new Parameters(eye, lf, uf, pm, timeRec);
+    }
+
 
     public static JTextPane getConsole(){
         return console;

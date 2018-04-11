@@ -4,6 +4,11 @@ public class UpperFace {
     private double raiseBrow;
     private double furrowBrow;
 
+    public UpperFace() {
+        setFurrowBrow(0.0);
+        setRaiseBrow(0.0);
+    }
+
     public UpperFace(double raiseBrow, double furrowBrow) {
         this.raiseBrow = raiseBrow;
         this.furrowBrow = furrowBrow;
