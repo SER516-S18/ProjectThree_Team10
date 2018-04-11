@@ -45,8 +45,6 @@ public class PerformancePanel extends JPanel{
         range.setRange(0.0, 1.0);
         
 		chartPanel = new ChartPanel(chart);
-		chartPanel.setRangeZoomable(false);
-		chartPanel.setDomainZoomable(true);
 		setLayout(new BorderLayout(1, 1));
 		
 		this.add(chartPanel);
