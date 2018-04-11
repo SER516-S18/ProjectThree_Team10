@@ -17,17 +17,14 @@ public class Indicator extends JPanel {
 	private static final long serialVersionUID = 1L;
     private Color displayColor, status, backgroundColor;
 
-    //Initialize the Light on the panel.
+    /**
+     * Initialize the Light on the panel.
+     * @param error
+     */
     Indicator(int error) {
         displayColor = getBackground();
         backgroundColor = getBackground();
         update(error);
-        
-        /*boolean hidden = false;
-        if(hidden)
-        	setColor(status);
-        else
-        	setColor(backgroundColor);*/
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -44,6 +41,10 @@ public class Indicator extends JPanel {
         }, 1000, 300);
     }
 
+    /**
+     * Paint indicator
+     * @param g
+     */
     @Override
     public void paint(Graphics g) {
         if (g==null) return;
@@ -52,12 +53,19 @@ public class Indicator extends JPanel {
         ledIndicator.fillOval(0, 0, 60, 60);
     }
 
+    /**
+     * set Color
+     * @param color
+     */
     private void setColor(Color color){
         displayColor = color;
         this.paint(this.getGraphics());
     }
 
-  //Sets the color based on the error code
+    /**
+     * Sets the color based on the error code
+     * @param status
+     */
     public void update(int status) {
         if (status == 0) {
             this.status=  Color.GREEN;
