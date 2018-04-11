@@ -21,6 +21,12 @@ import client.controller.ClientWindowController;
 import client.model.Parameters;
 import client.view.FacialPanel;
 
+/**
+ * Class client window view which inherited from JFrame
+ * Initialize the window and other java components
+ * @author Group10
+ * @version 1.0
+ */
 public class ClientWindowView extends JFrame {
 	private ClientWindowController ctrl;
 	private FacialPanel facialPanel;
@@ -72,7 +78,6 @@ public class ClientWindowView extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent event) {
 				ClientSocketDialog clientSocketDialog = new ClientSocketDialog(ctrl);
-				//TODO: call the connection setting dialog
 			}
 		});
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(
@@ -104,6 +109,7 @@ public class ClientWindowView extends JFrame {
 		this.setJMenuBar(menuBar);
 	}
 	
+	//Init tabs
 	public void initTabs() {
 		JTabbedPane myTabPane = new JTabbedPane();
 		JPanel facialExpressionPanel = new JPanel();
@@ -121,9 +127,13 @@ public class ClientWindowView extends JFrame {
 		splitPane.setResizeWeight(.7d);
 		facialExpressionPanel.setLayout(new BorderLayout());
 		facialExpressionPanel.add(splitPane);
-		
 	}
 	
+	/**
+	 * Initialize the tabbedpannel and add two panels as tab
+	 * @param facialExpressionPanel
+	 * @param perfomPanel
+	 */
 	public void initTabs(JPanel facialExpressionPanel, JPanel perfomPanel) {
 		JTabbedPane myTabPane = new JTabbedPane();
 		myTabPane.addTab("Facial Expressions", facialExpressionPanel);
@@ -132,6 +142,11 @@ public class ClientWindowView extends JFrame {
 		this.add(myTabPane, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Initialize the panel and split the panel for two panels
+	 * @param facialPanel
+	 * @param plotPanel
+	 */
 	public void initSplitPanel(JPanel facialPanel, JPanel plotPanel) {
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                 facialPanel, plotPanel);
@@ -139,6 +154,9 @@ public class ClientWindowView extends JFrame {
 		splitPane.setResizeWeight(.7d);
 	}
 	
+	/**
+	 * Initialize the components of the window
+	 */
 	public ClientWindowView() {
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
@@ -153,10 +171,18 @@ public class ClientWindowView extends JFrame {
 		});
 	}
 	
+	/**
+	 * Bind the controller of the view
+	 * @param controller
+	 */
 	public void bindController(ClientWindowController controller) {
 		this.ctrl = controller;
 	}
 	
+	/**
+	 * update client view 
+	 * @param param
+	 */
 	public void update(Parameters param) {
 		facialPanel.setData(param);
 		plotPanel.add(param);
@@ -164,6 +190,11 @@ public class ClientWindowView extends JFrame {
 		statusPanel.setStatus(2, param.getTime());
 	}
 	
+	/**
+	 * set the status of the status panel
+	 * @param status
+	 * @param time
+	 */
 	public void setStatus(int status, double time) {
 		statusPanel.setStatus(status, time);
 	}

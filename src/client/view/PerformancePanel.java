@@ -61,25 +61,12 @@ public class PerformancePanel extends JPanel{
 		                final CategoryPlot plot = (CategoryPlot) chart.getPlot();
 		                Color color = new Color(233);
 		                plot.getRenderer().setSeriesPaint(data.getRowIndex(entity.getSeriesKey()), color);
-		                
-		                /*final XYItemRenderer renderer = plot.getRenderer();
-
-		                if (event.getTrigger().getClickCount() == 2) {
-		                    for (int i = 0; i < dataset.getSeriesCount(); i++) {
-		                        if (dataset.getSeriesKey(i).equals(seriesKey)) {
-		                            final boolean visible = renderer.getItemVisible(i, 0);
-		                            renderer.setSeriesVisible(i, Boolean.valueOf(!visible));
-		                            renderer.setSeriesVisibleInLegend(i, true);
-		                        }
-		                    }
-		                }*/
 		            }
 		        }
 			}
 
 			@Override
-			public void chartMouseMoved(ChartMouseEvent event) {
-				// TODO Auto-generated method stub				
+			public void chartMouseMoved(ChartMouseEvent event) {			
 			}		
 		});
 	}
@@ -91,12 +78,20 @@ public class PerformancePanel extends JPanel{
 		super.paintComponent(g);
 	}
 	
-	//add data to the chart dataset
+	/**
+	 * Add data to the category labelLegend and the domain is labelX
+	 * @param value of the data
+	 * @param labelLegend category of the value
+	 * @param labelX domain value
+	 */
 	public void addData(double value, String labelLegend, String labelX) {
 		data.addValue(value, labelLegend, labelX);
 	}
 	
-	//add parameters to the chart dataset
+	/**
+	 * add parameters to the chart dataset
+	 * @param param
+	 */
 	public void add(Parameters param) {
 		addData(param.getPerformance().getEngagement(),"engagement",Double.toString(param.getTime()));
 		addData(param.getPerformance().getExcitement(),"excitment",Double.toString(param.getTime()));
