@@ -7,10 +7,13 @@ import java.util.TimerTask;
 
 import javax.swing.JPanel;
 
-/*
-* Author : Divya Yadamreddi
-* Description : Indicator for server
-*/
+/**
+ *
+ * @SER516  Project Three
+ * @author  Group 10  #118 - #131
+ * @version 1.0
+ * @since   04/03/2018
+ */
 
 public class Indicator extends JPanel {
 	

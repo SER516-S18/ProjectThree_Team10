@@ -1,5 +1,10 @@
 package client.model;
 
+/**
+ * @author Group10
+ * @version 1.0
+ * LowerFace class 
+ */
 public class LowerFace {
     private double smile;
     private double clench;
@@ -7,6 +12,14 @@ public class LowerFace {
     private double smirkRight;
     private double laugh;
 
+    /**
+     * Constructor for LowerFace class
+     * @param smile
+     * @param clench
+     * @param setSmirkLeft
+     * @param setSmirkRight
+     * @param laugh
+     */
     public LowerFace(double smile, double clench, double smirkLeft, double smirkRight, double laugh) {
         this.smile = smile;
         this.clench = clench;

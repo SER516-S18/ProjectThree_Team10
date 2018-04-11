@@ -20,13 +20,12 @@ import java.io.IOException;
 import javax.websocket.EncodeException;
 
 /**
- * SER516 Project3_Team10
- * Description: Sever GUI (View for Server)
- * Has action and event listeners
- * @author Kanchan Wakchaure
- * @author prasanth Venugopal
- * @author Divya Yadamreddi
+ *
+ * @SER516  Project Three
+ * @author  Group 10  #118 - #131
  * @version 1.0
+ * @since   04/03/2018
+  Contains Server GUI which displays the Graphical user Interface for server
  */
 
 public class ServerGUI extends TimerClass {

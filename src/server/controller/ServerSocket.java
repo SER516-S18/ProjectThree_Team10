@@ -10,6 +10,14 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
+/**
+ *
+ * @SER516  Project Three
+ * @author  Group 10  #118 - #131
+ * @version 1.0
+ * @since   04/03/2018
+ * Controller class for server socket 
+ */
 
 @ServerEndpoint(
         value = "/team10",

@@ -1,9 +1,19 @@
 package client.model;
 
+/**
+ * @author Group10
+ * @version 1.0
+ * UpperFace class 
+ */
 public class UpperFace {
     private double raiseBrow;
     private double furrowBrow;
 
+    /**
+     * Constructor for UpperFace class
+     * @param raiseBrow
+     * @param furrowBrow
+     */
     public UpperFace(double raiseBrow, double furrowBrow) {
         this.raiseBrow = raiseBrow;
         this.furrowBrow = furrowBrow;
