@@ -50,6 +50,7 @@ public class ServerGUI extends TimerClass {
     private JComboBox<String> eyeOption;
     private JCheckBox activateEye;
     private JCheckBox autoResetEye;
+    private JCheckBox autoResetServer;
     private JComboBox<String> upperFaceOption;
     private JSpinner upperFaceValue;
     private JComboBox<String> lowerFaceOption;
@@ -90,7 +91,7 @@ public class ServerGUI extends TimerClass {
         labelTimeInterval.setOpaque(true);
         composer.getContentPane().add(labelTimeInterval);
 
-        JCheckBox autoResetServer = new JCheckBox("Auto-reset");
+        autoResetServer = new JCheckBox("Auto-reset");
         autoResetServer.setForeground(ColorConstants.WHITE);
         autoResetServer.setBackground(ColorConstants.GRAY);
         autoResetServer.setFont(TextConstants.PLAIN);
@@ -343,31 +344,41 @@ public class ServerGUI extends TimerClass {
         performanceOption.addItem("Relaxation");
         performanceOption.addItem("Focus");
 
-        clearLog.addActionListener( new ActionListener()
-        {
+        clearLog.addActionListener( new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
                 console.setText("");
             }
+
+
         });
 
        start.addActionListener(new ActionListener() {
      	   public void actionPerformed(ActionEvent e) {
-     		   if( autoResetServer.isSelected()) {
-     		       start.setText("Stop");
-     		       isSending = true;
-     		       indicatorPanel.update(0);
-     		       ServerConsole.setMessage("Server Running");
+     	       if (!isSending) {
+     	           if (autoResetServer.isSelected()) {
+                       start.setText("Stop");
+                       isSending = true;
+                   }
+
+                   indicatorPanel.update(0);
+                   ServerConsole.setMessage("Server Running");
                    Runnable r = () -> {
                        do {
                            Parameters param = gatherData();
                            labelTimeDuration.setText(Double.toString(timeRec));
-
+                           double interval = (double) timeInterval.getValue();
+                           timeRec += interval;
                            try {
+                               Thread.sleep((long) (interval * 1000));
                                ServerSocket.sendMessage(param);
-                           } catch (IOException | EncodeException e1) {
+                           } catch (InterruptedException | IOException | EncodeException e1) {
                                e1.printStackTrace();
+                           }
+
+                           if (autoResetEye.isSelected()) {
+                               activateEye.setSelected(false);
                            }
 
                        } while (autoResetServer.isSelected() && isSending);
@@ -375,13 +386,13 @@ public class ServerGUI extends TimerClass {
 
                    Thread th = new Thread(r);
                    th.start();
-     		   } else {
-     		       timeRec = 0.0;
-     		       isSending = false;
-     		       start.setText("Start");
-     		       indicatorPanel.update(1);
-     		       ServerConsole.setMessage("Server Stopped");
-     		   }
+               } else {
+                   timeRec = 0.0;
+                   isSending = false;
+                   start.setText("Start");
+                   indicatorPanel.update(1);
+                   ServerConsole.setMessage("Server Stopped");
+               }
 
                Parameters param = gatherData();
                System.out.println(param.getPerformance().getEngagement());
