@@ -4,33 +4,15 @@
 
 ## How to Run Project
 
-
-
-    
+Open Client
+Open server from client 
+In server Click on Start listening 
+On client connect to server (Default : Localhost Port : 8025)
+Start sending values
  
 Run Client
 java -jar executable.jar
 
-
-    
-
-## How to Compile Project
-
-### Mac/Linux
-
-Make build.sh executable
-
-    
-
-Compile
-
-    
-    
-### Windows
-
-Compile
-
-    
 
 
 ### Team Members
