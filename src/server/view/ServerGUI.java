@@ -107,6 +107,16 @@ public class ServerGUI extends TimerClass {
         changePort.setFont(TextConstants.PLAIN);
         changePort.setBounds(425, 73, 97, 25);
         composer.getContentPane().add(changePort);
+        changePort.addActionListener(e -> {
+            String s = portInput.getText();
+            try {
+                int p = Integer.parseInt(s);
+                ServerWindowController.initServerEndPoint(p);
+            } catch (NumberFormatException nfe) {
+                ServerWindowController.initServerEndPoint(8025);
+            }
+
+        });
 
         JLabel labelTime = new JLabel("Time:");
         labelTime.setForeground(ColorConstants.WHITE);

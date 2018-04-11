@@ -13,20 +13,18 @@ public class ServerWindowController {
 
     /**
      * Init server
-     * @param view
+     * @param
      */
-    public ServerWindowController(ServerGUI view) {
-        server = new Server("localhost", 8025, "/ws", null, ServerSocket.class);
+    public ServerWindowController() {
         isStart = false;
     }
 
-    public void initServerEndPoint(int port) {
-        if (server != null) {
-            server.stop();
+    public static void initServerEndPoint(int port) {
+        if (server == null) {
+            server = new Server("localhost", port, "/ws", null, ServerSocket.class);
+        } else {
+            ServerConsole.setMessage("Port already been set!");
         }
-
-        server = new Server("localhost", port, "/ws", null, ServerSocket.class);
-        isStart = false;
     }
 
     /**
@@ -39,6 +37,9 @@ public class ServerWindowController {
             isStart = false;
         } else {
             try {
+                if (server == null) {
+                    server = new Server("localhost", 8025, "/ws", null, ServerSocket.class);
+                }
                 server.start();
                 ServerConsole.setMessage("Start Listening");
                 isStart = true;
@@ -50,7 +51,7 @@ public class ServerWindowController {
 
     public static void main(String[] args) {
         ServerGUI view = new ServerGUI();
-        ServerWindowController ctrl = new ServerWindowController(view);
+        ServerWindowController ctrl = new ServerWindowController();
     }
 
 }
