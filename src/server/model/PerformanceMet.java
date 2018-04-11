@@ -8,6 +8,15 @@ public class PerformanceMet {
     private double excitement;
     private double focus;
 
+    public PerformanceMet() {
+        setEngagement(0.0);
+        setExcitement(0.0);
+        setFocus(0.0);
+        setInterest(0.0);
+        setRelaxation(0.0);
+        setStress(0.0);
+    }
+
     public PerformanceMet(double interest, double engagement, double stress,
                             double relaxation, double excitement, double focus) {
         this.interest = interest;

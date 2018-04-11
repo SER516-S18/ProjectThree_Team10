@@ -2,8 +2,8 @@ package client.view;
 
 import client.controller.ClientWindowController;
 
-public class ServerGUI {
-    public ServerGUI(ClientWindowController ctrl){
+public class ServerTrigger {
+    public ServerTrigger(ClientWindowController ctrl){
         Runtime runtime = Runtime.getRuntime();
         try {
             Process server = runtime.exec("java -jar lib/server.jar");

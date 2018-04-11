@@ -14,32 +14,11 @@ public class ClientWindowController {
 	private ClientWindowView view;
 	public WebSocketContainer container;
 	public ClientSocket clientSocket = null;
-	
-	/*public ClientWindowController() {
-		view = new ClientWindowView();
-	}*/
-	
+
 	public ClientWindowController(ClientWindowView view) {
 		this.view = view;
 	}
-	
-	/*public void createSocket(String address, int port, String context, String page) {
-		CountDownLatch latch = new CountDownLatch(1);
 
-        container = ContainerProvider.getWebSocketContainer();
-        clientSocket = new ClientSocket(this);
-
-        String uri = "ws://" + address + ":" + port + "/" + context + "/" + page;
-
-        try {
-            clientSocket.setSession(container.connectToServer(clientSocket, new URI(uri)));
-            latch.await();
-        } catch (DeploymentException | URISyntaxException | InterruptedException | IOException e) {
-            throw new RuntimeException(e);
-        }
-
-	}*/
-	
 	public void createSocket(String address, int port, String context, String page) {
         clientSocket = new ClientSocket(this, address, port, context, page);
         clientSocket.start();

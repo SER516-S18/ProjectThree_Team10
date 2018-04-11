@@ -45,11 +45,16 @@ public class ServerSocket {
         logger.info(t.getMessage());
     }
 
-    public static void sendMessage(Parameters param) throws IOException, EncodeException {
+    public static boolean sendMessage(Parameters param) throws IOException, EncodeException {
+        if (sessions.isEmpty()) {
+            return false;
+        }
+
         for (Session session : sessions) {
             session.getBasicRemote().sendObject(param);
         }
 
+        return true;
     }
 
 }

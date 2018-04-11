@@ -1,5 +1,12 @@
 package server.view;
 
+import server.controller.ServerSocket;
+import server.controller.ServerWindowController;
+import server.model.Parameters;
+import server.model.Eye;
+import server.model.LowerFace;
+import server.model.PerformanceMet;
+import server.model.UpperFace;
 import server.service.TimerClass;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -14,10 +21,13 @@ import java.awt.EventQueue;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import javax.swing.JTextPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.websocket.EncodeException;
+
 /**
  * SER516 Project3_Team10
  * Description: Sever GUI (View for Server)
@@ -29,19 +39,32 @@ import javax.swing.SpinnerNumberModel;
  */
 
 public class ServerGUI extends TimerClass {
-
     private JPanel time;
-    private boolean flag = true;
-    private boolean autoReset = true;
-    private static JFrame composer;
-    static JTextPane console = new JTextPane();
+
+    private boolean isSending;
+    private double timeRec;
+    private JFrame composer;
+    private static JTextPane console = new JTextPane();
     private static JLabel labelTimeDuration;
+
+    private JComboBox<String> eyeOption;
+    private JCheckBox activateEye;
+    private JCheckBox autoResetEye;
+    private JComboBox<String> upperFaceOption;
+    private JSpinner upperFaceValue;
+    private JComboBox<String> lowerFaceOption;
+    private JSpinner lowerFaceValue;
+    private JComboBox<String> performanceOption;
+    private JSpinner performanceValue;
 
     /**
      * Create the application.
      */
     public ServerGUI() {
         initialize();
+        composer.setVisible(true);
+        isSending = false;
+        timeRec = 0.0;
     }
 
     /**
@@ -124,8 +147,10 @@ public class ServerGUI extends TimerClass {
         JButton listen = new JButton("Listen");
         listen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
+                ServerWindowController.changeStatus();
             }
         });
+
         listen.setFont(TextConstants.PLAIN);
         composer.getContentPane().add(listen);
 
@@ -136,24 +161,19 @@ public class ServerGUI extends TimerClass {
         labelEye.setFont(TextConstants.PLAIN);
         composer.getContentPane().add(labelEye);
 
-        JComboBox<String> eyeOption = new JComboBox<String>();
+        eyeOption = new JComboBox<String>();
         eyeOption.setFont(TextConstants.PLAIN);
         eyeOption.setBackground(ColorConstants.WHITE);
         eyeOption.setToolTipText("");
         composer.getContentPane().add(eyeOption);
 
-//        JSpinner eyeValue = new JSpinner();
-//        eyeValue.setModel(new SpinnerNumberModel(0, 0, 1, 1));
-//        eyeValue.setFont(TextConstants.PLAIN);
-//        composer.getContentPane().add(eyeValue);
-
-        JCheckBox activateEye = new JCheckBox("Activate");
+        activateEye = new JCheckBox("Activate");
         activateEye.setForeground(ColorConstants.WHITE);
         activateEye.setFont(TextConstants.PLAIN);
         activateEye.setBackground(ColorConstants.GRAY);
         composer.getContentPane().add(activateEye);
 
-        JCheckBox autoResetEye = new JCheckBox("Auto-reset");
+        autoResetEye = new JCheckBox("Auto-reset");
         autoResetEye.setForeground(ColorConstants.WHITE);
         autoResetEye.setFont(TextConstants.PLAIN);
         autoResetEye.setBackground(ColorConstants.GRAY);
@@ -173,13 +193,13 @@ public class ServerGUI extends TimerClass {
         labelLowerFace.setBackground(ColorConstants.GRAY);
         composer.getContentPane().add(labelLowerFace);
 
-        JComboBox<String> upperFaceOption = new JComboBox<String>();
+        upperFaceOption = new JComboBox<String>();
         upperFaceOption.setToolTipText("");
         upperFaceOption.setFont(TextConstants.PLAIN);
         upperFaceOption.setBackground(ColorConstants.WHITE);
         composer.getContentPane().add(upperFaceOption);
 
-        JSpinner upperFaceValue = new JSpinner();
+        upperFaceValue = new JSpinner();
         value = 0.00;
         min = 0.00;
         max = 1.00;
@@ -188,13 +208,13 @@ public class ServerGUI extends TimerClass {
         upperFaceValue.setFont(TextConstants.PLAIN);
         composer.getContentPane().add(upperFaceValue);
 
-        JComboBox<String> lowerFaceOption = new JComboBox<String>();
+        lowerFaceOption = new JComboBox<String>();
         lowerFaceOption.setToolTipText("");
         lowerFaceOption.setFont(TextConstants.PLAIN);
         lowerFaceOption.setBackground(ColorConstants.WHITE);
         composer.getContentPane().add(lowerFaceOption);
 
-        JSpinner lowerFaceValue = new JSpinner();
+        lowerFaceValue = new JSpinner();
         lowerFaceValue.setModel(new SpinnerNumberModel(value, min, max, step));
         lowerFaceValue.setFont(TextConstants.PLAIN);
         composer.getContentPane().add(lowerFaceValue);
@@ -206,11 +226,16 @@ public class ServerGUI extends TimerClass {
         labelPerformance.setBackground(ColorConstants.GRAY);
         composer.getContentPane().add(labelPerformance);
 
-        JComboBox<String> performance = new JComboBox<String>();
-        performance.setToolTipText("");
-        performance.setFont(TextConstants.PLAIN);
-        performance.setBackground(ColorConstants.WHITE);
-        composer.getContentPane().add(performance);
+        performanceOption = new JComboBox<String>();
+        performanceOption.setToolTipText("");
+        performanceOption.setFont(TextConstants.PLAIN);
+        performanceOption.setBackground(ColorConstants.WHITE);
+        composer.getContentPane().add(performanceOption);
+
+        performanceValue = new JSpinner();
+        performanceValue.setModel(new SpinnerNumberModel(value, min, max, step));
+        performanceValue.setFont(TextConstants.PLAIN);
+        composer.getContentPane().add(performanceValue);
 
         JLabel labelConsole = new JLabel("EMOENGINE LOG");
         labelConsole.setHorizontalAlignment(SwingConstants.LEFT);
@@ -223,13 +248,11 @@ public class ServerGUI extends TimerClass {
         console.setFont(TextConstants.PLAIN);
         composer.getContentPane().add(console);
         console.setEditable(false);
-        //ServerConsole.setMessage("Message");
-        //ServerConsole.setErrorMessage("Error");
 
-        JPanel borderPanel2 = new JPanel();
-        borderPanel2.setBackground(ColorConstants.GRAY);
-        borderPanel2.setBorder(BorderFactory.createLineBorder(Color.black));
-        composer.getContentPane().add(borderPanel2);
+        JPanel borderPanel = new JPanel();
+        borderPanel.setBackground(ColorConstants.GRAY);
+        borderPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        composer.getContentPane().add(borderPanel);
 
         Indicator indicatorPanel = new Indicator(0);
         indicatorPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -269,7 +292,7 @@ public class ServerGUI extends TimerClass {
                 labelSec.setBounds((int)(composer.getWidth()*0.8), (int)(composer.getHeight()*0.06), (int)(composer.getWidth()*0.08), (int)(composer.getHeight()*0.02));
                 timeInterval.setBounds((int)(composer.getWidth()*0.67), (int)(composer.getHeight()*0.05), (int)(composer.getWidth()*0.11), (int)(composer.getHeight()*0.03));
 
-                borderPanel2.setBounds((int)(composer.getWidth()*0.01), (int)(composer.getHeight()*0.21), (int)(composer.getWidth()*0.95), (int)(composer.getHeight()*0.48));
+                borderPanel.setBounds((int)(composer.getWidth()*0.01), (int)(composer.getHeight()*0.21), (int)(composer.getWidth()*0.95), (int)(composer.getHeight()*0.48));
                 listen.setBounds((int)(composer.getWidth()*0.68), (int)(composer.getHeight()*0.28), (int)(composer.getWidth()*0.15), (int)(composer.getHeight()*0.04));
                 labelEmostate.setBounds((int)(composer.getWidth()*0.02), (int)(composer.getHeight()*0.22), (int)(composer.getWidth()*0.26), (int)(composer.getHeight()*0.03));
                 labelTime.setBounds((int)(composer.getWidth()*0.06), (int)(composer.getHeight()*0.28), (int)(composer.getWidth()*0.12), (int)(composer.getHeight()*0.04));
@@ -277,7 +300,6 @@ public class ServerGUI extends TimerClass {
                 time.setBounds((int)(composer.getWidth()*0.18), (int)(composer.getHeight()*0.28), (int)(composer.getWidth()*0.18), (int)(composer.getHeight()*0.04));
                 labelEye.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.36), (int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.04));
                 eyeOption.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.2), (int)(composer.getHeight()*0.04));
-                //eyeValue.setBounds((int)(composer.getWidth()*0.31), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.04));
                 activateEye.setBounds((int)(composer.getWidth()*0.31), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.17), (int)(composer.getHeight()*0.04));
                 autoResetEye.setBounds((int)(composer.getWidth()*0.48), (int)(composer.getHeight()*0.4), (int)(composer.getWidth()*0.17), (int)(composer.getHeight()*0.04));
                 labelUpperFace.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.48), (int)(composer.getWidth()*0.2), (int)(composer.getHeight()*0.04));
@@ -287,8 +309,8 @@ public class ServerGUI extends TimerClass {
                 lowerFaceOption.setBounds((int)(composer.getWidth()*0.48), (int)(composer.getHeight()*0.52), (int)(composer.getWidth()*0.2), (int)(composer.getHeight()*0.04));
                 lowerFaceValue.setBounds((int)(composer.getWidth()*0.7), (int)(composer.getHeight()*0.52), (int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.04));
                 labelPerformance.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.6), (int)(composer.getWidth()*0.24), (int)(composer.getHeight()*0.04));
-                performance.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.64), (int)(composer.getWidth()*0.22), (int)(composer.getHeight()*0.04));
-
+                performanceOption.setBounds((int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.64), (int)(composer.getWidth()*0.22), (int)(composer.getHeight()*0.04));
+                performanceValue.setBounds((int)(composer.getWidth()*0.33), (int)(composer.getHeight()*0.64), (int)(composer.getWidth()*0.09), (int)(composer.getHeight()*0.04));
                 borderPanel3.setBounds((int)(composer.getWidth()*0.01), (int)(composer.getHeight()*0.7), (int)(composer.getWidth()*0.95), (int)(composer.getHeight()*0.22));
                 clearLog.setBounds((int)(composer.getWidth()*0.7), (int)(composer.getHeight()*0.84), (int)(composer.getWidth()*0.19), (int)(composer.getHeight()*0.05));
                 labelConsole.setBounds((int)(composer.getWidth()*0.02), (int)(composer.getHeight()*0.71), (int)(composer.getWidth()*0.26), (int)(composer.getHeight()*0.03));
@@ -314,12 +336,12 @@ public class ServerGUI extends TimerClass {
         eyeOption.addItem("look right");
         eyeOption.addItem("look left");
 
-        performance.addItem("Interest");
-        performance.addItem("Excitement");
-        performance.addItem("Engagement");
-        performance.addItem("Stress");
-        performance.addItem("Relaxation");
-        performance.addItem("Focus");
+        performanceOption.addItem("Interest");
+        performanceOption.addItem("Excitement");
+        performanceOption.addItem("Engagement");
+        performanceOption.addItem("Stress");
+        performanceOption.addItem("Relaxation");
+        performanceOption.addItem("Focus");
 
         clearLog.addActionListener( new ActionListener()
         {
@@ -330,90 +352,133 @@ public class ServerGUI extends TimerClass {
             }
         });
 
-//        lowerFaceOption.addItemListener(new ItemListener() {
-//            @Override
-//            public void itemStateChanged(ItemEvent e) {
-//                var.getLowerFace(lowerFaceOption, lowerFaceValue);
-//
-//            }
-//        });
-//
-//        lowerFaceValue.addChangeListener(new ChangeListener(){
-//            public void stateChanged(ChangeEvent e) {
-//              var.setLowerFace(lowerFaceOption, lowerFaceValue);
-//
-//            }
-//          });
-//
-//        upperFaceOption.addItemListener(new ItemListener() {
-//            @Override
-//            public void itemStateChanged(ItemEvent e) {
-//                var.getUpperFace(upperFaceOption, upperFaceValue);
-//
-//            }
-//        });
-//
-//        upperFaceValue.addChangeListener(new ChangeListener(){
-//            public void stateChanged(ChangeEvent e) {
-//              var.setUpperFace(upperFaceOption, upperFaceValue);
-//
-//            }
-//          });
-//
-//        eyeOption.addItemListener(new ItemListener() {
-//            @Override
-//            public void itemStateChanged(ItemEvent e) {
-//                var.getEye(eyeOption, eyeValue);
-//
-//            }
-//        });
-//
-//       eyeValue.addChangeListener(new ChangeListener(){
-//            public void stateChanged(ChangeEvent e) {
-//              var.setEye(eyeOption, eyeValue);
-//
-//            }
-//          });
-//
-//       start.addActionListener(new ActionListener() {
-//     	   public void actionPerformed(ActionEvent e) {
-//     		   if(flag)
-//     		   {
-//     			resume(labelTimeDuration);
-//     			start.setText("Stop");
-//     			indicatorPanel.update(0);
-//     			flag = false;
-//     			ServerConsole.setMessage("Server Running");
-//     		   }
-//     		   else
-//     		   {
-//     			pause();
-//     			start.setText("Start");
-//     			indicatorPanel.update(1);
-//     			flag = true;
-//     			ServerConsole.setMessage("Server Stopped");
-//     		   }
-//
-//     		   }
-//     });
+       start.addActionListener(new ActionListener() {
+     	   public void actionPerformed(ActionEvent e) {
+     		   if( autoResetServer.isSelected()) {
+     		       start.setText("Stop");
+     		       isSending = true;
+     		       indicatorPanel.update(0);
+     		       ServerConsole.setMessage("Server Running");
+                   Runnable r = () -> {
+                       do {
+                           Parameters param = gatherData();
+                           labelTimeDuration.setText(Double.toString(timeRec));
+
+                           try {
+                               ServerSocket.sendMessage(param);
+                           } catch (IOException | EncodeException e1) {
+                               e1.printStackTrace();
+                           }
+
+                       } while (autoResetServer.isSelected() && isSending);
+                   };
+
+                   Thread th = new Thread(r);
+                   th.start();
+     		   } else {
+     		       timeRec = 0.0;
+     		       isSending = false;
+     		       start.setText("Start");
+     		       indicatorPanel.update(1);
+     		       ServerConsole.setMessage("Server Stopped");
+     		   }
+
+               Parameters param = gatherData();
+               System.out.println(param.getPerformance().getEngagement());
+           }
+
+       });
 
     }
+
+    public Parameters gatherData() {
+        Eye eye = new Eye();
+        LowerFace lf = new LowerFace();
+        PerformanceMet pm = new PerformanceMet();
+        UpperFace uf = new UpperFace();
+
+        String eo = (String) eyeOption.getSelectedItem();
+        String ufo = (String) upperFaceOption.getSelectedItem();
+        String lfo = (String) lowerFaceOption.getSelectedItem();
+        String pmo = (String) performanceOption.getSelectedItem();
+        switch (eo) {
+            default:
+            case "Blink":
+                eye.setBlink(activateEye.isSelected());
+                break;
+            case "wink left":
+                eye.setWinkLeft(activateEye.isSelected());
+                break;
+            case "wink right":
+                eye.setWinkRight(activateEye.isSelected());
+                break;
+            case "look left":
+                eye.setWinkLeft(activateEye.isSelected());
+                break;
+            case "look right":
+                eye.setLookRight(activateEye.isSelected());
+                break;
+        }
+
+        switch (ufo) {
+            default:
+            case "Raise Brow":
+                uf.setRaiseBrow((double) upperFaceValue.getValue());
+                break;
+            case "Furrow Brow":
+                uf.setFurrowBrow((double) upperFaceValue.getValue());
+                break;
+        }
+
+        switch (lfo) {
+            default:
+            case "Smile":
+                lf.setSmile((double) lowerFaceValue.getValue());
+                break;
+            case "Clench":
+                lf.setClench((double) lowerFaceValue.getValue());
+                break;
+            case "Smirk Left":
+                lf.setSmirkLeft((double) lowerFaceValue.getValue());
+                break;
+            case "Smirk Right":
+                lf.setSmirkRight((double) lowerFaceValue.getValue());
+                break;
+            case "Laugh":
+                lf.setLaugh((double) lowerFaceValue.getValue());
+                break;
+        }
+
+        switch (pmo) {
+            default:
+            case "Interest":
+                pm.setInterest((double) performanceValue.getValue());
+                break;
+            case "Excitement":
+                pm.setExcitement((double) performanceValue.getValue());
+                break;
+            case "Engagement":
+                pm.setEngagement((double) performanceValue.getValue());
+                break;
+            case "Stress":
+                pm.setStress((double) performanceValue.getValue());
+                break;
+            case "Relaxation":
+                pm.setRelaxation((double) performanceValue.getValue());
+                break;
+            case "Focus":
+                pm.setFocus((double) performanceValue.getValue());
+                break;
+
+        }
+
+        return new Parameters(eye, lf, uf, pm, timeRec);
+    }
+
+
     public static JTextPane getConsole(){
         return console;
     }
-
-    public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ServerGUI window = new ServerGUI();
-					window.composer.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
     public static JLabel getTime() {
         return labelTimeDuration;
