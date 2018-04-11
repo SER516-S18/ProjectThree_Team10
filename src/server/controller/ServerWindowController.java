@@ -19,6 +19,14 @@ public class ServerWindowController {
         isStart = false;
     }
 
+    public void initServerEndPoint(int port) {
+        if (server != null) {
+            server.stop();
+        }
+
+        server = new Server("localhost", port, "/ws", null, ServerSocket.class);
+    }
+
     /**
      * Change the listen status
      */
